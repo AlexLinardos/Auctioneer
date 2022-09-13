@@ -1,20 +1,25 @@
 // import logo from './logo.svg';
 import { Container } from 'react-bootstrap';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
-import Header from './components/Header';
 import Footer from './components/Footer';
+import Header from './components/Header';
+import RegisterScreen from './screens/RegisterScreen';
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <Header />
       <main className='py-3'>
         <Container>
-          <h1>LEZ FKING GOOO</h1>
+          <Routes>
+            {" "}
+            <Route path='/' element={<RegisterScreen />} />
+          </Routes>
         </Container>
       </main>
       <Footer />
-    </div>
+    </BrowserRouter>
   );
 }
 

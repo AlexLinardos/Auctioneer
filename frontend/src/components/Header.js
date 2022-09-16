@@ -8,7 +8,7 @@ function Header() {
         <header>
             <Navbar bg='primary' variant='dark'>
                 <Container>
-                    <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+                    <Navbar.Brand href="#home"><img src='./images/logo_auctioneer.png' alt='logo' height={100} /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="flex-grow-1 justify-content-evenly">

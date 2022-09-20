@@ -7,6 +7,8 @@ import Header from './components/Header';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 
+import HomeScreen from './screens/HomeScreen';
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,7 +17,7 @@ function App() {
         <Container>
           <Routes>
             {" "}
-            <Route path='/' element={<h1>HOME</h1>} />
+            <Route path='/' element={<HomeScreen/>} />
             <Route path='/register' element={<RegisterScreen />} />
             <Route path='/login' element={<LoginScreen />} />
           </Routes>

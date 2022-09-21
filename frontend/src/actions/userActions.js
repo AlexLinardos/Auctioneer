@@ -1,11 +1,12 @@
-import axios from 'axios';
 import {
     USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL,
     USER_LOGOUT,
     USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL,
     USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_RESET,
-    USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL
+    USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_RESET
 } from '../constants';
+
+import axios from 'axios';
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -48,6 +49,7 @@ export const logout = () => (dispatch) => {
     dispatch({ type: USER_DETAILS_RESET })
 }
 
+
 export const register = (name, email, password) => async (dispatch) => {
     try {
         dispatch({
@@ -68,6 +70,11 @@ export const register = (name, email, password) => async (dispatch) => {
 
         dispatch({
             type: USER_REGISTER_SUCCESS,
+            payload: data
+        })
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
             payload: data
         })
 
@@ -93,6 +100,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState()
 
+        console.log(userInfo)
         const config = {
             headers: {
                 'Content-type': 'application/json',
@@ -145,6 +153,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
         dispatch({
             type: USER_UPDATE_PROFILE_SUCCESS,
+            payload: data
+        })
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
             payload: data
         })
 

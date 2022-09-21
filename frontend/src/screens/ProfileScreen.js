@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants';
-import AuthContext from '../contexts/AuthContext';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 function ProfileScreen() {
-    let { userInfo } = useContext(AuthContext)
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -17,13 +15,13 @@ function ProfileScreen() {
     const [message, setMessage] = useState('')
 
     const dispatch = useDispatch()
-
-    const location = useLocation()
     const navigate = useNavigate()
 
     const userDetails = useSelector(state => state.userDetails)
     const { error, loading, user } = userDetails
-    console.log(user)
+
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const { success } = userUpdateProfile
@@ -40,7 +38,7 @@ function ProfileScreen() {
                 setEmail(user.email)
             }
         }
-    }, [dispatch, navigate, user, success])
+    }, [dispatch, navigate, userInfo, user, success])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -48,7 +46,7 @@ function ProfileScreen() {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            dispatch(updateUserProfile({ 'name': name, 'email': email, 'password': password }))
+            dispatch(updateUserProfile({ 'id': user._id, 'name': name, 'email': email, 'password': password }))
             setMessage('')
         }
     }
@@ -58,17 +56,17 @@ function ProfileScreen() {
             <Col md={3}>
                 <h2>User Profile</h2>
                 {message && <Message variant='danger'>{message}</Message>}
-
+                {error && <Message variant='danger'>{error}</Message>}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
                         <Form.Label>Name</Form.Label>
-                        <Form.Control required type='name' placeholder='Enter name' value={userInfo.name} onChange={(e) => setName(e.target.value)}>
+                        <Form.Control required type='name' placeholder='Enter name' value={name} onChange={(e) => setName(e.target.value)}>
                         </Form.Control>
                     </Form.Group>
 
                     <Form.Group controlId='email'>
                         <Form.Label>Email</Form.Label>
-                        <Form.Control required type='email' placeholder='Enter Email' value={userInfo.email} onChange={(e) => setEmail(e.target.value)}>
+                        <Form.Control required type='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)}>
                         </Form.Control>
                     </Form.Group>
 
@@ -86,6 +84,10 @@ function ProfileScreen() {
 
                     <Button type='submit' variant='primary'>Update</Button>
                 </Form>
+            </Col>
+
+            <Col md={3}>
+                <h2>My Orders</h2>
             </Col>
         </Row>
     )

@@ -1,12 +1,20 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import { LinkContainer } from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
-import AuthContext from '../contexts/AuthContext';
+import { logout } from '../actions/userActions';
 
 function Header() {
-    let { userInfo, logoutUser } = useContext(AuthContext)
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
+
+    const dispatch = useDispatch()
+
+    const logoutHandler = () => {
+        dispatch(logout())
+    }
 
     return (
         <header>
@@ -27,7 +35,7 @@ function Header() {
                                         <NavDropdown.Item>Profile</NavDropdown.Item>
                                     </LinkContainer>
 
-                                    <NavDropdown.Item onClick={logoutUser}>Logout</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
 
                                 </NavDropdown>
                             ) : (

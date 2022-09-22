@@ -21,13 +21,20 @@ function Header() {
             <Navbar bg='primary' variant='dark'>
                 <Container>
                     <LinkContainer to='/'>
-                        <Navbar.Brand><Image src='./images/logo_auctioneer.png' alt='logo' height={100} /></Navbar.Brand>
+                        <Navbar.Brand><img src='./images/borderless_logo.png' alt='logo' height={120} /></Navbar.Brand>
                     </LinkContainer>
+                    
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="flex-grow-1 justify-content-evenly">
-                            <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#link">Link</Nav.Link>
+
+                            <LinkContainer to='/'>
+                                <Nav.Link>Home</Nav.Link>
+                            </LinkContainer>
+                            
+                            <LinkContainer to='/link'>
+                                <Nav.Link>Link</Nav.Link>
+                            </LinkContainer>
 
                             {userInfo ? (
                                 <NavDropdown title={userInfo.username} id='username'>
@@ -45,7 +52,6 @@ function Header() {
                                     </LinkContainer>
                                 </Nav>
                             )}
-
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

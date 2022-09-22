@@ -8,30 +8,50 @@ function Header() {
         <header>
             <Navbar bg='primary' variant='dark'>
                 <Container>
-                    <Navbar.Brand href="#home"><img src='./images/borderless_logo.png' alt='logo' height={120} /></Navbar.Brand>
+
+                    <LinkContainer to='/'>
+                        <Navbar.Brand><img src='./images/borderless_logo.png' alt='logo' height={120} /></Navbar.Brand>
+                    </LinkContainer>
+                    
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="flex-grow-1 justify-content-evenly">
-                            <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#link">Link</Nav.Link>
+
+                            <LinkContainer to='/'>
+                                <Nav.Link>Home</Nav.Link>
+                            </LinkContainer>
+                            
+                            <LinkContainer to='/link'>
+                                <Nav.Link>Link</Nav.Link>
+                            </LinkContainer>
+
                             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                                 
-                                <NavDropdown.Item href="#action/3.1">
-                                    Action
-                                </NavDropdown.Item>
+                                <LinkContainer to='/action/3.1'>
+                                    <NavDropdown.Item>
+                                        Action
+                                    </NavDropdown.Item>
+                                </LinkContainer>
 
-                                <NavDropdown.Item href="#action/3.2">
-                                    Another action
-                                </NavDropdown.Item>
+                                <LinkContainer to='/action/3.2'>
+                                    <NavDropdown.Item>
+                                        Another action
+                                    </NavDropdown.Item>
+                                </LinkContainer>
 
-                                <NavDropdown.Item href="#action/3.3">
-                                    Something
-                                </NavDropdown.Item>
+                                <LinkContainer to='/action/3.3'>
+                                    <NavDropdown.Item>
+                                        Something
+                                    </NavDropdown.Item>
+                                </LinkContainer>
 
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">
-                                    Separated link
-                                </NavDropdown.Item>
+
+                                <LinkContainer to='/action/3.4'>
+                                    <NavDropdown.Item>
+                                        Separated link
+                                    </NavDropdown.Item>
+                                </LinkContainer>
 
                             </NavDropdown>
                         </Nav>

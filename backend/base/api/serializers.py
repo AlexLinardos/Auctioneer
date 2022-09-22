@@ -2,13 +2,15 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
+User._meta.get_field('email')._unique = True
+
 class UserSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField(read_only=True)
+    username = serializers.SerializerMethodField(read_only=True)
     isAdmin = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'name', 'isAdmin']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'isAdmin']
 
     def get_isAdmin(self, obj):
         return obj.is_staff
@@ -16,12 +18,12 @@ class UserSerializer(serializers.ModelSerializer):
     def get__id(self, obj):
         return obj.id
 
-    def get_name(self, obj):
-        name = obj.first_name
-        if name == '':
-            name = obj.email
+    def get_username(self, obj):
+        username = obj.username
+        if username == '':
+            username = obj.email
 
-        return name
+        return username
 
 
 class UserSerializerWithToken(UserSerializer):
@@ -29,7 +31,7 @@ class UserSerializerWithToken(UserSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'name', 'isAdmin', 'token']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'isAdmin', 'token']
 
     def get_token(self, obj):
         token = RefreshToken.for_user(obj)

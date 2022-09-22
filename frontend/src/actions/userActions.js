@@ -8,7 +8,7 @@ import {
 
 import axios from 'axios';
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (username, password) => async (dispatch) => {
     try {
         dispatch({
             type: USER_LOGIN_REQUEST
@@ -22,7 +22,7 @@ export const login = (email, password) => async (dispatch) => {
 
         const { data } = await axios.post(
             '/api/users/login/',
-            { 'username': email, 'password': password },
+            { 'username': username, 'password': password },
             config
         )
 
@@ -50,7 +50,7 @@ export const logout = () => (dispatch) => {
 }
 
 
-export const register = (name, email, password) => async (dispatch) => {
+export const register = (username, email, password, first_name, last_name, phone, country, city, address, TIN) => async (dispatch) => {
     try {
         dispatch({
             type: USER_REGISTER_REQUEST
@@ -64,7 +64,10 @@ export const register = (name, email, password) => async (dispatch) => {
 
         const { data } = await axios.post(
             '/api/users/register/',
-            { 'name': name, 'email': email, 'password': password },
+            {
+                'username': username, 'email': email, 'password': password, 'first_name': first_name, 'last_name': last_name,
+                'phone': phone, 'country': country, 'city': city, 'address': address, 'TIN': TIN
+            },
             config
         )
 
@@ -100,7 +103,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState()
 
-        console.log(userInfo)
         const config = {
             headers: {
                 'Content-type': 'application/json',

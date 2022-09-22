@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import User
+from base.models import Profile
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -26,18 +27,39 @@ class MyTokenObtainPairView(TokenObtainPairView):
 @api_view(['POST'])
 def registerUser(request):
     data = request.data
-    try:
-        user = User.objects.create(
-            first_name = data['name'],
-            username = data['email'],
-            email = data['email'],
-            password = make_password(data['password'])
-        )
-        serializer = UserSerializerWithToken(user, many=False)
-        return Response(serializer.data)
-    except:
+    # perform checks
+    userRecs = User.objects.filter(username=data['username'])
+    if userRecs:
+        message = {'detail':'User with this username already exists'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    userRecs = User.objects.filter(email=data['email'])
+    if userRecs:
         message = {'detail':'User with this email already exists'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    userRecs = Profile.objects.filter(TIN=data['TIN'])
+    if userRecs:
+        message = {'detail':'User with this TIN already exists'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    # follow through
+    userObj = User.objects.create(
+        username = data['username'],
+        password = make_password(data['password']),
+        first_name = data['first_name'],
+        last_name = data['last_name'],
+        email = data['email']
+    )
+    profile = Profile.objects.create(
+        user = userObj,
+        phone = data['phone'],
+        country = data['country'],
+        city = data['city'],
+        address = data['address'],
+        TIN = data['TIN']
+    )
+    serializer = UserSerializerWithToken(userObj, many=False)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -55,8 +77,8 @@ def updateUserProfile(request):
 
     serializer = UserSerializerWithToken(user, many=False)
     data = request.data
-    user.first_name = data['name']
-    user.username = data['email']
+    user.first_name = data['first_name']
+    user.username = data['username']
     user.email = data['email']
 
     if data['password'] != '':

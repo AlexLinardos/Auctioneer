@@ -1,10 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { register } from '../actions/userActions';
+
 function RegisterScreen() {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [message, setMessage] = useState('')
+
+    const dispatch = useDispatch()
+
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const redirect = location.search ? location.search.split('=')[1] : '/login'
+
+    const userRegister = useSelector(state => state.userRegister)
+    const { error, loading, userInfo } = userRegister
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate(redirect)
+        }
+    }, [navigate, userInfo, redirect])
+
+    const submitHandler = (e) => {
+        e.preventDefault()
+
+        if (password !== confirmPassword) {
+            setMessage('Passwords do not match')
+        } else {
+            dispatch(register(name, email, password))
+        }
+    }
+
     return (
         <Col>
             <Row className='text-center'>
@@ -12,13 +49,16 @@ function RegisterScreen() {
                 <br></br><br></br><br></br>
             </Row>
             <FormContainer>
-                <Form>
+                {message && <Message variant='danger'>{message}</Message>}
+                {error && <Message variant='danger'>{error}</Message>}
+                <Form onSubmit={submitHandler}>
                     <Row>
                         <Col>
                             <h5>Account Information</h5>
                             <Form.Group controlId='name' className='my-4'>
                                 <Form.Label>Name</Form.Label>
-                                <Form.Control required type='name' placeholder='Enter your name...'></Form.Control>
+                                <Form.Control required type='name' placeholder='Enter your name...'
+                                    value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
                             </Form.Group>
 
                             <Form.Group controlId='surname' className='my-4'>
@@ -28,17 +68,20 @@ function RegisterScreen() {
 
                             <Form.Group controlId='email' className='my-4'>
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control required type='email' placeholder='Enter email address...'></Form.Control>
+                                <Form.Control required type='email' placeholder='Enter email address...'
+                                    value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
                             </Form.Group>
 
                             <Form.Group controlId='password' className='my-4'>
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control required type='password' placeholder='Enter password...'></Form.Control>
+                                <Form.Control required type='password' placeholder='Enter password...'
+                                    value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
                             </Form.Group>
 
                             <Form.Group controlId='password2' className='my-4'>
                                 <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control required type='password' placeholder='Confirm password...'></Form.Control>
+                                <Form.Control required type='password' placeholder='Confirm password...'
+                                    value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
                             </Form.Group>
                         </Col>
 
@@ -342,15 +385,14 @@ function RegisterScreen() {
 
                 <Row className='py-3 text-center'>
                     <Col>
-                        Already have an account? <a href='#'>Sign in</a>
-                        {/* <Link>Sign in</Link> */}
+                        Already have an account? <Link to='/login'>Sign in</Link>
                     </Col>
                 </Row>
                 <Row className='text-center'>
                     <h4>OR</h4>
                 </Row>
                 <Row className='text-center'>
-                    <a href='#'>Continue as Guest</a>
+                    <Link to='/'>Continue as Guest</Link>
                 </Row>
             </FormContainer>
         </Col >

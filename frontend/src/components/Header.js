@@ -2,13 +2,24 @@ import React from 'react'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import { LinkContainer } from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { logout } from '../actions/userActions';
 
 function Header() {
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
+
+    const dispatch = useDispatch()
+
+    const logoutHandler = () => {
+        dispatch(logout())
+    }
+
     return (
         <header>
             <Navbar bg='primary' variant='dark'>
                 <Container>
-
                     <LinkContainer to='/'>
                         <Navbar.Brand><img src='./images/borderless_logo.png' alt='logo' height={120} /></Navbar.Brand>
                     </LinkContainer>
@@ -25,35 +36,22 @@ function Header() {
                                 <Nav.Link>Link</Nav.Link>
                             </LinkContainer>
 
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                
-                                <LinkContainer to='/action/3.1'>
-                                    <NavDropdown.Item>
-                                        Action
-                                    </NavDropdown.Item>
-                                </LinkContainer>
+                            {userInfo ? (
+                                <NavDropdown title={userInfo.username} id='username'>
+                                    <LinkContainer to='/profile'>
+                                        <NavDropdown.Item>Profile</NavDropdown.Item>
+                                    </LinkContainer>
 
-                                <LinkContainer to='/action/3.2'>
-                                    <NavDropdown.Item>
-                                        Another action
-                                    </NavDropdown.Item>
-                                </LinkContainer>
+                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
 
-                                <LinkContainer to='/action/3.3'>
-                                    <NavDropdown.Item>
-                                        Something
-                                    </NavDropdown.Item>
-                                </LinkContainer>
-
-                                <NavDropdown.Divider />
-
-                                <LinkContainer to='/action/3.4'>
-                                    <NavDropdown.Item>
-                                        Separated link
-                                    </NavDropdown.Item>
-                                </LinkContainer>
-
-                            </NavDropdown>
+                                </NavDropdown>
+                            ) : (
+                                <Nav className="mr-auto">
+                                    <LinkContainer to='/login'>
+                                        <Nav.Link>Login <i className='fas fa-user'></i></Nav.Link>
+                                    </LinkContainer>
+                                </Nav>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

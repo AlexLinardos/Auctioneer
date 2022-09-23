@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
-import items from '../items'
 import bids from '../bids'
 import Bid from '../components/Bid'
+import axios, { Axios } from 'axios'
 
 import { useParams } from 'react-router-dom';
 
 function ItemScreen({ match }) {
+
     const { id } = useParams();
-    const item = items.find((i) => i._id === id)
+
+    const [item, setItem] = useState([])
+
+    useEffect(() => {
+
+        async function fetchItem(){
+
+        const { data } = await axios.get(`/api/items/${id}`)
+        setItem(data)
+        }
+
+        fetchItem()
+
+    }, [])
+
+    
+    // const item = items.find((i) => i._id === id)
     let item_bids = bids.filter((b) => b.item_id === id)
     item_bids.reverse()
     let currently = item.first_bid

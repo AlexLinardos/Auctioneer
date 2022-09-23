@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../components/Message';
 import { RegisterFormContainer } from '../components/FormContainer';
+import { getUserDetails, updateUser } from '../actions/userActions';
+import { USER_UPDATE_RESET } from '../constants';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { register } from '../actions/userActions';
-
-function RegisterScreen() {
+function UserEditScreen() {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -22,22 +21,33 @@ function RegisterScreen() {
     const [address, setAddress] = useState('')
     const [TIN, setTIN] = useState('')
     const [message, setMessage] = useState('')
+    const [isAdmin, setAdmin] = useState(false)
 
     const dispatch = useDispatch()
 
-    const location = useLocation()
-    const navigate = useNavigate()
+    const userDetails = useSelector(state => state.userDetails)
+    const { error, loading, user } = userDetails
 
-    const redirect = location.search ? location.search.split('=')[1] : '/login'
+    const userUpdate = useSelector(state => state.userUpdate)
+    const { error: errorUpdate, loading: loadingUpdate, success: successUpdate } = userUpdate
 
-    const userRegister = useSelector(state => state.userRegister)
-    const { error, loading, userInfo } = userRegister
+    const userId = useParams()
 
     useEffect(() => {
-        if (userInfo) {
-            navigate(redirect)
+        if (successUpdate) {
+            dispatch({ type: USER_UPDATE_RESET })
+        } else {
+            if (!user.username || user.id !== Number(userId['id'])) {
+                dispatch(getUserDetails(userId['id']))
+            } else {
+                setUsername(user.username)
+                setEmail(user.email)
+                setFirstName(user.first_name)
+                setLastName(user.last_name)
+                setAdmin(user.isAdmin)
+            }
         }
-    }, [navigate, userInfo, redirect])
+    }, [user, userId, successUpdate])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -45,19 +55,20 @@ function RegisterScreen() {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            dispatch(register(username, email, password, first_name, last_name, phone, country, city, address, TIN))
+            dispatch(updateUser({ id: user.id, username, email, isAdmin }))
         }
     }
 
     return (
         <Col>
+            <Link to='/admin/userlist'>Go Back <i className='fas fa-undo'></i></Link>
             <Row className='text-center'>
-                <h1>Join Us</h1>
+                <h1>User Editor</h1>
                 <br></br><br></br><br></br>
             </Row>
             <RegisterFormContainer>
+                {errorUpdate && <Message variant='danger'>{error}</Message>}
                 {message && <Message variant='danger'>{message}</Message>}
-                {error && <Message variant='danger'>{error}</Message>}
                 <Form onSubmit={submitHandler}>
                     <Row>
                         <Col>
@@ -76,14 +87,20 @@ function RegisterScreen() {
 
                             <Form.Group controlId='password' className='my-4'>
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control required type='password' placeholder='Enter password...'
+                                <Form.Control type='password' placeholder='Enter password...'
                                     value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
                             </Form.Group>
 
                             <Form.Group controlId='password2' className='my-4'>
                                 <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control required type='password' placeholder='Confirm password...'
+                                <Form.Control type='password' placeholder='Confirm password...'
                                     value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
+                            </Form.Group>
+
+                            <Form.Group controlId='idAdmin' className='my-4'>
+                                <Form.Label>Admin status</Form.Label>
+                                <Form.Check type='checkbox' label='Is Admin'
+                                    checked={isAdmin} onChange={(e) => setAdmin(e.target.checked)}></Form.Check>
                             </Form.Group>
                         </Col>
 
@@ -401,24 +418,12 @@ function RegisterScreen() {
                     </Row>
 
                     <div className='my-4 text-center'>
-                        <Button type='submit' variant='primary'>Submit</Button>
+                        <Button type='submit' variant='primary'>Update</Button>
                     </div>
                 </Form>
-
-                <Row className='py-3 text-center'>
-                    <Col>
-                        Already have an account? <Link to='/login'>Sign in</Link>
-                    </Col>
-                </Row>
-                <Row className='text-center'>
-                    <h4>OR</h4>
-                </Row>
-                <Row className='text-center'>
-                    <Link to='/'>Continue as Guest</Link>
-                </Row>
             </RegisterFormContainer>
         </Col >
     )
 }
 
-export default RegisterScreen
+export default UserEditScreen

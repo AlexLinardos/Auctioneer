@@ -74,10 +74,9 @@ def getUserProfile(request):
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):
     user = request.user
-
     serializer = UserSerializerWithToken(user, many=False)
     data = request.data
-    user.first_name = data['first_name']
+    # user.first_name = data['first_name']
     user.username = data['username']
     user.email = data['email']
 
@@ -98,3 +97,34 @@ def getUsers(request):
     #response["Access-Control-Allow-Origin"] = "*"
     return response
 
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getUserById(request, pk):
+    user = User.objects.get(id=pk)
+    serializer = UserSerializer(user, many=False)
+    response = Response(serializer.data)
+    #response["Access-Control-Allow-Origin"] = "*"
+    return response
+    
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateUser(request, pk):
+    user = User.objects.get(id=pk)
+    data = request.data
+    # user.first_name = data['first_name']
+    user.username = data['username']
+    user.email = data['email']
+    user.is_staff = data['isAdmin']
+        
+    user.save()
+    serializer = UserSerializer(user, many=False)
+    response = Response(serializer.data)
+    #response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def deleteUser(request, pk):
+    userForDeletion = User.objects.get(id=pk)
+    userForDeletion.delete()
+    return Response('User deleted')

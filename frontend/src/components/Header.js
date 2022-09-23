@@ -23,7 +23,7 @@ function Header() {
                     <LinkContainer to='/'>
                         <Navbar.Brand><img src='./images/borderless_logo.png' alt='logo' height={120} /></Navbar.Brand>
                     </LinkContainer>
-                    
+
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="flex-grow-1 justify-content-evenly">
@@ -31,7 +31,7 @@ function Header() {
                             <LinkContainer to='/'>
                                 <Nav.Link>Home</Nav.Link>
                             </LinkContainer>
-                            
+
                             <LinkContainer to='/link'>
                                 <Nav.Link>Link</Nav.Link>
                             </LinkContainer>
@@ -51,6 +51,17 @@ function Header() {
                                         <Nav.Link>Login <i className='fas fa-user'></i></Nav.Link>
                                     </LinkContainer>
                                 </Nav>
+                            )}
+
+                            {userInfo && userInfo.isAdmin && (
+                                <NavDropdown title='Admin' id='adminmenu'>
+                                    <LinkContainer to='/admin/userlist'>
+                                        <NavDropdown.Item>Users</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to='/admin/itemslist'>
+                                        <NavDropdown.Item>Items</NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavDropdown>
                             )}
                         </Nav>
                     </Navbar.Collapse>

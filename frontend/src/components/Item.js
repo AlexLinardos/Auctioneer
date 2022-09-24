@@ -14,12 +14,12 @@ function Item({ item }) {
     }
     return (
         <Card className="my-3 p-3 rounded">
-            <Link to={`/item/${item._id}`}>
+            <Link to={`/items/${item._id}`}>
                 <Card.Img src = {item.image} />
             </Link>
 
             <Card.Body>
-                <Link to={`/item/${item._id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/items/${item._id}`} style={{ textDecoration: 'none' }}>
                     <Card.Title as="div">
                         <strong>{item.name}</strong>
                     </Card.Title>

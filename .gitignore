@@ -1,2 +1,6 @@
 /backend/db.sqlite3
 /backend/base/migrations/*
+
+/myenv/*
+/backend/cert.pem
+/backend/key.pem

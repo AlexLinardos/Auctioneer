@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import { RegisterFormContainer } from '../components/FormContainer';
 import { getUserDetails, updateUser } from '../actions/userActions';
-import { USER_UPDATE_RESET } from '../constants';
+import { USER_UPDATE_RESET } from '../constants/userConstants';
 
 function UserEditScreen() {
     const [username, setUsername] = useState('')
@@ -47,7 +47,7 @@ function UserEditScreen() {
                 setAdmin(user.isAdmin)
             }
         }
-    }, [user, userId, successUpdate])
+    }, [user, userId, successUpdate, dispatch])
 
     const submitHandler = (e) => {
         e.preventDefault()

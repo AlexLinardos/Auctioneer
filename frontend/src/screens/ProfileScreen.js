@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
-import { USER_UPDATE_PROFILE_RESET } from '../constants';
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 function ProfileScreen() {
     const [username, setUsername] = useState('')

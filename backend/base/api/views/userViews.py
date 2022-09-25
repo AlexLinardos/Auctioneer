@@ -9,7 +9,7 @@ from base.models import Profile
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from base.api.serializers import UserSerializer, UserSerializerWithToken
+from base.api.serializers.userSerializers import UserSerializer, UserSerializerWithToken
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):

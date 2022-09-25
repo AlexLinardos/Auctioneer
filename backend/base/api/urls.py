@@ -1,13 +1,17 @@
 from django.urls import path
-from . import views
+from .views import itemViews, userViews
 
 urlpatterns = [
-    path('users/', views.getUsers, name='users'),
-    path('users/login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('users/register/', views.registerUser, name='register'),
-    path('users/profile/', views.getUserProfile, name='users-profile'),
-    path('users/profile/update/', views.updateUserProfile, name='users-profile-update'),
-    path('users/<str:pk>/', views.getUserById, name='user-by-id'),
-    path('users/delete/<str:pk>/', views.deleteUser, name='user-delete'),
-    path('users/update/<str:pk>/', views.updateUser, name='user-update'),
+    path('users/', userViews.getUsers, name='users'),
+    path('users/login/', userViews.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('users/register/', userViews.registerUser, name='register'),
+    path('users/profile/', userViews.getUserProfile, name='users-profile'),
+    path('users/profile/update/', userViews.updateUserProfile, name='users-profile-update'),
+    path('users/<str:pk>/', userViews.getUserById, name='user-by-id'),
+    path('users/delete/<str:pk>/', userViews.deleteUser, name='user-delete'),
+    path('users/update/<str:pk>/', userViews.updateUser, name='user-update'),
+
+    path('items/', itemViews.getItems, name="items"),
+    path('items/<str:pk>', itemViews.getItem, name="item"),
+    path('items/<str:pk>/bids/', itemViews.placeItemBid, name="place-bid"),
 ]

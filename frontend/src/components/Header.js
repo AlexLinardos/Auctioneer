@@ -1,8 +1,8 @@
 import React from 'react'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
-import Image from 'react-bootstrap/Image'
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
 
 import { logout } from '../actions/userActions';
 
@@ -20,20 +20,23 @@ function Header() {
         <header>
             <Navbar bg='primary' variant='dark'>
                 <Container>
-                    <LinkContainer to='/'>
-                        <Navbar.Brand><img src='./images/borderless_logo.png' alt='logo' height={120} /></Navbar.Brand>
+                    <LinkContainer to='/' class="navbar-brand">
+                        <Navbar.Brand id='brand'>
+                            <Row><img src='/images/logo.png' alt='logo' id='logo'/></Row>
+                            <Row><span id="logo-text">auctioneer</span></Row>
+                        </Navbar.Brand>
                     </LinkContainer>
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="flex-grow-1 justify-content-evenly">
 
-                            <LinkContainer to='/'>
-                                <Nav.Link>Home</Nav.Link>
+                            <LinkContainer to='/Categories'>
+                                <Nav.Link>Categories</Nav.Link>
                             </LinkContainer>
 
-                            <LinkContainer to='/link'>
-                                <Nav.Link>Link</Nav.Link>
+                            <LinkContainer to='/sell'>
+                                <Nav.Link>Sell</Nav.Link>
                             </LinkContainer>
 
                             {userInfo ? (

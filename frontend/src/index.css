@@ -2,7 +2,16 @@ main {
     min-height: 80vh;
 }
 
-button{
+#logo{
+  width: 15vh;
+}
+
+#logo-text{
+  font-size: 1.5vh;
+  text-align: center;
+}
+
+#myButton{
     width:100%;
     justify-content: center;
     position: relative;

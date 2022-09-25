@@ -137,11 +137,11 @@ function ItemScreen({ }) {
                                         </ListGroup.Item>
 
                                         <ListGroup.Item>
-                                            <strong>Started: {String(item.started).substring(0, 10)}</strong>
+                                            <small>Started: {String(item.started).substring(0, 10)}</small>
                                         </ListGroup.Item>
 
                                         <ListGroup.Item>
-                                            <strong>Ends: {String(item.ends).substring(0, 10)}</strong>
+                                            <small>Ends: {String(item.ends).substring(0, 10)}</small>
                                         </ListGroup.Item>
 
                                         {/* <ListGroup.Item>
@@ -206,7 +206,7 @@ function ItemScreen({ }) {
                                                     {successItemBid && <Message variant='success'>Bid Placed</Message>}
                                                     {errorItemBid && <Message variant='danger'>{errorItemBid}</Message>}
                                                     <ListGroup.Item>
-                                                        <Button
+                                                        <Button id='myButton'
                                                             className='btn-block'
                                                             type='submit'
                                                             disabled={loadingItemBid}
@@ -216,7 +216,7 @@ function ItemScreen({ }) {
                                                     </ListGroup.Item>
 
                                                     <ListGroup.Item id="buyout">
-                                                        <Button className='btn-block' type='button'>Buy Now for ${item.buy_price}</Button>
+                                                        <Button id='myButton' className='btn-block' type='button'>Buy Now for ${item.buy_price}</Button>
                                                     </ListGroup.Item>
                                                 </div>
                                             ) : (

@@ -2,7 +2,6 @@ import React, { useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
-import bids from '../bids'
 import Bid from '../components/Bid'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -53,17 +52,9 @@ function ItemScreen({}) {
         ))
     }
 
-    var currently
-    var item_bids
     var hide = 1
     var undefined = 1
     if(typeof item !== 'undefined'){
-        undefined = 0
-        item_bids = bids.filter((b) => b.item_id === id)
-        item_bids.reverse()
-        currently = item.first_bid
-        if (item_bids.length !== 0)
-            currently = item_bids[0].price
         if (typeof item.buy_price !== 'undefined')
             hide = 0
         console.log('defined')

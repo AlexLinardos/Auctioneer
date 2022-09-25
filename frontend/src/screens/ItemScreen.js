@@ -8,6 +8,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 
 import { listItemDetails, placeItemBid } from '../actions/itemActions'
+import {  ITEM_PLACE_BID_RESET  } from '../constants/itemConstants'
 
 import { useParams } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ function ItemScreen({}) {
     useEffect(() => {
         if(successItemBid){
             setAmmount(0)
+            dispatch({type:ITEM_PLACE_BID_RESET})
         }
         dispatch(listItemDetails(id))
         
@@ -247,16 +249,19 @@ function ItemScreen({}) {
                         {item.bids.length === 0 && <Message variant='info'>No bids</Message>}
 
                         <ListGroup id='latest-bids3' variant='horizontal'>
-                            {(item.bids.slice(-9)).map((bid) => (
+                            {(item.bids.slice(-5)).map((bid) => (
                                 <ListGroup.Item key={bid.id}>
                                     {/* <strong>{(bid.user).username}</strong> */}
                                     ${bid.ammount}
                                     <p>{bid.time.substring(0,10)}</p>
                                 </ListGroup.Item>
                             ))}
+                            <ListGroup.Item id='numbids'>
+                                <h5>{item.number_of_bids} Bids</h5>
 
-
+                            </ListGroup.Item>
                         </ListGroup>
+                        
                         </Row>
                     </Row>
                 </div>

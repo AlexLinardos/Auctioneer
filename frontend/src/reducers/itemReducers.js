@@ -9,7 +9,8 @@ import {
 
     ITEM_PLACE_BID_REQUEST,
     ITEM_PLACE_BID_SUCCESS,
-    ITEM_PLACE_BID_FAIL
+    ITEM_PLACE_BID_FAIL,
+    ITEM_PLACE_BID_RESET
 } from '../constants/itemConstants'
 
 export const itemListReducer = (state ={items:[]}, action) =>{
@@ -54,6 +55,9 @@ export const itemBidPlaceReducer = (state ={ }, action) =>{
 
         case ITEM_PLACE_BID_FAIL:
             return {loading:false, error: action.payload}
+
+        case ITEM_PLACE_BID_RESET:
+            return {}
         
         default:
             return state

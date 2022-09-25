@@ -94,13 +94,20 @@ col{
 } */
 
 #latest-bids{
-  margin-top: 5vh;
-  /* background-color: #793131; */
-  /* justify-content: center; */
+  margin-top: 1vh;
+  /* background-color: #7931  */
 }
 
 /* #latest-bids3{
   background-color: #2a9373;
   justify-content: center;
 } */
+
+#numbids{
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1vh; */
+  border: none;
+}
 

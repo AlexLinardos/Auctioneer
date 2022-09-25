@@ -10,7 +10,7 @@ import {
 
     ITEM_PLACE_BID_REQUEST,
     ITEM_PLACE_BID_SUCCESS,
-    ITEM_PLACE_BID_FAIL
+    ITEM_PLACE_BID_FAIL,
 } from '../constants/itemConstants'
 
 export const listItems = () => async (dispatch) => {

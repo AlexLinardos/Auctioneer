@@ -26,7 +26,7 @@ function App() {
             <Route path='/register' element={<RegisterScreen />} />
             <Route path='/login' element={<LoginScreen />} />
             <Route path='/profile' element={<ProfileScreen />} />
-            <Route path='/item/:id' element={<ItemScreen />} />
+            <Route path='/items/:id' element={<ItemScreen />} />
             <Route path='/admin/userlist' element={<UserListScreen />} />
             <Route path='admin/user/:id/edit' element={<UserEditScreen />} />
           </Routes>

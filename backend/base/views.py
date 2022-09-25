@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Item, Bid
-from .items import items
 from .serializers import ItemSerializer
 
 # Create your views here.

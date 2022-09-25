@@ -411,10 +411,6 @@ function ProfileScreen() {
                     </Row>
                 </Form>
             </Col>
-
-            <Col md={4}>
-                <h2 className="ps-4">My Auctions</h2>
-            </Col>
         </Row>
     )
 }

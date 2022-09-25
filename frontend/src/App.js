@@ -16,18 +16,18 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <main className='py-3'>
-        <Container>
-          <Routes>
-            {" "}
-            <Route path='/' element={<HomeScreen/>} />
-            <Route path='/welcome' element={<WelcomeScreen />} />
-            <Route path='/register' element={<RegisterScreen />} />
-            <Route path='/login' element={<LoginScreen />} />
-            <Route path='/profile' element={<ProfileScreen />} />
-            <Route path='/item/:id' element ={<ItemScreen />}/>
-          </Routes>
-        </Container>
+        <main className='py-3'>
+          <Container>
+            <Routes>
+              {" "}
+              <Route path='/' element={<HomeScreen/>} />
+              <Route path='/welcome' element={<WelcomeScreen />} />
+              <Route path='/register' element={<RegisterScreen />} />
+              <Route path='/login' element={<LoginScreen />} />
+              <Route path='/profile' element={<ProfileScreen />} />
+              <Route path='/items/:id' element ={<ItemScreen />}/>
+            </Routes>
+          </Container>
       </main>
       <Footer />
     </BrowserRouter>

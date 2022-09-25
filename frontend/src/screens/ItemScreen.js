@@ -61,7 +61,8 @@ function ItemScreen({ }) {
         console.log(item.name)
     };
 
-
+    const user=item.user
+    // console.log(item.user.username)
 
 
 
@@ -144,6 +145,10 @@ function ItemScreen({ }) {
                                         </ListGroup.Item>
 
                                         {/* <ListGroup.Item>
+                                            <strong>Seller: {item.user.id}</strong>
+                                        </ListGroup.Item> */}
+
+                                        {/* <ListGroup.Item>
                                     <ListGroup variant='horizontal'>
                                         <ListGroup.Item>
                                             <Row><strong>Started:</strong></Row>
@@ -180,39 +185,43 @@ function ItemScreen({ }) {
 
 
 
+                                            {userInfo ? (
 
-                                            <div>
-                                                <ListGroup.Item>
-                                                    <h4>Bid ammount</h4>
-                                                    <div class="slidecontainer">
-                                                        <input type="range" min="5" max="100" defaultValue="1" step="1" class="slider" id="myRange"
-                                                            onChange={(event) => setRangeval(event.target.value)} />
-                                                        <div id="slider-value">{rangeval}%</div>
-                                                        {/* <div>{(parseInt(item.currently)+(rangeval*0.01*item.first_bid)).toFixed(2)}$</div> */}
-                                                        <div class="test">
-                                                            <input type="text" class="input_text" disabled="true"
-                                                                value={(parseInt(item.currently) + (rangeval * 0.01 * item.first_bid)).toFixed(2)} size="6"></input>
+                                            
+                                                <div>
+                                                    <ListGroup.Item>
+                                                        <h4>Bid ammount</h4>
+                                                        <div class="slidecontainer">
+                                                            <input type="range" min="5" max="100" defaultValue="1" step="1" class="slider" id="myRange"
+                                                                onChange={(event) => setRangeval(event.target.value)} />
+                                                            <div id="slider-value">{rangeval}%</div>
+                                                            {/* <div>{(parseInt(item.currently)+(rangeval*0.01*item.first_bid)).toFixed(2)}$</div> */}
+                                                            <div class="test">
+                                                                <input type="text" class="input_text" disabled="true"
+                                                                    value={(parseInt(item.currently) + (rangeval * 0.01 * item.first_bid)).toFixed(2)} size="6"></input>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </ListGroup.Item>
-                                                {loadingItemBid && <Loader />}
-                                                {successItemBid && <Message variant='success'>Bid Placed</Message>}
-                                                {errorItemBid && <Message variant='danger'>{errorItemBid}</Message>}
-                                                <ListGroup.Item>
-                                                    <Button
-                                                        className='btn-block'
-                                                        type='submit'
-                                                        disabled={loadingItemBid}
-                                                        variant='primary'
-                                                        onClick={submitHandler}
-                                                    >Place Bid</Button>
-                                                </ListGroup.Item>
+                                                    </ListGroup.Item>
+                                                    {loadingItemBid && <Loader />}
+                                                    {successItemBid && <Message variant='success'>Bid Placed</Message>}
+                                                    {errorItemBid && <Message variant='danger'>{errorItemBid}</Message>}
+                                                    <ListGroup.Item>
+                                                        <Button
+                                                            className='btn-block'
+                                                            type='submit'
+                                                            disabled={loadingItemBid}
+                                                            variant='primary'
+                                                            onClick={submitHandler}
+                                                        >Place Bid</Button>
+                                                    </ListGroup.Item>
 
-                                                <ListGroup.Item id="buyout">
-                                                    <Button className='btn-block' type='button'>Buy Now for ${item.buy_price}</Button>
-                                                </ListGroup.Item>
-                                            </div>
-
+                                                    <ListGroup.Item id="buyout">
+                                                        <Button className='btn-block' type='button'>Buy Now for ${item.buy_price}</Button>
+                                                    </ListGroup.Item>
+                                                </div>
+                                            ) : (
+                                                <Message variant='info'>Please <Link to='/login'>login</Link> to place a bid.</Message>
+                                            )}
 
 
                                             {/* <ListGroup.Item>
@@ -242,9 +251,9 @@ function ItemScreen({ }) {
                                     <ListGroup id='latest-bids3' variant='horizontal'>
                                         {(item.bids.slice(-5)).map((bid) => (
                                             <ListGroup.Item key={bid.id}>
-                                                {/* <strong>{(bid.user).username}</strong> */}
-                                                ${bid.ammount}
-                                                <p>{bid.time.substring(0, 10)}</p>
+                                                <h5>{bid.name}</h5>
+                                                <strong>${bid.ammount}</strong>
+                                                <Row><small>{bid.time.substring(0, 10)}</small></Row>
                                             </ListGroup.Item>
                                         ))}
                                         <ListGroup.Item id='numbids'>

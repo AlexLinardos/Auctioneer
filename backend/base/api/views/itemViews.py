@@ -20,20 +20,11 @@ def getItem(request, pk):
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 def placeItemBid(request, pk):
-    # user = request.user
+    user = request.user
     item = Item.objects.get(_id=pk)
     data = request.data
 
     # 1 - bid isnt higher than highest bid
-    # currently = item.first_bid
-
-    # bidsExist = item.bid_set.filter().exists()
-    # item_bids = item.bid_set.all()
-    # item_bids.reverse()
-        
-    # if len(item_bids) != 0:
-    #     currently = item_bids[0].price
-    
 
     if  float(data['ammount']) <= item.currently:
         content = {'detail': 'Bid ammount has to be greater than the highest bid!'}
@@ -43,8 +34,9 @@ def placeItemBid(request, pk):
     #2 - create bid
     else:
         bid = Bid.objects.create(
-        # user=user,
+        user=user,
         item=item,
+        name=user.first_name,
         ammount=data['ammount'],
         )
 

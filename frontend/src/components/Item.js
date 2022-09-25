@@ -27,7 +27,7 @@ function Item({ item }) {
 
                 <Card.Text as="div">
                     <div className="my-2">
-                        Currently:  ${currently}
+                        Currently:  ${item.currently}
                     </div>
                 </Card.Text>
                 

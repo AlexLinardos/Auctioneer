@@ -22,7 +22,7 @@ const reducer = combineReducers({
     userUpdateProfile: userUpdateProfileReducer,
     itemList: itemListReducer,
     itemDetails: itemDetailsReducer,
-    itemPlaceBid: itemBidPlaceReducer,
+    itemBidPlace: itemBidPlaceReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

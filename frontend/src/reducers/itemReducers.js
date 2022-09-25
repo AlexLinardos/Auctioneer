@@ -44,7 +44,7 @@ export const itemDetailsReducer = (state ={item:{ bids:[]}}, action) =>{
     }
 }
 
-export const itemBidPlaceReducer = (state ={}, action) =>{
+export const itemBidPlaceReducer = (state ={ }, action) =>{
     switch(action.type){
         case ITEM_PLACE_BID_REQUEST:
             return {loading:true}

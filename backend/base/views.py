@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Item, Bid
 from .items import items
@@ -39,31 +40,31 @@ def getItem(request, pk):
 
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
-def createItemBid(request, pk):
-    user = request.user
-    item = Item.objects.get(id=pk)
+def placeItemBid(request, pk):
+    # user = request.user
+    item = Item.objects.get(_id=pk)
     data = request.data
 
-    #1 - bid isnt higher than highest bid
-    currently = item.first_bid
+    # 1 - bid isnt higher than highest bid
+    # currently = item.first_bid
 
-    bidsExist = item.bid_set.filter().exists()
-    item_bids = item.bid_set.all()
-    item_bids.reverse()
+    # bidsExist = item.bid_set.filter().exists()
+    # item_bids = item.bid_set.all()
+    # item_bids.reverse()
         
-    if len(item_bids) != 0:
-        currently = item_bids[0].price
+    # if len(item_bids) != 0:
+    #     currently = item_bids[0].price
     
 
-    if data['ammount'] <= currently:
-        content = {'details': 'Bid ammount has to be greater than current ammount'}
+    if  float(data['ammount']) <= item.currently:
+        content = {'detail': 'Bid ammount has to be greater than the highest bid!'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
         
 
     #2 - create bid
     else:
         bid = Bid.objects.create(
-        user=user,
+        # user=user,
         item=item,
         ammount=data['ammount'],
         )

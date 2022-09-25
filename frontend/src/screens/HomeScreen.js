@@ -1,20 +1,28 @@
 import React, { useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom';
+
 import Item from '../components/Item'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listItems } from '../actions/itemActions'
 
 function HomeScreen() {
+  const navigate = useNavigate()
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
   const dispatch = useDispatch()
   const itemList = useSelector(state => state.itemList)
   const { error, loading, items } = itemList
 
   useEffect(() => {
+    if (!userInfo) {
+      navigate('/welcome')
+    }
     dispatch(listItems())
 
-  }, [dispatch])
+  }, [dispatch,userInfo, navigate])
 
   return (
     <div>
@@ -30,7 +38,6 @@ function HomeScreen() {
             ))}
           </Row>
       }
-        
     </div>
   )
 }

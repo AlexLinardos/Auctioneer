@@ -4,12 +4,12 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import { login } from '../actions/userActions';
-import FormContainer from '../components/FormContainer';
+import { LoginFormContainer } from '../components/FormContainer';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function LoginScreen() {
-    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     const dispatch = useDispatch()
@@ -30,20 +30,20 @@ function LoginScreen() {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(login(email, password))
+        dispatch(login(username, password))
     }
 
     return (
-        <FormContainer>
+        <LoginFormContainer>
             <br></br>
             <h1 className='text-center'>Welcome to Auctioneer</h1>
             <br></br>
             {error && <Message variant='danger'>{error}</Message>}
             <Form onSubmit={submitHandler}>
-                <Form.Group controlId='email' className='my-4'>
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control required type='email' placeholder='Enter your email address...'
-                        value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
+                <Form.Group controlId='username' className='my-4'>
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control required type='text' placeholder='Enter your username...'
+                        value={username} onChange={(e) => setUsername(e.target.value)}></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='password' className='my-4'>
@@ -68,7 +68,7 @@ function LoginScreen() {
             <Row className='text-center'>
                 <Link to='/'>Continue as Guest</Link>
             </Row>
-        </FormContainer>
+        </LoginFormContainer>
     )
 }
 

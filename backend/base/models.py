@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
+    user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE, default=None)
     # extra fields
     phone = models.CharField(max_length=15, default="none")
     country = models.CharField(max_length=100, default="none")
@@ -18,6 +19,10 @@ class Profile(models.Model):
             return ("Profile:" + str(self.user))
         else:
             return("Profile without user")
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 class Item(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)

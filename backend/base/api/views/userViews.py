@@ -76,14 +76,22 @@ def updateUserProfile(request):
     user = request.user
     serializer = UserSerializerWithToken(user, many=False)
     data = request.data
-    # user.first_name = data['first_name']
+
     user.username = data['username']
     user.email = data['email']
+    user.first_name = data['first_name']
+    user.last_name = data['last_name']
+    user.profile.phone = data['phone']
+    user.profile.country = data['country']
+    user.profile.city = data['city']
+    user.profile.address = data['address']
+    user.profile.TIN = data['TIN']
 
     if data['password'] != '':
         user.password = make_password(data['password'])
         
     user.save()
+    user.profile.save()
     response = Response(serializer.data)
     #response["Access-Control-Allow-Origin"] = "*"
     return response
@@ -111,12 +119,19 @@ def getUserById(request, pk):
 def updateUser(request, pk):
     user = User.objects.get(id=pk)
     data = request.data
-    # user.first_name = data['first_name']
     user.username = data['username']
     user.email = data['email']
+    user.first_name = data['first_name']
+    user.last_name = data['last_name']
+    user.profile.phone = data['phone']
+    user.profile.country = data['country']
+    user.profile.city = data['city']
+    user.profile.address = data['address']
+    user.profile.TIN = data['TIN']
     user.is_staff = data['isAdmin']
-        
+    
     user.save()
+    user.profile.save()
     serializer = UserSerializer(user, many=False)
     response = Response(serializer.data)
     #response["Access-Control-Allow-Origin"] = "*"

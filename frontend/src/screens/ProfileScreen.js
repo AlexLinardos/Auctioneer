@@ -44,6 +44,11 @@ function ProfileScreen() {
                 setEmail(user.email)
                 setFirstName(user.first_name)
                 setLastName(user.last_name)
+                setPhone(user.userProfile.phone)
+                setCountry(user.userProfile.country)
+                setCity(user.userProfile.city)
+                setAddress(user.userProfile.address)
+                setTIN(user.userProfile.TIN)
             }
         }
     }, [dispatch, navigate, userInfo, user, success])
@@ -54,7 +59,10 @@ function ProfileScreen() {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            dispatch(updateUserProfile({ 'id': user.id, 'username': username, 'email': email, 'password': password }))
+            dispatch(updateUserProfile({
+                'id': user.id, 'username': username, 'email': email, 'password': password,
+                'first_name': first_name, 'last_name': last_name, 'phone': phone, 'country': country, 'city': city, 'address': address, 'TIN': TIN
+            }))
             setMessage('')
         }
     }
@@ -398,7 +406,7 @@ function ProfileScreen() {
                                             value={address} onChange={(e) => setAddress(e.target.value)}></Form.Control>
                                     </Form.Group>
                                 </Col>
-                                <Form.Group controlId='tin'>
+                                <Form.Group controlId='TIN'>
                                     <Form.Label>Tax Identification Number</Form.Label>
                                     <Form.Control type='text' pattern="^[0-9]*$" placeholder='Enter your TIN...'
                                         value={TIN} onChange={(e) => setTIN(e.target.value)}></Form.Control>

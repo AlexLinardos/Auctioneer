@@ -5,6 +5,7 @@ import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
 import Bid from '../components/Bid'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import globalStatus from '../globalStatus'
 
 import { listItemDetails, placeItemBid } from '../actions/itemActions'
 import { ITEM_PLACE_BID_RESET } from '../constants/itemConstants'
@@ -202,14 +203,15 @@ function ItemScreen({ }) {
                                                     <Button
                                                         className='btn-block'
                                                         type='submit'
-                                                        disabled={loadingItemBid}
+                                                        disabled={loadingItemBid || (!userInfo)}
                                                         variant='primary'
                                                         onClick={submitHandler}
                                                     >Place Bid</Button>
                                                 </ListGroup.Item>
 
                                                 <ListGroup.Item id="buyout">
-                                                    <Button className='btn-block' type='button'>Buy Now for ${item.buy_price}</Button>
+                                                    <Button className='btn-block' type='button'
+                                                        disabled={!userInfo}>Buy Now for ${item.buy_price}</Button>
                                                 </ListGroup.Item>
                                             </div>
 

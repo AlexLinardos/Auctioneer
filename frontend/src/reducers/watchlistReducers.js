@@ -7,7 +7,7 @@ export const watchlistReducer = (state = { watchlistItems: [] }, action) => {
         case WATCHLIST_ADD_ITEM:
             return{
                 ...state,
-                watchlistItems:[...state.watchlistItems, item]
+                // watchlistItems:[...state.watchlistItems, item]
             }
         default:
             return state

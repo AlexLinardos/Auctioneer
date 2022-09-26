@@ -4,6 +4,7 @@ from rest_framework import status
 
 from ...models import Item, Bid
 from base.api.serializers.itemSerializers import ItemSerializer
+from base.api.serializers.userSerializers import UserSerializer
 from decimal import *
 
 @api_view(['GET'])
@@ -18,6 +19,14 @@ def getItem(request, pk):
     serializer = ItemSerializer(item, many=False)
     return Response(serializer.data)
 
+# @api_view(['GET'])
+# def getUser(request, pk):
+#     item = Item.objects.get(_id=pk)
+#     user = User.objects.get(id=item.user.id)
+#     serializer = UserSerializer(user, many=False)
+#     return Response(serializer.data)
+
+
 @api_view(['DELETE'])
 def deleteItem(request, pk):
     item = Item.objects.get(_id=pk)
@@ -29,7 +38,7 @@ def createItem(request):
     user = request.user
 
     item = Item.objects.create(
-        # user=user,
+        user=user,
         name='Sample Name',
         first_bid=0,
         brand='Sample Brand',

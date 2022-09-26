@@ -42,7 +42,7 @@ function SellScreen() {
         if (successCreate) {
             navigate(`/item/${createdItem._id}/edit`)
         } else {
-            // navigate('/sell/');
+            dispatch(listItems())
         }
 
     }, [dispatch, userInfo, successDelete, successCreate, createdItem])
@@ -104,7 +104,7 @@ function SellScreen() {
                                         <tr key={item._id}>
                                             <td>{item._id}</td>
                                             <td>{item.name}</td>
-                                            <td>${item.currently}</td>
+                                            <td>${typeof item.user}</td>
                                             <td>{item.category}</td>
                                             <td>{item.brand}</td>
 

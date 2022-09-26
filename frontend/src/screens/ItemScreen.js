@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
 import Bid from '../components/Bid'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -11,7 +11,7 @@ import { ITEM_PLACE_BID_RESET } from '../constants/itemConstants'
 
 import { useParams } from 'react-router-dom';
 
-function ItemScreen({ }) {
+function ItemScreen({ history }) {
     const [ammount, setAmmount] = useState(0)
 
     const dispatch = useDispatch()
@@ -50,6 +50,10 @@ function ItemScreen({ }) {
             ammount
         }
         ))
+    }
+
+    const buyoutHandler = () =>{
+        history.push(`/won/${id}`)
     }
 
     var hide = 1
@@ -215,9 +219,16 @@ function ItemScreen({ }) {
                                                         >Place Bid</Button>
                                                     </ListGroup.Item>
 
+                                                    {item.buy_price > 0 && (
                                                     <ListGroup.Item id="buyout">
-                                                        <Button id='myButton' className='btn-block' type='button'>Buy Now for ${item.buy_price}</Button>
+                                                        <Button id='myButton' 
+                                                        className='btn-block' 
+                                                        type='submit'
+                                                        disabled={loadingItemBid}
+                                                        onClick={buyoutHandler}
+                                                        >Buy Now for ${item.buy_price}</Button>
                                                     </ListGroup.Item>
+                                                    )}
                                                 </div>
                                             ) : (
                                                 <Message variant='info'>Please <Link to='/login'>login</Link> to place a bid.</Message>

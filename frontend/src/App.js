@@ -10,6 +10,8 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import HomeScreen from './screens/HomeScreen';
 import ItemScreen from './screens/ItemScreen';
+import SellScreen from './screens/SellScreen';
+import WatchlistScreen from './screens/WatchlistScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 
@@ -27,6 +29,8 @@ function App() {
             <Route path='/login' element={<LoginScreen />} />
             <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/items/:id' element={<ItemScreen />} />
+            <Route path='/watchlist/:id' element={<WatchlistScreen />} />
+            <Route path='/sell' element={<SellScreen />} />
             <Route path='/admin/userlist' element={<UserListScreen />} />
             <Route path='admin/user/:id/edit' element={<UserEditScreen />} />
           </Routes>

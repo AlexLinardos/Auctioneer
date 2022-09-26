@@ -20,7 +20,7 @@ function Header() {
         <header>
             <Navbar bg='primary' variant='dark'>
                 <Container>
-                    <LinkContainer to='/' class="navbar-brand">
+                    <LinkContainer to='/' className="navbar-brand">
                         <Navbar.Brand id='brand'>
                             <Row><img src='/images/logo.png' alt='logo' id='logo'/></Row>
                             <Row><span id="logo-text">auctioneer</span></Row>

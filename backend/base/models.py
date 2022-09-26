@@ -28,19 +28,19 @@ class Item(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, default='/placeholder.png')
     brand = models.CharField(max_length=200, null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    first_bid = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=False)
-    currently = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2, default = first_bid)
+    first_bid = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    currently = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
     buy_price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     number_of_bids = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=0, default=0)
     bids = models.DecimalField(max_digits=7, decimal_places=0, default = 0)
     location = models.CharField(max_length=200, null=True, blank=True)
     country = models.CharField(max_length=200, null=True, blank=True)
     started = models.DateTimeField(auto_now_add=True)
-    ends = models.DateTimeField(null=False, blank=False)
+    ends = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name

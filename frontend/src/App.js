@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import HomeScreen from './screens/HomeScreen';
+import ItemEditScreen from './screens/ItemEditScreen';
 import ItemScreen from './screens/ItemScreen';
 import SellScreen from './screens/SellScreen';
 import WatchlistScreen from './screens/WatchlistScreen';
@@ -29,6 +30,7 @@ function App() {
             <Route path='/login' element={<LoginScreen />} />
             <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/items/:id' element={<ItemScreen />} />
+            <Route path='/items/:id/edit' element={<ItemEditScreen />} />
             <Route path='/watchlist/:id' element={<WatchlistScreen />} />
             <Route path='/sell' element={<SellScreen />} />
             <Route path='/admin/userlist' element={<UserListScreen />} />

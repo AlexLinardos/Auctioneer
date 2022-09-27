@@ -13,10 +13,11 @@ urlpatterns = [
 
     path('items/', itemViews.getItems, name="items"),
     path('items/create/', itemViews.createItem, name="item-create"),
+    path('items/upload/', itemViews.uploadImage, name="image-upload"),
+    
     path('items/update/<str:pk>/', itemViews.updateItem, name="item-update"),
     path('items/delete/<str:pk>/', itemViews.deleteItem, name="item-delete"),
+   
     path('items/<str:pk>/', itemViews.getItem, name="item"),
-    
-
     path('items/<str:pk>/bids/', itemViews.placeItemBid, name="place-bid"),
 ]

@@ -30,6 +30,11 @@ main {
     transform: translateX(-50%);
   }
 
+.text-right{
+  display: flex;
+  justify-content: right;
+}
+
 col{
     justify-content: center;
 }

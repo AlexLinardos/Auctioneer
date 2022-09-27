@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-    useParams, useNavigate,
-  } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 // import Paginate from '../components/Paginate'
@@ -40,7 +38,7 @@ function SellScreen() {
         // }
 
         if (successCreate) {
-            navigate(`/item/${createdItem._id}/edit`)
+            navigate(`/items/${createdItem._id}/edit`)
         } else {
             dispatch(listItems())
         }
@@ -64,12 +62,12 @@ function SellScreen() {
         <div>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Items</h1>
+                    <h1>My Auctions</h1>
                 </Col>
 
                 <Col className='text-right'>
                     <Button className='my-3' onClick={createItemHandler}>
-                        <i className='fas fa-plus'></i> Create Item
+                        <i className='fas fa-plus'></i> Add Item
                     </Button>
                 </Col>
             </Row>
@@ -92,31 +90,37 @@ function SellScreen() {
                                     <tr>
                                         <th>ID</th>
                                         <th>NAME</th>
+                                        <th>FIRST BID</th>
                                         <th>CURRENTLY</th>
-                                        <th>CATEGORY</th>
-                                        <th>BRAND</th>
+                                        <th>STATUS</th>
                                         <th></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {items.map(item => (
+                                    {items.filter(item => item.user==userInfo.id).map(item => (
                                         <tr key={item._id}>
                                             <td>{item._id}</td>
-                                            <td>{item.name}</td>
-                                            <td>${typeof item.user}</td>
-                                            <td>{item.category}</td>
-                                            <td>{item.brand}</td>
+                                            <td><Link to={`/items/${item._id}`} style={{ textDecoration: 'none' }}>{item.name}</Link></td>
+                                            
+                                            <td>${item.first_bid}</td>
+                                            {item.currently ? <td>${item.currently}</td> :<td></td>}
+                                            <td>{item.status}</td>
 
                                             <td>
-                                                <LinkContainer to={`/item/${item._id}/edit`}>
-                                                    <Button variant='light' className='btn-sm'>
-                                                        <i className='fas fa-edit'></i>
+                                                <LinkContainer to={`/items/${item._id}/edit`}>
+                                                    <Button variant='light' 
+                                                    className='btn-sm'
+                                                    disabled={item.status=='Active'}
+                                                    ><i className='fas fa-edit'></i>
                                                     </Button>
                                                 </LinkContainer>
 
-                                                <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(item._id)}>
-                                                    <i className='fas fa-trash'></i>
+                                                <Button variant='danger' 
+                                                className='btn-sm' 
+                                                onClick={() => deleteHandler(item._id)}
+                                                disabled={item.status=='Active'}
+                                                ><i className='fas fa-trash'></i>
                                                 </Button>
                                             </td>
                                         </tr>

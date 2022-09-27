@@ -39,11 +39,12 @@ def createItem(request):
 
     item = Item.objects.create(
         user=user,
-        name='Sample Name',
-        first_bid=0,
-        brand='Sample Brand',
-        category='Sample Category',
-        description=''
+        status='Not Started',
+        # name='Sample Name',
+        # first_bid=0,
+        # brand='Sample Brand',
+        # category='Sample Category',
+        # description=''
     )
 
     serializer = ItemSerializer(item, many=False)
@@ -53,17 +54,39 @@ def createItem(request):
 @api_view(['PUT'])
 def updateItem(request, pk):
     data = request.data
-    item = Item.objects.get(id=pk)
+    item = Item.objects.get(_id=pk)
 
     item.name = data['name']
-    item.currently = data['currently']
-    item.brand = data['brand']
-    item.category = data['category']
-    item.description = data['description']
+    item.first_bid = data['first_bid']
 
+    if  float(data['first_bid']) <= 0:
+        content = {'detail': 'Please set a First Bid price for your item!'}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+    else:   
+        if data['buy_price'] is not None:
+            item.buy_price = data['buy_price']
+        item.brand = data['brand']
+        item.category = data['category']
+        item.description = data['description']
+        item.saved = True
+
+        item.save()
+
+        serializer = ItemSerializer(item, many=False)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+def uploadImage(request):
+    data = request.data
+
+    item_id = data['item_id']
+    item = Item.objects.get(_id=item_id)
+
+    item.image = request.FILES.get('image')
     item.save()
 
-    serializer = ItemSerializer(item, many=False)
+    return Response('Image was uploaded')
 
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
@@ -91,7 +114,7 @@ def placeItemBid(request, pk):
         bids = item.bid_set.all()
         item.number_of_bids = len(bids)
 
-        item.currently = data['ammount']
+        item.currently = float(data['ammount'])
 
         item.save()
 

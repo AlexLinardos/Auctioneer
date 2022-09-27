@@ -16,6 +16,11 @@ import {
     ITEM_CREATE_FAIL,
     ITEM_CREATE_RESET,
 
+    ITEM_UPDATE_REQUEST,
+    ITEM_UPDATE_SUCCESS,
+    ITEM_UPDATE_FAIL,
+    ITEM_UPDATE_RESET,
+
     ITEM_PLACE_BID_REQUEST,
     ITEM_PLACE_BID_SUCCESS,
     ITEM_PLACE_BID_FAIL,
@@ -83,6 +88,25 @@ export const itemCreateReducer = (state ={}, action) =>{
 
         case ITEM_CREATE_RESET:
             return {}
+        
+        default:
+            return state
+    }
+}
+
+export const itemUpdateReducer = ( state ={ item: {} }, action) =>{
+    switch(action.type){
+        case ITEM_UPDATE_REQUEST:
+            return {loading:true}
+
+        case ITEM_UPDATE_SUCCESS:
+            return {loading:false, success:true, item: action.payload}
+
+        case ITEM_UPDATE_FAIL:
+            return {loading:false, error: action.payload}
+
+        case ITEM_UPDATE_RESET:
+            return { item: {} }
         
         default:
             return state

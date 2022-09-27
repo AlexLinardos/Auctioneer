@@ -13,6 +13,7 @@ import {
     itemBidPlaceReducer,
     itemDeleteReducer,
     itemCreateReducer,
+    itemUpdateReducer,
 } from './reducers/itemReducers';
 
 import {
@@ -34,6 +35,7 @@ const reducer = combineReducers({
     watchlist: watchlistReducer,
     itemDelete: itemDeleteReducer,
     itemCreate: itemCreateReducer,
+    itemUpdate: itemUpdateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

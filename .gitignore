@@ -3,3 +3,4 @@
 /myenv/*
 /backend/cert.pem
 /backend/key.pem
+**/__pycache__/

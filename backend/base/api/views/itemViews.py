@@ -4,6 +4,8 @@ from rest_framework import status
 
 from ...models import Item, Bid
 from base.api.serializers.itemSerializers import ItemSerializer
+from base.api.serializers.userSerializers import UserSerializer
+from decimal import *
 
 @api_view(['GET'])
 def getItems(request):
@@ -17,23 +19,83 @@ def getItem(request, pk):
     serializer = ItemSerializer(item, many=False)
     return Response(serializer.data)
 
+# @api_view(['GET'])
+# def getUser(request, pk):
+#     item = Item.objects.get(_id=pk)
+#     user = User.objects.get(id=item.user.id)
+#     serializer = UserSerializer(user, many=False)
+#     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def deleteItem(request, pk):
+    item = Item.objects.get(_id=pk)
+    item.delete()
+    return Response('Item Deleted')
+
+@api_view(['POST'])
+def createItem(request):
+    user = request.user
+
+    item = Item.objects.create(
+        user=user,
+        status='Not Started',
+        # name='Sample Name',
+        # first_bid=0,
+        # brand='Sample Brand',
+        # category='Sample Category',
+        # description=''
+    )
+
+    serializer = ItemSerializer(item, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def updateItem(request, pk):
+    data = request.data
+    item = Item.objects.get(_id=pk)
+
+    item.name = data['name']
+    item.first_bid = data['first_bid']
+
+    if  float(data['first_bid']) <= 0:
+        content = {'detail': 'Please set a First Bid price for your item!'}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+    else:   
+        if data['buy_price'] is not None:
+            item.buy_price = data['buy_price']
+        item.brand = data['brand']
+        item.category = data['category']
+        item.description = data['description']
+        item.saved = True
+
+        item.save()
+
+        serializer = ItemSerializer(item, many=False)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+def uploadImage(request):
+    data = request.data
+
+    item_id = data['item_id']
+    item = Item.objects.get(_id=item_id)
+
+    item.image = request.FILES.get('image')
+    item.save()
+
+    return Response('Image was uploaded')
+
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 def placeItemBid(request, pk):
-    # user = request.user
+    user = request.user
     item = Item.objects.get(_id=pk)
     data = request.data
 
     # 1 - bid isnt higher than highest bid
-    # currently = item.first_bid
-
-    # bidsExist = item.bid_set.filter().exists()
-    # item_bids = item.bid_set.all()
-    # item_bids.reverse()
-        
-    # if len(item_bids) != 0:
-    #     currently = item_bids[0].price
-    
 
     if  float(data['ammount']) <= item.currently:
         content = {'detail': 'Bid ammount has to be greater than the highest bid!'}
@@ -43,15 +105,16 @@ def placeItemBid(request, pk):
     #2 - create bid
     else:
         bid = Bid.objects.create(
-        # user=user,
+        user=user,
         item=item,
+        name=user.first_name,
         ammount=data['ammount'],
         )
 
         bids = item.bid_set.all()
         item.number_of_bids = len(bids)
 
-        item.currently = data['ammount']
+        item.currently = float(data['ammount'])
 
         item.save()
 

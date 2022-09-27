@@ -32,10 +32,10 @@ function HomeScreen() {
         : error ? <Message variant='danger'>{error}</Message>
           :
           <Row>
-            {items.map(item => (
-              <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
-                <Item item={item} />
-              </Col>
+            {items.filter(item=> item.status === "Active").map(item => (
+                <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
+                    <Item item={item} />
+                </Col>
             ))}
           </Row>
       }

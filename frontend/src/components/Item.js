@@ -5,9 +5,9 @@ import Bid from '../components/Bid'
 
 function Item({ item }) {
     return (
-        <Card className="my-3 p-3 rounded">
+        <Card className="my-3 p-3 rounded" id="myCard">
             <Link to={`/items/${item._id}`}>
-                <Card.Img src = {item.image} />
+                <Card.Img className="card-img" src = {item.image} />
             </Link>
 
             <Card.Body>

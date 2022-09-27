@@ -1,11 +1,6 @@
 /backend/db.sqlite3
 /backend/base/migrations/*
-
 /myenv/*
 /backend/cert.pem
-# /backend/__pycache__/*
-# /backend/base/__pycache__/*
-# /backend/base/api/__pycache__/*
-# /backend/base/api/serializers/__pycache__/*
-
-# **__pycache__
+/backend/key.pem
+**/__pycache__/

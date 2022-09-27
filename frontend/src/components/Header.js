@@ -56,6 +56,17 @@ function Header() {
                                 </Nav>
                             )}
 
+
+                            {
+                                (() => {
+                                    if (!userInfo) {
+                                        return (<Nav className="mr-auto text-center">
+                                            Guest User<br></br>Log in to take part <br></br>in auctions
+                                        </Nav>)
+                                    }
+                                })()
+                            }
+
                             {userInfo && userInfo.isAdmin && (
                                 <NavDropdown title='Admin' id='adminmenu'>
                                     <LinkContainer to='/admin/userlist'>

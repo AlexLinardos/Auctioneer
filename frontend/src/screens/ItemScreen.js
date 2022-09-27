@@ -5,6 +5,7 @@ import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
 import Bid from '../components/Bid'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import globalStatus from '../globalStatus'
 
 import { listItemDetails, placeItemBid } from '../actions/itemActions'
 import { ITEM_PLACE_BID_RESET } from '../constants/itemConstants'
@@ -206,11 +207,9 @@ function ItemScreen() {
                                                         
                                                         
                                                     </div>
-
                                                 )) : (
                                                 <Message variant='info'>Please <Link to='/login'>login</Link> to place a bid.</Message>
                                             )}
-
                                         </ListGroup>
                                     </Card>
                                 </Col>

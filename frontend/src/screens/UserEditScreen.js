@@ -44,6 +44,11 @@ function UserEditScreen() {
                 setEmail(user.email)
                 setFirstName(user.first_name)
                 setLastName(user.last_name)
+                setPhone(user.userProfile.phone)
+                setCountry(user.userProfile.country)
+                setCity(user.userProfile.city)
+                setAddress(user.userProfile.address)
+                setTIN(user.userProfile.TIN)
                 setAdmin(user.isAdmin)
             }
         }
@@ -55,7 +60,10 @@ function UserEditScreen() {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            dispatch(updateUser({ id: user.id, username, email, isAdmin }))
+            dispatch(updateUser({
+                'id': user.id, 'username': username, 'email': email, 'password': password,
+                'first_name': first_name, 'last_name': last_name, 'phone': phone, 'country': country, 'city': city, 'address': address, 'TIN': TIN, 'isAdmin': isAdmin
+            }))
         }
     }
 
@@ -99,7 +107,7 @@ function UserEditScreen() {
 
                             <Form.Group controlId='idAdmin' className='my-4'>
                                 <Form.Label>Admin status</Form.Label>
-                                <Form.Check type='checkbox' label='Is Admin'
+                                <Form.Check type='checkbox' label='Admin'
                                     checked={isAdmin} onChange={(e) => setAdmin(e.target.checked)}></Form.Check>
                             </Form.Group>
                         </Col>

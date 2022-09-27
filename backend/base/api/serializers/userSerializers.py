@@ -5,13 +5,20 @@ from base.models import Profile
 
 User._meta.get_field('email')._unique = True
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField(read_only=True)
     isAdmin = serializers.SerializerMethodField(read_only=True)
+    userProfile = ProfileSerializer(source='profile', read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'isAdmin']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'isAdmin', 'userProfile']
 
     def get_isAdmin(self, obj):
         return obj.is_staff
@@ -38,8 +45,3 @@ class UserSerializerWithToken(UserSerializer):
         token = RefreshToken.for_user(obj)
         return str(token.access_token)
 
-
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = '__all__'

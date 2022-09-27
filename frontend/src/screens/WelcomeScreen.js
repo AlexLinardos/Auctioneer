@@ -2,10 +2,15 @@ import React from 'react'
 import { Image, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
+import globalStatus from '../globalStatus';
 
 function WelcomeScreen() {
     const RowStyling = {
         border: "2px solid black",
+    }
+
+    function changeStatus() {
+        globalStatus.guest = true
     }
 
     return (
@@ -32,7 +37,7 @@ function WelcomeScreen() {
                         <h4>OR</h4>
                     </Row>
                     <Row className='text-center'>
-                        <Link to='/'>Continue as Guest</Link>
+                        <Link to='/' onClick={changeStatus}>Continue as Guest</Link>
                     </Row>
                 </Col>
             </Row >

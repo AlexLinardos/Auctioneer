@@ -2,13 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import Message from '../components/Message';
 import { login } from '../actions/userActions';
 import { LoginFormContainer } from '../components/FormContainer';
-
-import { useLocation, useNavigate } from 'react-router-dom';
+import globalStatus from '../globalStatus'
 
 function LoginScreen() {
+
+    function changeStatus() {
+        globalStatus.guest = true
+    }
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -25,12 +31,14 @@ function LoginScreen() {
     useEffect(() => {
         if (userInfo) {
             navigate(redirect)
+            globalStatus.guest = false
         }
     }, [navigate, userInfo, redirect])
 
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(login(username, password))
+
     }
 
     return (
@@ -66,7 +74,7 @@ function LoginScreen() {
                 <h4>OR</h4>
             </Row>
             <Row className='text-center'>
-                <Link to='/'>Continue as Guest</Link>
+                <Link to='/' onClick={changeStatus}>Continue as Guest</Link>
             </Row>
         </LoginFormContainer>
     )

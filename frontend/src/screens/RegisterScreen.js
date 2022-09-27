@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
-import Message from '../components/Message';
-import { RegisterFormContainer } from '../components/FormContainer';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Message from '../components/Message';
+import { RegisterFormContainer } from '../components/FormContainer';
 import { register } from '../actions/userActions';
+import globalStatus from '../globalStatus'
 
 function RegisterScreen() {
+
+    function changeStatus() {
+        globalStatus.guest = true
+    }
+
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -36,6 +40,7 @@ function RegisterScreen() {
     useEffect(() => {
         if (userInfo) {
             navigate(redirect)
+            globalStatus.guest = false
         }
     }, [navigate, userInfo, redirect])
 
@@ -414,7 +419,7 @@ function RegisterScreen() {
                     <h4>OR</h4>
                 </Row>
                 <Row className='text-center'>
-                    <Link to='/'>Continue as Guest</Link>
+                    <Link to='/' onClick={changeStatus}>Continue as Guest</Link>
                 </Row>
             </RegisterFormContainer>
         </Col >

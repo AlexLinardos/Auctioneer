@@ -7,3 +7,5 @@
 /backend/base/__pycache__/*
 /backend/base/api/__pycache__/*
 /backend/base/api/serializers/__pycache__/*
+
+**__pycache__

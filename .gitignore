@@ -3,9 +3,9 @@
 
 /myenv/*
 /backend/cert.pem
-/backend/__pycache__/*
-/backend/base/__pycache__/*
-/backend/base/api/__pycache__/*
-/backend/base/api/serializers/__pycache__/*
+# /backend/__pycache__/*
+# /backend/base/__pycache__/*
+# /backend/base/api/__pycache__/*
+# /backend/base/api/serializers/__pycache__/*
 
-**__pycache__
+# **__pycache__

@@ -50,10 +50,10 @@ function ItemScreen() {
 
     }, [dispatch, successItemBid, id])
 
-    
+
 
     const submitHandler = (e) => {
-        
+
         e.preventDefault()
         dispatch(placeItemBid(
             id, {
@@ -68,8 +68,7 @@ function ItemScreen() {
     }
 
     docReady(function () {
-        if (item.number_of_bids==0)
-        {
+        if (item.number_of_bids == 0) {
             setAmmount(parseFloat(item.first_bid))
         }
         else if (rangeval == null)
@@ -153,8 +152,8 @@ function ItemScreen() {
 
                                             {userInfo ? (
                                                 userInfo.id == item.user ? ' ' : (
-                                                
-                                                    item.number_of_bids == 0 ? ( 
+
+                                                    item.number_of_bids == 0 ? (
                                                         <ListGroup.Item>
                                                             <Button id='myButton'
                                                                 className='btn-block'
@@ -164,49 +163,49 @@ function ItemScreen() {
                                                                 onClick={submitHandler}
                                                             >First Bid for ${item.first_bid}</Button>
                                                         </ListGroup.Item>
-                                                    ) : 
+                                                    ) :
 
-                                                    <div>
-                                                        <ListGroup.Item>
-                                                            <h4>Bid ammount</h4>
-                                                            <div class="slidecontainer">
-                                                                <input type="range" min="1" max="100" defaultValue="1" step="1" class="slider" id="myRange"
-                                                                    onChange={sliderHandler} />
-                                                                <div id="slider-value">{rangeval}%</div>
-                                                                
-                                                                <div class="test">
-                                                                    <input type="text" class="input_text" disabled="true"
-                                                                        value={ammount} size="6"
+                                                        <div>
+                                                            <ListGroup.Item>
+                                                                <h4>Bid ammount</h4>
+                                                                <div className="slidecontainer">
+                                                                    <input type="range" min="1" max="100" defaultValue="1" step="1" className="slider" id="myRange"
+                                                                        onChange={sliderHandler} />
+                                                                    <div id="slider-value">{rangeval}%</div>
+
+                                                                    <div className="test">
+                                                                        <input type="text" className="input_text" disabled={true}
+                                                                            value={ammount} size="6"
                                                                         ></input>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </ListGroup.Item>
-                                                        {loadingItemBid && <Loader />}
-                                                        {successItemBid && <Message variant='success'>Bid Placed</Message>}
-                                                        {errorItemBid && <Message variant='danger'>{errorItemBid}</Message>}
-                                                        <ListGroup.Item>
-                                                            <Button id='myButton'
-                                                                className='btn-block'
-                                                                type='submit'
-                                                                disabled={loadingItemBid}
-                                                                variant='primary'
-                                                                onClick={submitHandler}
-                                                            >Place Bid</Button>
-                                                        </ListGroup.Item>
+                                                            </ListGroup.Item>
+                                                            {loadingItemBid && <Loader />}
+                                                            {successItemBid && <Message variant='success'>Bid Placed</Message>}
+                                                            {errorItemBid && <Message variant='danger'>{errorItemBid}</Message>}
+                                                            <ListGroup.Item>
+                                                                <Button id='myButton'
+                                                                    className='btn-block'
+                                                                    type='submit'
+                                                                    disabled={loadingItemBid}
+                                                                    variant='primary'
+                                                                    onClick={submitHandler}
+                                                                >Place Bid</Button>
+                                                            </ListGroup.Item>
 
-                                                        {item.buy_price == 0 ? ' ' : (
-                                                        <ListGroup.Item id="buyout">
-                                                            <Button id='myButton' 
-                                                            className='btn-block' 
-                                                            type='submit'
-                                                            disabled={loadingItemBid}
-                                                            // onClick={buyoutHandler}
-                                                            >Buy Now for ${item.buy_price}</Button>
-                                                        </ListGroup.Item>
-                                                        )}
-                                                        
-                                                        
-                                                    </div>
+                                                            {item.buy_price == 0 ? ' ' : (
+                                                                <ListGroup.Item id="buyout">
+                                                                    <Button id='myButton'
+                                                                        className='btn-block'
+                                                                        type='submit'
+                                                                        disabled={loadingItemBid}
+                                                                    // onClick={buyoutHandler}
+                                                                    >Buy Now for ${item.buy_price}</Button>
+                                                                </ListGroup.Item>
+                                                            )}
+
+
+                                                        </div>
                                                 )) : (
                                                 <Message variant='info'>Please <Link to='/login'>login</Link> to place a bid.</Message>
                                             )}
@@ -214,38 +213,40 @@ function ItemScreen() {
                                     </Card>
                                 </Col>
                             </Row>
-                            
-                            {item.number_of_bids > 0 ? (
-                            <Row id='latest-bids'>
-                                <Row id='latest-bids1'>
-                                    <h4 id='latest-bids4'>Latest Bids</h4>
-                                </Row>
-                                <Row id='latest-bids2'>
-                                    {/* {item.bids.length === 0 && <Message variant='info'>No bids</Message>} */}
 
-                                    <ListGroup id='latest-bids3' variant='horizontal'>
-                                        {(item.bids.slice(-5)).map((bid) => (
-                                            <ListGroup.Item key={bid.id}>
-                                                <h5>{bid.name}</h5>
-                                                <strong>${bid.ammount}</strong>
-                                                <Row><small>{bid.time.substring(0, 10)}</small></Row>
-                                            </ListGroup.Item>
-                                        ))}
-                                        <ListGroup.Item id='numbids'>
-                                            <h5>{item.number_of_bids} Bids</h5>
+                            {
+                                item.number_of_bids > 0 ? (
+                                    <Row id='latest-bids'>
+                                        <Row id='latest-bids1'>
+                                            <h4 id='latest-bids4'>Latest Bids</h4>
+                                        </Row>
+                                        <Row id='latest-bids2'>
+                                            {/* {item.bids.length === 0 && <Message variant='info'>No bids</Message>} */}
 
-                                        </ListGroup.Item>
-                                    </ListGroup>
+                                            <ListGroup id='latest-bids3' variant='horizontal'>
+                                                {(item.bids.slice(-5)).map((bid) => (
+                                                    <ListGroup.Item key={bid.id}>
+                                                        <h5>{bid.name}</h5>
+                                                        <strong>${bid.ammount}</strong>
+                                                        <Row><small>{bid.time.substring(0, 10)}</small></Row>
+                                                    </ListGroup.Item>
+                                                ))}
+                                                <ListGroup.Item id='numbids'>
+                                                    <h5>{item.number_of_bids} Bids</h5>
 
-                                </Row>
-                            </Row>
-                            ) : ' '}
-                        </div>
+                                                </ListGroup.Item>
+                                            </ListGroup>
+
+                                        </Row>
+                                    </Row>
+                                ) : ' '
+                            }
+                        </div >
 
             }
-        </div>
+        </div >
     );
-    
+
 }
 
 export default ItemScreen

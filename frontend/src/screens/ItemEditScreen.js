@@ -38,8 +38,6 @@ function ItemEditScreen() {
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = itemDelete
 
     useEffect(() => {
-        console.log('hey')
-
         if (successUpdate) {
             dispatch({ type: ITEM_UPDATE_RESET })
             navigate('/sell')
@@ -108,8 +106,7 @@ function ItemEditScreen() {
     const deleteHandler = (id) => {
         dispatch({ type: ITEM_UPDATE_RESET })
         console.log(id)
-        if(!item.saved)
-        {
+        if (!item.saved) {
             if (window.confirm('Are you sure? This item will not be saved!')) {
                 dispatch(deleteItem(id))
             }
@@ -118,9 +115,9 @@ function ItemEditScreen() {
 
     return (
         <div>
-            <Link to='/sell' 
-            className='btn btn-light my-3'
-            onClick={() => deleteHandler(itemId)}
+            <Link to='/sell'
+                className='btn btn-light my-3'
+                onClick={() => deleteHandler(itemId)}
             >Go Back</Link>
 
             <FormContainer>
@@ -168,9 +165,7 @@ function ItemEditScreen() {
                                 </Form.Control>
 
                                 <Form.Control type="file"
-                                    id='image-file'
                                     label='Choose File'
-                                    custom
                                     onChange={uploadFileHandler}
                                 >
 
@@ -215,14 +210,14 @@ function ItemEditScreen() {
                                 >
                                 </Form.Control>
                             </Form.Group>
-                            
+
                             <Form.Group controlId='first_bid'>
                                 <Form.Label>First Bid</Form.Label>
                                 <Form.Control required
 
                                     type='number'
                                     placeholder='Enter first bid'
-                                    value= {first_bid}
+                                    value={first_bid}
                                     onChange={(e) => setFirst_bid(e.target.value)}
                                 >
                                 </Form.Control>
@@ -242,8 +237,8 @@ function ItemEditScreen() {
 
 
                             <Button type='submit' variant='primary'>
-                                Update
-                        </Button>
+                                Submit
+                            </Button>
 
                         </Form>
                     )}

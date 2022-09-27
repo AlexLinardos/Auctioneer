@@ -32,7 +32,7 @@ const reducer = combineReducers({
     itemList: itemListReducer,
     itemDetails: itemDetailsReducer,
     itemBidPlace: itemBidPlaceReducer,
-    watchlist: watchlistReducer,
+    // watchlist: watchlistReducer,
     itemDelete: itemDeleteReducer,
     itemCreate: itemCreateReducer,
     itemUpdate: itemUpdateReducer,

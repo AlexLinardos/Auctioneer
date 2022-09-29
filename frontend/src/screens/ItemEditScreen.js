@@ -127,12 +127,13 @@ function ItemEditScreen() {
         }
     }
 
-    const deleteHandler = (id) => {
+    const deleteHandler = (e) => {
         dispatch({ type: ITEM_UPDATE_RESET })
-        console.log(id)
         if (!item.saved) {
+            e.preventDefault()
             if (window.confirm('Are you sure? This item will not be saved!')) {
-                dispatch(deleteItem(id))
+                dispatch(deleteItem(itemId))
+                navigate('/sell')
             }
         }
     }
@@ -142,7 +143,7 @@ function ItemEditScreen() {
         <div>
             <Link to='/sell'
                 className='btn btn-light my-3'
-                onClick={() => deleteHandler(itemId)}
+                onClick={deleteHandler}
             >Go Back</Link>
 
             <FormContainer>
@@ -254,7 +255,7 @@ function ItemEditScreen() {
 
 
                             <Button type='submit' variant='primary'>
-                                Submit
+                                Update
                             </Button>
 
                         </Form>

@@ -50,16 +50,16 @@ function ItemScreen() {
 
     }, [dispatch, successItemBid, id])
 
-
-
     const submitHandler = (e) => {
 
         e.preventDefault()
-        dispatch(placeItemBid(
-            id, {
-            ammount
+        if (window.confirm('Are you sure you want to place a $' + ammount + ' bid for this item? This action cannot be reverted.')) {
+            dispatch(placeItemBid(
+                id, {
+                ammount
+            }
+            ))
         }
-        ))
     }
 
     const backHandler = () => {

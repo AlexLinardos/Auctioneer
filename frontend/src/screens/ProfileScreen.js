@@ -44,11 +44,15 @@ function ProfileScreen() {
                 setEmail(user.email)
                 setFirstName(user.first_name)
                 setLastName(user.last_name)
-                setPhone(user.userProfile.phone)
-                setCountry(user.userProfile.country)
-                setCity(user.userProfile.city)
-                setAddress(user.userProfile.address)
-                setTIN(user.userProfile.TIN)
+                if (user.userProfile)
+                {
+                    // console.log(user.userProfile)
+                    setPhone(user.userProfile.phone)
+                    setCountry(user.userProfile.country)
+                    setCity(user.userProfile.city)
+                    setAddress(user.userProfile.address)
+                    setTIN(user.userProfile.TIN)
+                }
             }
         }
     }, [dispatch, navigate, userInfo, user, success])
@@ -101,7 +105,7 @@ function ProfileScreen() {
                                     value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
                             </Form.Group>
                         </Col>
-
+                        {user.userProfile ? 
                         <Col md={7}>
                             <h5>Personal Information</h5>
                             <Row>
@@ -413,6 +417,7 @@ function ProfileScreen() {
                                 </Form.Group>
                             </Row>
                         </Col>
+                        :''}
                     </Row>
                     <Row md={4} className="ms-1">
                         <Button type='submit' variant='primary'>Update</Button>

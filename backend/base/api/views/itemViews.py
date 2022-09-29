@@ -73,7 +73,7 @@ def updateItem(request, pk):
         if data['buy_price'] is not None:
             item.buy_price = data['buy_price']
         item.brand = data['brand']
-        # item.category = data['categories'][0]['label']
+
         item.categories.clear()
         for category in data['categories']:
             item.categories.add(Category.objects.get(name=category['label']))

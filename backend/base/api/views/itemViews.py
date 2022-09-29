@@ -2,10 +2,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from ...models import Item, Bid
-from base.api.serializers.itemSerializers import ItemSerializer
+from ...models import Item, Bid, Category
+from base.api.serializers.itemSerializers import ItemSerializer, CategorySerializer
 from base.api.serializers.userSerializers import UserSerializer
 from decimal import *
+
+@api_view(['GET'])
+def getCategories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getItems(request):
@@ -67,7 +73,10 @@ def updateItem(request, pk):
         if data['buy_price'] is not None:
             item.buy_price = data['buy_price']
         item.brand = data['brand']
-        item.category = data['category']
+        # item.category = data['categories'][0]['label']
+        item.categories.clear()
+        for category in data['categories']:
+            item.categories.add(Category.objects.get(name=category['label']))
         item.description = data['description']
         item.saved = True
 

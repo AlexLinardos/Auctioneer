@@ -2,16 +2,28 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useParams, useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button , Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { FormContainer } from '../components/FormContainer'
-import { listItemDetails, deleteItem, updateItem } from '../actions/itemActions'
+import { listItemDetails, deleteItem, updateItem, listCategories } from '../actions/itemActions'
 import { ITEM_UPDATE_RESET } from '../constants/itemConstants'
+import TagsInput from "../components/TagsInput"
+import CategoryInput from "../components/CategoryInput"
+import Select from 'react-select'
+
+const options = [
+    { value: 'Electronics', label: 'Electronics' },
+    { value: 'Fashion', label: 'Fashion' },
+    { value: 'Furniture', label: 'Furniture' }
+  ]
 
 
 function ItemEditScreen() {
+
+    // const categoryList = useSelector(state => state.categoryList)
+    // const { error1, loading1, categories } = categoryList
 
     const navigate = useNavigate();
     const itemId = useParams().id
@@ -21,8 +33,8 @@ function ItemEditScreen() {
     const [buy_price, setBuy_price] = useState(0)
     const [image, setImage] = useState('')
     const [brand, setBrand] = useState('')
-    const [category, setCategory] = useState('')
-    const [countInStock, setCountInStock] = useState(0)
+    const [categories, setCategories] = useState()
+    // const [countInStock, setCountInStock] = useState(0)
     const [description, setDescription] = useState('')
     const [uploading, setUploading] = useState(false)
 
@@ -36,13 +48,31 @@ function ItemEditScreen() {
 
     const itemDelete = useSelector(state => state.itemDelete)
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = itemDelete
+    
+    // const selectedCategories = []
+    //     item.categories?.forEach((x, i) => {
+    //         console.log(x)
+    //         selectedCategories.push(x.name)
+    //     })
+    //     console.log(selectedCategories)
+    //     const selectedOptions = []
+    //     options.forEach((x, i) => {
+    //     console.log(x)
+    //     if (selectedCategories.includes(x['value']))
+    //     {
+    //         selectedOptions.push(x)
+    //     }
+    //     });
+    //     console.log(selectedOptions)
+    //     setCategories(selectedOptions)
 
     useEffect(() => {
+        console.log('hey', item.categories)
         if (successUpdate) {
             dispatch({ type: ITEM_UPDATE_RESET })
             navigate('/sell')
         } else {
-            if (!item.name || item._id !== Number(itemId)) {
+            if ((!item.name || item._id !== Number(itemId)) && item.saved) {
                 dispatch(listItemDetails(itemId))
             } else {
                 setName(item.name)
@@ -50,7 +80,7 @@ function ItemEditScreen() {
                 setBuy_price(item.buy_price)
                 setImage(item.image)
                 setBrand(item.brand)
-                setCategory(item.category)
+                setCategories(item.categories)
                 // setCountInStock(item.countInStock)
                 setDescription(item.description)
 
@@ -61,6 +91,21 @@ function ItemEditScreen() {
 
     }, [dispatch, successUpdate, item])
 
+    function handleCategories(data){
+        setCategories(data)
+        // if (categories.includes(data))
+        // {
+        //     setCategories(categories.filter(category => category !== data))
+        // }
+        // else
+        // { 
+        //     setCategories(data)
+        //     categories.forEach(function(entry) {
+        //         console.log(entry);
+        //     });
+        // }   
+    }
+
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(updateItem({
@@ -70,7 +115,7 @@ function ItemEditScreen() {
             buy_price,
             image,
             brand,
-            category,
+            categories,
             // countInStock,
             description
         }))
@@ -114,7 +159,16 @@ function ItemEditScreen() {
     }
 
     return (
+        
         <div>
+            {/* <Row>
+            {categories?.map(category => (
+                <Col key={category.id} sm={12} md={6} lg={4} xl={3}>
+                    <b>{category.name}</b>
+                </Col>
+            ))}
+          </Row> */}
+            {/* <CategoryInput /> */}
             <Link to='/sell'
                 className='btn btn-light my-3'
                 onClick={() => deleteHandler(itemId)}
@@ -199,16 +253,20 @@ function ItemEditScreen() {
                                 </Form.Control>
                             </Form.Group> */}
 
-                            <Form.Group controlId='category'>
-                                <Form.Label>Category</Form.Label>
-                                <Form.Control
+                            <Form.Group controlId='categories'>
+                                <Form.Label>Categories</Form.Label>
+                                <Select
 
-                                    type='text'
-                                    placeholder='Enter category'
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
+                                    isMulti
+                                    // name="categories"
+                                    options={options}
+                                    // className="basic-multi-select"
+                                    // classNamePrefix="select"
+                                    value={categories}
+                                    onChange={handleCategories}
+                                    isSearchable={true}
                                 >
-                                </Form.Control>
+                                </Select>
                             </Form.Group>
 
                             <Form.Group controlId='first_bid'>

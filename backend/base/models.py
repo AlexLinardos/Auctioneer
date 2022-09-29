@@ -54,7 +54,7 @@ class Item(models.Model):
     currently = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
     buy_price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     number_of_bids = models.DecimalField(max_digits=7, decimal_places=0, default=0, blank=True)
-    bids = models.DecimalField(max_digits=7, decimal_places=0, default = 0, blank=True)
+    # bids = models.DecimalField(max_digits=7, decimal_places=0, default = 0, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
     country = models.CharField(max_length=200, null=True, blank=True)
     started = models.DateTimeField(auto_now_add=True)

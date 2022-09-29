@@ -5,6 +5,10 @@ class Entries(models.Model):
     @property
     def user(self):
         return User.objects.get(pk=self.user_id)
+
+    def users_name(self):
+        user = User.objects.get(pk=self.user_id)
+        return user_name
         
 # Create your models here.
 
@@ -28,6 +32,15 @@ class Profile(models.Model):
 # @receiver(post_save, sender=User)
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
+
+class Category(models.Model):
+    name = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return "%s" % unicode(self.name)
 
 class Item(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
@@ -54,6 +67,7 @@ class Item(models.Model):
         ('Concluded', 'Concluded'),
     ])
     saved = models.BooleanField(default=False)
+    categories = models.ManyToManyField(Category)
 
     def __str__(self):
         return self.name

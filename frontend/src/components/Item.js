@@ -17,10 +17,17 @@ function Item({ item }) {
                     </Card.Title>
                 </Link>
 
+                
                 <Card.Text as="div">
-                    <div className="my-2">
-                        Currently:  ${item.currently}
-                    </div>
+                {item.currently !== '0.00' ?
+                    (<div className="my-2">
+                        Currently:  ${item.currently} 
+                    </div>)
+                :
+                    (<div className="my-2">
+                        First Bid: ${item.first_bid}
+                    </div>)
+                }
                 </Card.Text>
                 
                 {/* <Card.Text as="h4">

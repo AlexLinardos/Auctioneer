@@ -6,7 +6,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 // import Paginate from '../components/Paginate'
-import { listItems, deleteItem, createItem } from '../actions/itemActions'
+import { listItems, deleteItem, createItem, updateItem } from '../actions/itemActions'
 import { ITEM_CREATE_RESET } from '../constants/itemConstants'
 
 function SellScreen() {
@@ -23,6 +23,8 @@ function SellScreen() {
     const itemCreate = useSelector(state => state.itemCreate)
     const { loading: loadingCreate, error: errorCreate, success: successCreate, item: createdItem } = itemCreate
 
+    const itemUpdate = useSelector(state => state.itemUpdate)
+    const { error: errorUpdate, loading: loadingUpdate, success: successUpdate } = itemUpdate
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -43,7 +45,7 @@ function SellScreen() {
             dispatch(listItems())
         }
 
-    }, [dispatch, userInfo, successDelete, successCreate, createdItem])
+    }, [dispatch, userInfo, successDelete, successCreate, successUpdate, createdItem])
 
 
     const deleteHandler = (id) => {
@@ -51,6 +53,28 @@ function SellScreen() {
 
         if (window.confirm('Are you sure you want to delete this Item?')) {
             dispatch(deleteItem(id))
+        }
+    }
+
+    const activateHandler = (id) => {
+        console.log(id)
+
+        if (window.confirm('Are you sure you want to activate this Auction?')) {
+            dispatch(updateItem({
+                _id: id,
+                status: 'Active'
+            }))
+        }
+    }
+
+    const concludeHandler = (id) => {
+        console.log(id)
+
+        if (window.confirm('Are you sure you want to conclude this Auction?')) {
+            dispatch(updateItem({
+                _id: id,
+                status: 'Concluded'
+            }))
         }
     }
 
@@ -93,7 +117,7 @@ function SellScreen() {
                                         <th>FIRST BID</th>
                                         <th>CURRENTLY</th>
                                         <th>STATUS</th>
-                                        <th></th>
+                                        {/* <th></th> */}
                                     </tr>
                                 </thead>
 
@@ -107,20 +131,34 @@ function SellScreen() {
                                             {item.currently ? <td>${item.currently}</td> :<td></td>}
                                             <td>{item.status}</td>
 
-                                            <td>
+                                            <td className='action-container'>
+                                                {item.status=='Active' ? 
+                                                <Button variant='secondary' 
+                                                    className='btn-sm'
+                                                    onClick={() => concludeHandler(item._id)}
+                                                    ><i className="fa-solid fa-stop fa-lg"></i>
+                                                </Button>
+                                                :
+                                                <Button variant='secondary' 
+                                                    className='btn-sm'
+                                                    onClick={() => activateHandler(item._id)}
+                                                    ><i className="fa-solid fa-play fa-lg"></i>
+                                                </Button>
+                                                }
+
                                                 <LinkContainer to={`/items/${item._id}/edit`}>
                                                     <Button variant='light' 
                                                     className='btn-sm'
                                                     disabled={item.status=='Active'}
-                                                    ><i className='fas fa-edit'></i>
+                                                    ><i className='fas fa-edit fa-lg'></i>
                                                     </Button>
                                                 </LinkContainer>
 
                                                 <Button variant='danger' 
-                                                className='btn-sm' 
-                                                onClick={() => deleteHandler(item._id)}
-                                                disabled={item.status=='Active'}
-                                                ><i className='fas fa-trash'></i>
+                                                    className='btn-sm' 
+                                                    onClick={() => deleteHandler(item._id)}
+                                                    disabled={item.status=='Active'}
+                                                    ><i className='fas fa-trash fa-lg'></i>
                                                 </Button>
                                             </td>
                                         </tr>

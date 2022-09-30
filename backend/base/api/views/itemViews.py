@@ -62,28 +62,37 @@ def updateItem(request, pk):
     data = request.data
     item = Item.objects.get(_id=pk)
 
-    item.name = data['name']
-    item.first_bid = data['first_bid']
-
-    if  float(data['first_bid']) <= 0:
-        content = {'detail': 'Please set a First Bid price for your item!'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
-    else:   
-        if data['buy_price'] is not None:
-            item.buy_price = data['buy_price']
-        item.brand = data['brand']
-
-        item.categories.clear()
-        for category in data['categories']:
-            item.categories.add(Category.objects.get(name=category['label']))
-        item.description = data['description']
-        item.saved = True
+    if "status" in data:
+        item.status = data['status']
 
         item.save()
 
         serializer = ItemSerializer(item, many=False)
         return Response(serializer.data)
+    else:
+
+        item.name = data['name']
+        item.first_bid = data['first_bid']
+
+        if  float(data['first_bid']) <= 0:
+            content = {'detail': 'Please set a First Bid price for your item!'}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+        else:   
+            if data['buy_price'] is not None:
+                item.buy_price = data['buy_price']
+            item.brand = data['brand']
+
+            item.categories.clear()
+            for category in data['categories']:
+                item.categories.add(Category.objects.get(name=category['label']))
+            item.description = data['description']
+            item.saved = True
+
+            item.save()
+
+            serializer = ItemSerializer(item, many=False)
+            return Response(serializer.data)
 
 @api_view(['POST'])
 def uploadImage(request):

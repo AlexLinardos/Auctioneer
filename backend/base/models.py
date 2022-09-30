@@ -8,27 +8,6 @@ class Entries(models.Model):
         
 # Create your models here.
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE, default=None)
-    # extra fields
-    phone = models.CharField(max_length=15, default="none")
-    country = models.CharField(max_length=100, default="none")
-    city = models.CharField(max_length=100, default="none")
-    address = models.CharField(max_length=100, default="none")
-    TIN = models.CharField(max_length=20, default="none")
-    seller_rating = models.IntegerField(null=True, blank=True)
-    bidder_rating = models.IntegerField(null=True, blank=True)
-
-    def __str__(self) -> str:
-        if self.user!=None:
-            return ("Profile:" + str(self.user))
-        else:
-            return("Profile without user")
-
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
-
 class Item(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -57,6 +36,28 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+        
+class Profile(models.Model):
+    user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE, default=None)
+    # extra fields
+    phone = models.CharField(max_length=15, default="none")
+    country = models.CharField(max_length=100, default="none")
+    city = models.CharField(max_length=100, default="none")
+    address = models.CharField(max_length=100, default="none")
+    TIN = models.CharField(max_length=20, default="none")
+    seller_rating = models.IntegerField(null=True, blank=True)
+    bidder_rating = models.IntegerField(null=True, blank=True)
+    visits = models.ManyToManyField(Item, null=True, blank=True)
+
+    def __str__(self) -> str:
+        if self.user!=None:
+            return ("Profile:" + str(self.user))
+        else:
+            return("Profile without user")
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 class Bidder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -74,3 +75,11 @@ class Bid(models.Model):
 
     def __str__(self):
         return str(self.ammount)
+
+
+class Recommendation(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+
+    def __str__(self) -> str:
+        return str("Item " + str(self.item) + " to profile " + str(self.profile))

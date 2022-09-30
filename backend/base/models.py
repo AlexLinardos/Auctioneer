@@ -1,15 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Entries(models.Model):
-    @property
-    def user(self):
-        return User.objects.get(pk=self.user_id)
-
-    def users_name(self):
-        user = User.objects.get(pk=self.user_id)
-        return user_name
-        
 # Create your models here.
 
 class Category(models.Model):
@@ -19,7 +10,7 @@ class Category(models.Model):
         return self.name
 
     def __unicode__(self):
-        return "%s" % unicode(self.name)
+        return u"%s" % (self.name)
 
 class Item(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
@@ -61,7 +52,7 @@ class Profile(models.Model):
     TIN = models.CharField(max_length=20, default="none")
     seller_rating = models.IntegerField(null=True, blank=True)
     bidder_rating = models.IntegerField(null=True, blank=True)
-    visits = models.ManyToManyField(Item, null=True, blank=True)
+    visits = models.ManyToManyField(Item, blank=True)
 
     def __str__(self) -> str:
         if self.user!=None:

@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import itemViews, userViews
+from .MF import MF_recommendations
 
 urlpatterns = [
     path('users/', userViews.getUsers, name='users'),
@@ -7,6 +8,7 @@ urlpatterns = [
     path('users/register/', userViews.registerUser, name='register'),
     path('users/profile/', userViews.getUserProfile, name='users-profile'),
     path('users/profile/update/', userViews.updateUserProfile, name='users-profile-update'),
+    # path('users/recommends/', userViews.getUserRecommends, name='recommends'),
     path('users/<str:pk>/', userViews.getUserById, name='user-by-id'),
     path('users/delete/<str:pk>/', userViews.deleteUser, name='user-delete'),
     path('users/update/<str:pk>/', userViews.updateUser, name='user-update'),
@@ -22,3 +24,6 @@ urlpatterns = [
     path('items/<str:pk>/', itemViews.getItem, name="item"),
     path('items/<str:pk>/bids/', itemViews.placeItemBid, name="place-bid"),
 ]
+
+# run right after start-up
+# MF_recommendations()

@@ -136,7 +136,7 @@ function SellScreen() {
                                                 <Button variant='secondary' 
                                                     className='btn-sm'
                                                     onClick={() => concludeHandler(item._id)}
-                                                    ><i className="fa-solid fa-stop fa-lg"></i>
+                                                    ><i className="fa-solid fa-gavel fa-lg"></i>
                                                 </Button>
                                                 :
                                                 <Button variant='secondary' 

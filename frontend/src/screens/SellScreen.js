@@ -96,7 +96,7 @@ function SellScreen() {
                 </Col>
             </Row>
 
-            {loadingDelete && <Loader />}
+            {/* {loadingDelete && <Loader />} */}
             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 
 
@@ -115,7 +115,7 @@ function SellScreen() {
                                         <th>ID</th>
                                         <th>NAME</th>
                                         <th>FIRST BID</th>
-                                        <th>CURRENTLY</th>
+                                        <th>CURRENT BID</th>
                                         <th>STATUS</th>
                                         {/* <th></th> */}
                                     </tr>

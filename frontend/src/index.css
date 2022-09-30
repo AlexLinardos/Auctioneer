@@ -110,22 +110,22 @@ col {
 
 
 
-/* #latest-bids1{
+/* #seller1{
   background-color: #c8d420;
   justify-content: center;
-}
+} */
 
-#latest-bids4{
+/* #seller4{
   background-color: #cc48c3;
   width: fit-content;
 } */
 
-#latest-bids {
-  margin-top: 1vh;
+#seller {
+  margin-top: 10vh;
   /* background-color: #7931  */
 }
 
-/* #latest-bids3{
+/* #seller3{
   background-color: #2a9373;
   justify-content: center;
 } */
@@ -143,4 +143,24 @@ col {
   align-content: center;
   display: flex; */
   width: 17vh;
+}
+
+#ends {
+  align-self: center;
+  text-align: center;
+}
+
+.mysmall {
+  font-size: x-small;
+  /* display: flexbox; */
+}
+
+#bids-row{
+  /* display: flex; */
+  /* flex-direction: row; */
+  white-space: nowrap;
+}
+
+#seller-info{
+  margin-top: 3vh;
 }

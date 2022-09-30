@@ -7,11 +7,11 @@ from base.api.serializers.itemSerializers import ItemSerializer, CategorySeriali
 from base.api.serializers.userSerializers import UserSerializer
 from decimal import *
 
-@api_view(['GET'])
-def getCategories(request):
-    categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def getCategories(request):
+#     categories = Category.objects.all()
+#     serializer = CategorySerializer(categories, many=True)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def getItems(request):

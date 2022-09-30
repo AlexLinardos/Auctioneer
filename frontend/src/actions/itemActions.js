@@ -50,26 +50,26 @@ export const listItems = () => async (dispatch) => {
     }
 }
 
-export const listCategories = () => async (dispatch) => {
-    try{    
-        dispatch({ type: CATEGORY_LIST_REQUEST })
+// export const listCategories = () => async (dispatch) => {
+//     try{    
+//         dispatch({ type: CATEGORY_LIST_REQUEST })
 
-        const { data } = await axios.get('/api/items/')
+//         const { data } = await axios.get('/api/items/')
 
-        dispatch({ 
-            type: CATEGORY_LIST_SUCCESS,
-            payload: data
-        })
+//         dispatch({ 
+//             type: CATEGORY_LIST_SUCCESS,
+//             payload: data
+//         })
 
-    }catch (error) {
-        dispatch({ 
-            type: CATEGORY_LIST_FAIL,
-            payload: error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-        })
-    }
-}
+//     }catch (error) {
+//         dispatch({ 
+//             type: CATEGORY_LIST_FAIL,
+//             payload: error.response && error.response.data.message
+//             ? error.response.data.message
+//             : error.message,
+//         })
+//     }
+// }
 
 export const listItemDetails = (id) => async (dispatch) => {
     try{    

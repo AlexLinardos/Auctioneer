@@ -7,4 +7,5 @@ admin.site.register(Item)
 admin.site.register(Bid)
 admin.site.register(Bidder)
 admin.site.register(Recommendation)
+admin.site.register(Category)
 

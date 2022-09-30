@@ -2,10 +2,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from ...models import Item, Bid
-from base.api.serializers.itemSerializers import ItemSerializer
+from ...models import Item, Bid, Category
+from base.api.serializers.itemSerializers import ItemSerializer, CategorySerializer
 from base.api.serializers.userSerializers import UserSerializer
 from decimal import *
+
+@api_view(['GET'])
+def getCategories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getItems(request):
@@ -56,25 +62,37 @@ def updateItem(request, pk):
     data = request.data
     item = Item.objects.get(_id=pk)
 
-    item.name = data['name']
-    item.first_bid = data['first_bid']
-
-    if  float(data['first_bid']) <= 0:
-        content = {'detail': 'Please set a First Bid price for your item!'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
-    else:   
-        if data['buy_price'] is not None:
-            item.buy_price = data['buy_price']
-        item.brand = data['brand']
-        item.category = data['category']
-        item.description = data['description']
-        item.saved = True
+    if "status" in data:
+        item.status = data['status']
 
         item.save()
 
         serializer = ItemSerializer(item, many=False)
         return Response(serializer.data)
+    else:
+
+        item.name = data['name']
+        item.first_bid = data['first_bid']
+
+        if  float(data['first_bid']) <= 0:
+            content = {'detail': 'Please set a First Bid price for your item!'}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+        else:   
+            if data['buy_price'] is not None:
+                item.buy_price = data['buy_price']
+            item.brand = data['brand']
+
+            item.categories.clear()
+            for category in data['categories']:
+                item.categories.add(Category.objects.get(name=category['label']))
+            item.description = data['description']
+            item.saved = True
+
+            item.save()
+
+            serializer = ItemSerializer(item, many=False)
+            return Response(serializer.data)
 
 @api_view(['POST'])
 def uploadImage(request):

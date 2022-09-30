@@ -15,18 +15,13 @@ def MF_recommendations():
     serializer = ProfileSerializer(profiles_qs, many=True)
     item_ids = list(Item.objects.all().values_list('_id', flat=True))
     item_ids.sort()
-    logging.debug("Item ids: " + str(item_ids))
 
     bids_qs = list(Bid.objects.all().values())
-    logging.debug(bids_qs)
 
     user_bids = {}
     for result in bids_qs:
         profile_by_userID = Profile.objects.get(user=result['user_id'])
-        logging.debug("HERE:")
-        logging.debug(profile_by_userID)
         serializer2 = ProfileSerializer(profile_by_userID, many=False)
-        logging.debug(serializer2.data)
 
         if serializer2.data['id'] in user_bids:
             user_bids[serializer2.data['id']].append(result["item_id"])
@@ -49,7 +44,12 @@ def MF_recommendations():
         user_row = []
         for id in item_ids:
             if id in visits:
-                user_row.append(1)
+                if id in bids:
+                    user_row.append(2)
+                else:
+                    user_row.append(1)
+            elif id in bids:
+                user_row.append(2)
             else:
                 user_row.append(0)
         matrix.append(user_row)
@@ -64,13 +64,11 @@ def MF_recommendations():
     F = np.random.rand(M,K)
     nX, recommends = matrix_factorization(X, V, F, K, 5)
 
-    logging.debug(recommends)
     # Matching recommandation columns with item ids
     for row in recommends:
         for pair in row:
             pair[1] = item_ids[pair[1]]
-    logging.debug("After item id matching: ")
-    logging.debug(recommends)
+
     # Matching recommendation rows with user ids and updating database
     for i, pair in enumerate(user_interractions):
         profile_query = Profile.objects.get(id=pair[0])
@@ -78,17 +76,18 @@ def MF_recommendations():
             item_query = Item.objects.get(_id=recommends[i][j][1])
             check_exists = Recommendation.objects.filter(profile=profile_query).filter(item=item_query)
             if not check_exists:
-                Recommendation.objects.create(profile=profile_query, item=item_query)
+                Recommendation.objects.create(profile=profile_query, item=item_query, score=recommends[i][j][0])
+            else:
+                Recommendation.objects.filter(profile=profile_query).filter(item=item_query).update(score=recommends[i][j][0])
 
     # Logging results
-    logging.debug(nX)
     MAE = np.mean(np.abs(X-nX))
     logging.debug("MAE=" + str(MAE))
 
 # matrix_factorization function performs the Matrix Factorization algorithm for a given sparse matrix and returning
 # 'top' given number of best predictions for each row. Algorithm runs until RMSE doesn't decrease for 2 concecutive
 # iterations or until 'threshold' of iterations is reached
-def matrix_factorization(X, V, F, K, top, threshold=1000, l_rate=0.0002):
+def matrix_factorization(X, V, F, K, top, threshold=10000, l_rate=0.0002):
     missing = []
     # iterate to find missing values for each user
     for i in range(len(X)):
@@ -146,5 +145,4 @@ def matrix_factorization(X, V, F, K, top, threshold=1000, l_rate=0.0002):
         else:
             top_recommends.append(user_predictions)
 
-    # logging.debug("All top: " + str(top_recommends))
     return nX, top_recommends

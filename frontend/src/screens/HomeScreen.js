@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import Item from '../components/Item'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listItems } from '../actions/itemActions'
+import { listItems, recommendItems } from '../actions/itemActions'
+import { getUserDetails } from '../actions/userActions';
 import globalStatus from '../globalStatus'
 
 function HomeScreen() {
@@ -16,14 +17,32 @@ function HomeScreen() {
   const dispatch = useDispatch()
   const itemList = useSelector(state => state.itemList)
   const { error, loading, items } = itemList
+  const userDetails = useSelector(state => state.userDetails)
+  const { error2, loading2, user } = userDetails
+  const recommendationList = useSelector(state => state.recommendationList)
+  const { error_recs, loading_recs, recommends } = recommendationList
+
 
   useEffect(() => {
     if (!userInfo && (globalStatus.guest === false)) {
       navigate('/welcome')
     }
     dispatch(listItems())
+    if (user?.userProfile?.id) {
+      dispatch(recommendItems(user.userProfile.id))
+    } else {
+      dispatch(getUserDetails('profile'))
+    }
 
-  }, [dispatch, userInfo, navigate])
+  }, [dispatch, userInfo, navigate, user])
+
+  // // sort recommendations by MF score
+  recommends.sort((a, b) => b.score - a.score)
+
+  let recommend_list = []
+  Object.keys(recommends).forEach(function (key) {
+    recommend_list.push(recommends[key]?.itemObj)
+  })
 
   return (
     <div>
@@ -41,6 +60,17 @@ function HomeScreen() {
       }
       <br></br>
       <h1>Recommended for you</h1>
+      {loading_recs ? <Loader />
+        : error_recs ? <Message variant='danger'>{error_recs}</Message>
+          :
+          <Row>
+            {recommend_list.filter(item => item.status === "Active").map(item => (
+              <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
+                <Item item={item} />
+              </Col>
+            ))}
+          </Row>
+      }
     </div>
   )
 }

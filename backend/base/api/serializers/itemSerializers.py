@@ -13,7 +13,6 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     
-
 class ItemSerializer(serializers.ModelSerializer):
     bids = serializers.SerializerMethodField(read_only=True)
     categories = serializers.SerializerMethodField(read_only=True)

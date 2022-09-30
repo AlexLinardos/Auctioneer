@@ -41,17 +41,15 @@ function ItemEditScreen() {
 
     const itemDelete = useSelector(state => state.itemDelete)
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = itemDelete
-    
+
     useEffect(() => {
-        console.log('useEffect')
         if (successUpdate) {
             dispatch({ type: ITEM_UPDATE_RESET })
             navigate('/sell')
         } else {
             if (!item.name || item._id !== Number(itemId)) {
-                console.log('listItemDetails')
                 dispatch(listItemDetails(itemId))
-            } else if (item.saved){
+            } else if (item.saved) {
                 setName(item.name)
                 setFirst_bid(item.first_bid)
                 setBuy_price(item.buy_price)
@@ -61,28 +59,21 @@ function ItemEditScreen() {
 
                 const selectedCategories = []
                 item.categories?.forEach((x, i) => {
-                    console.log(x)
                     selectedCategories.push(x.name)
                 })
-                console.log(selectedCategories)
                 const selectedOptions = []
                 options.forEach((x, i) => {
-                console.log(x)
-                if (selectedCategories.includes(x['value']))
-                {
-                    selectedOptions.push(x)
-                }
+                    if (selectedCategories.includes(x['value'])) {
+                        selectedOptions.push(x)
+                    }
                 });
-                console.log(selectedOptions)
-                console.log(selectedOptions[0])
-                console.log(selectedOptions[1])
                 setCategories(selectedOptions)
             }
         }
 
     }, [dispatch, successUpdate, item, itemId, navigate])
 
-    function handleCategories(data){
+    function handleCategories(data) {
         setCategories(data)
     }
 
@@ -139,7 +130,7 @@ function ItemEditScreen() {
     }
 
     return (
-        
+
         <div>
             <Link to='/sell'
                 className='btn btn-light my-3'
@@ -186,7 +177,7 @@ function ItemEditScreen() {
                                     type='text'
                                     placeholder='Enter image'
                                     value={image}
-                                    // onChange={(e) => setImage(e.target.value)}
+                                    onChange={(e) => setImage(e.target.value)}
                                 >
                                 </Form.Control>
 

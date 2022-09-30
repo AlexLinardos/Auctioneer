@@ -50,16 +50,16 @@ function ItemScreen() {
 
     }, [dispatch, successItemBid, id])
 
-
-
     const submitHandler = (e) => {
 
         e.preventDefault()
-        dispatch(placeItemBid(
-            id, {
-            ammount
+        if (window.confirm('Are you sure you want to place a $' + ammount + ' bid for this item? This action cannot be reverted.')) {
+            dispatch(placeItemBid(
+                id, {
+                ammount
+            }
+            ))
         }
-        ))
     }
 
     const backHandler = () => {
@@ -85,6 +85,8 @@ function ItemScreen() {
         console.log(ammount);
     }
 
+    // console.log(item.categories[0].name)
+
     return (
 
         <div>
@@ -107,6 +109,34 @@ function ItemScreen() {
 
                                         <ListGroup.Item>
                                             1st bid: ${item.first_bid}
+                                        </ListGroup.Item>
+
+                                        <ListGroup.Item>
+                                            
+                                            Categories: <b> </b>
+                                            {(item.categories?.slice(0, -1))?.map((category) => (
+                                                    <b key={category.id}>
+                                                        {category.name},
+                                                        <b> </b>
+                                                    </b>
+                                                ))}
+                                            {(item.categories?.slice(-1))?.map((category) => (
+                                                <b key={category.id}>
+                                                    {category.name}
+                                                </b>
+                                            ))}
+                                            {/* Categories: {item.categories.all()[0]}
+                                            {% for tag in book.tags.all %}
+                                                {{ tag.name }}
+                                                {% endfor %} */}
+                                            
+
+                                            {/* {(item.categorys).map((category) => (
+                                                <b key={category.id}>
+                                                    {category.name}
+                                                </b>
+                                            ))} */}
+                                            
                                         </ListGroup.Item>
 
                                         <ListGroup.Item>
@@ -161,7 +191,7 @@ function ItemScreen() {
                                                                 disabled={loadingItemBid}
                                                                 // variant='primary'
                                                                 onClick={submitHandler}
-                                                            >First Bid for ${item.first_bid}</Button>
+                                                            >First Bid for ${ammount}</Button>
                                                         </ListGroup.Item>
                                                     ) :
 
@@ -224,7 +254,7 @@ function ItemScreen() {
                                             {/* {item.bids.length === 0 && <Message variant='info'>No bids</Message>} */}
 
                                             <ListGroup id='latest-bids3' variant='horizontal'>
-                                                {(item.bids.slice(-5)).map((bid) => (
+                                                {(item.bids?.slice(-5))?.map((bid) => (
                                                     <ListGroup.Item key={bid.id}>
                                                         <h5>{bid.name}</h5>
                                                         <strong>${bid.ammount}</strong>

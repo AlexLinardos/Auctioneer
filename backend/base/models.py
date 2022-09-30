@@ -5,6 +5,10 @@ class Entries(models.Model):
     @property
     def user(self):
         return User.objects.get(pk=self.user_id)
+
+    def users_name(self):
+        user = User.objects.get(pk=self.user_id)
+        return user_name
         
 # Create your models here.
 
@@ -29,6 +33,15 @@ class Profile(models.Model):
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
 
+class Category(models.Model):
+    name = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return "%s" % unicode(self.name)
+
 class Item(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -41,7 +54,7 @@ class Item(models.Model):
     currently = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
     buy_price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     number_of_bids = models.DecimalField(max_digits=7, decimal_places=0, default=0, blank=True)
-    bids = models.DecimalField(max_digits=7, decimal_places=0, default = 0, blank=True)
+    # bids = models.DecimalField(max_digits=7, decimal_places=0, default = 0, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
     country = models.CharField(max_length=200, null=True, blank=True)
     started = models.DateTimeField(auto_now_add=True)
@@ -54,6 +67,7 @@ class Item(models.Model):
         ('Concluded', 'Concluded'),
     ])
     saved = models.BooleanField(default=False)
+    categories = models.ManyToManyField(Category)
 
     def __str__(self):
         return self.name

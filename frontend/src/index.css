@@ -137,3 +137,10 @@ col {
   margin-left: 1vh; */
   border: none;
 }
+
+.action-container {
+  /* justify-content: center;
+  align-content: center;
+  display: flex; */
+  width: 17vh;
+}

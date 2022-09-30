@@ -4,6 +4,10 @@ import {
     ITEM_LIST_SUCCESS,
     ITEM_LIST_FAIL,
 
+    CATEGORY_LIST_REQUEST,
+    CATEGORY_LIST_SUCCESS,
+    CATEGORY_LIST_FAIL,
+
     ITEM_DETAILS_REQUEST,
     ITEM_DETAILS_SUCCESS,
     ITEM_DETAILS_FAIL,
@@ -39,6 +43,27 @@ export const listItems = () => async (dispatch) => {
     }catch (error) {
         dispatch({ 
             type: ITEM_LIST_FAIL,
+            payload: error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+        })
+    }
+}
+
+export const listCategories = () => async (dispatch) => {
+    try{    
+        dispatch({ type: CATEGORY_LIST_REQUEST })
+
+        const { data } = await axios.get('/api/items/')
+
+        dispatch({ 
+            type: CATEGORY_LIST_SUCCESS,
+            payload: data
+        })
+
+    }catch (error) {
+        dispatch({ 
+            type: CATEGORY_LIST_FAIL,
             payload: error.response && error.response.data.message
             ? error.response.data.message
             : error.message,

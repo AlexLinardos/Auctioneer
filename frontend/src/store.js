@@ -9,6 +9,7 @@ import {
 
 import { 
     itemListReducer, 
+    categoryListReducer, 
     itemDetailsReducer,  
     itemBidPlaceReducer,
     itemDeleteReducer,
@@ -30,6 +31,7 @@ const reducer = combineReducers({
     userDelete: userDeleteReducer,
     userUpdate: userUpdateReducer,
     itemList: itemListReducer,
+    categoryList: categoryListReducer,
     itemDetails: itemDetailsReducer,
     itemBidPlace: itemBidPlaceReducer,
     // watchlist: watchlistReducer,

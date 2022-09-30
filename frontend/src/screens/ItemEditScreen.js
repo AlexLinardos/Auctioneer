@@ -9,7 +9,13 @@ import Message from '../components/Message'
 import { FormContainer } from '../components/FormContainer'
 import { listItemDetails, deleteItem, updateItem } from '../actions/itemActions'
 import { ITEM_UPDATE_RESET } from '../constants/itemConstants'
+import Select from 'react-select'
 
+const options = [
+    { value: 'Electronics', label: 'Electronics' },
+    { value: 'Fashion', label: 'Fashion' },
+    { value: 'Furniture', label: 'Furniture' }
+]
 
 function ItemEditScreen() {
 
@@ -21,8 +27,7 @@ function ItemEditScreen() {
     const [buy_price, setBuy_price] = useState(0)
     const [image, setImage] = useState('')
     const [brand, setBrand] = useState('')
-    const [category, setCategory] = useState('')
-    const [countInStock, setCountInStock] = useState(0)
+    const [categories, setCategories] = useState()
     const [description, setDescription] = useState('')
     const [uploading, setUploading] = useState(false)
 
@@ -36,30 +41,50 @@ function ItemEditScreen() {
 
     const itemDelete = useSelector(state => state.itemDelete)
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = itemDelete
-
+    
     useEffect(() => {
+        console.log('useEffect')
         if (successUpdate) {
             dispatch({ type: ITEM_UPDATE_RESET })
             navigate('/sell')
         } else {
             if (!item.name || item._id !== Number(itemId)) {
+                console.log('listItemDetails')
                 dispatch(listItemDetails(itemId))
-            } else {
+            } else if (item.saved){
                 setName(item.name)
                 setFirst_bid(item.first_bid)
                 setBuy_price(item.buy_price)
                 setImage(item.image)
                 setBrand(item.brand)
-                setCategory(item.category)
-                // setCountInStock(item.countInStock)
                 setDescription(item.description)
 
+                const selectedCategories = []
+                item.categories?.forEach((x, i) => {
+                    console.log(x)
+                    selectedCategories.push(x.name)
+                })
+                console.log(selectedCategories)
+                const selectedOptions = []
+                options.forEach((x, i) => {
+                console.log(x)
+                if (selectedCategories.includes(x['value']))
+                {
+                    selectedOptions.push(x)
+                }
+                });
+                console.log(selectedOptions)
+                console.log(selectedOptions[0])
+                console.log(selectedOptions[1])
+                setCategories(selectedOptions)
             }
         }
 
+    }, [dispatch, successUpdate, item, itemId, navigate])
 
-
-    }, [dispatch, successUpdate, item])
+    function handleCategories(data){
+        setCategories(data)
+    }
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -70,8 +95,7 @@ function ItemEditScreen() {
             buy_price,
             image,
             brand,
-            category,
-            // countInStock,
+            categories,
             description
         }))
     }
@@ -103,21 +127,23 @@ function ItemEditScreen() {
         }
     }
 
-    const deleteHandler = (id) => {
+    const deleteHandler = (e) => {
         dispatch({ type: ITEM_UPDATE_RESET })
-        console.log(id)
         if (!item.saved) {
+            e.preventDefault()
             if (window.confirm('Are you sure? This item will not be saved!')) {
-                dispatch(deleteItem(id))
+                dispatch(deleteItem(itemId))
+                navigate('/sell')
             }
         }
     }
 
     return (
+        
         <div>
             <Link to='/sell'
                 className='btn btn-light my-3'
-                onClick={() => deleteHandler(itemId)}
+                onClick={deleteHandler}
             >Go Back</Link>
 
             <FormContainer>
@@ -160,7 +186,7 @@ function ItemEditScreen() {
                                     type='text'
                                     placeholder='Enter image'
                                     value={image}
-                                    onChange={(e) => setImage(e.target.value)}
+                                    // onChange={(e) => setImage(e.target.value)}
                                 >
                                 </Form.Control>
 
@@ -187,28 +213,20 @@ function ItemEditScreen() {
                                 </Form.Control>
                             </Form.Group>
 
-                            {/* <Form.Group controlId='countinstock'>
-                                <Form.Label>Stock</Form.Label>
-                                <Form.Control
+                            <Form.Group controlId='categories'>
+                                <Form.Label>Categories</Form.Label>
+                                <Select
 
-                                    type='number'
-                                    placeholder='Enter stock'
-                                    value={countInStock}
-                                    onChange={(e) => setCountInStock(e.target.value)}
+                                    isMulti
+                                    // name="categories"
+                                    options={options}
+                                    // className="basic-multi-select"
+                                    // classNamePrefix="select"
+                                    value={categories}
+                                    onChange={handleCategories}
+                                    isSearchable={true}
                                 >
-                                </Form.Control>
-                            </Form.Group> */}
-
-                            <Form.Group controlId='category'>
-                                <Form.Label>Category</Form.Label>
-                                <Form.Control
-
-                                    type='text'
-                                    placeholder='Enter category'
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                >
-                                </Form.Control>
+                                </Select>
                             </Form.Group>
 
                             <Form.Group controlId='first_bid'>
@@ -230,14 +248,14 @@ function ItemEditScreen() {
                                     type='number'
                                     placeholder='Enter buy price'
                                     value={buy_price}
-                                    onChange={(e) => setFirst_bid(e.target.value)}
+                                    onChange={(e) => setBuy_price(e.target.value)}
                                 >
                                 </Form.Control>
                             </Form.Group>
 
 
                             <Button type='submit' variant='primary'>
-                                Submit
+                                Update
                             </Button>
 
                         </Form>

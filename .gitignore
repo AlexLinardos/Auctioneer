@@ -4,4 +4,3 @@
 /backend/cert.pem
 /backend/key.pem
 **/__pycache__/
-/frontend/package-lock.json

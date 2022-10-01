@@ -85,6 +85,7 @@ class Bid(models.Model):
 class Recommendation(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+    score = models.DecimalField(max_digits=7, decimal_places=5, null=True, blank=False)
 
     def __str__(self) -> str:
         return str("Item " + str(self.item) + " to profile " + str(self.profile))

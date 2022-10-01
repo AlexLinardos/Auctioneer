@@ -144,14 +144,28 @@ def placeItemBid(request, pk):
     item = Item.objects.get(_id=pk)
     data = request.data
 
-    # 1 - bid isnt higher than highest bid
+    if (item.currently!=None):
+        # 1 - bid isnt higher than highest bid
+        if  float(data['ammount']) <= item.currently:
+            content = {'detail': 'Bid ammount has to be greater than the highest bid!'}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        #2 - create bid
+        else:
+            bid = Bid.objects.create(
+            user=user,
+            item=item,
+            name=user.first_name,
+            ammount=data['ammount'],
+            )
 
-    if  float(data['ammount']) <= item.currently:
-        content = {'detail': 'Bid ammount has to be greater than the highest bid!'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-        
+            bids = item.bid_set.all()
+            item.number_of_bids = len(bids)
 
-    #2 - create bid
+            item.currently = float(data['ammount'])
+
+            item.save()
+
+            return Response('Bid Placed')
     else:
         bid = Bid.objects.create(
         user=user,
@@ -159,12 +173,8 @@ def placeItemBid(request, pk):
         name=user.first_name,
         ammount=data['ammount'],
         )
-
         bids = item.bid_set.all()
         item.number_of_bids = len(bids)
-
         item.currently = float(data['ammount'])
-
         item.save()
-
         return Response('Bid Placed')

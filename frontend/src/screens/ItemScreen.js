@@ -9,6 +9,8 @@ import globalStatus from '../globalStatus'
 
 import { listItemDetails, placeItemBid } from '../actions/itemActions'
 import { ITEM_PLACE_BID_RESET } from '../constants/itemConstants'
+import { visit } from '../actions/otherActions';
+import { getUserDetails } from '../actions/userActions';
 
 import { useParams } from 'react-router-dom';
 
@@ -41,6 +43,16 @@ function ItemScreen() {
         error: errorItemBid,
         success: successItemBid,
     } = itemBidPlace
+
+    const itemVisit = useSelector(state => state.itemVisit)
+    const {
+        loading: loadingVisit,
+        error: errorVisit,
+        success: successVisit,
+    } = itemVisit
+
+    const userDetails = useSelector(state => state.userDetails)
+    const { error2, loading2, user } = userDetails
 
     const { id } = useParams();
 
@@ -90,12 +102,23 @@ function ItemScreen() {
     });
 
     useEffect(() => {
+        dispatch(listItemDetails(id))
+        dispatch(getUserDetails('profile'))
+    }, [])
+
+    useEffect(() => {
         if (successItemBid) {
             dispatch({ type: ITEM_PLACE_BID_RESET })
         }
-        dispatch(listItemDetails(id))
 
-    }, [dispatch, successItemBid, id])
+        if (item?._id && user?.userProfile?.id) {
+            dispatch(visit(user?.userProfile?.id, item?._id))
+        } else {
+            dispatch(listItemDetails(id))
+            dispatch(getUserDetails('profile'))
+        }
+
+    }, [dispatch, successItemBid, id, user])
 
     const submitHandler = (e) => {
 
@@ -120,9 +143,8 @@ function ItemScreen() {
         }
         else if (rangeval == null)
             setAmmount(0)
-        
+            
         calculateTimeLeft()
-
     });
 
     const [rangeval, setRangeval] = useState(null);
@@ -201,14 +223,14 @@ function ItemScreen() {
                                         
 
                                         <ListGroup.Item>
-                                            
+
                                             Categories: <b> </b>
                                             {(item.categories?.slice(0, -1))?.map((category) => (
-                                                    <b key={category.id}>
-                                                        {category.name},
-                                                        <b> </b>
-                                                    </b>
-                                                ))}
+                                                <b key={category.id}>
+                                                    {category.name},
+                                                    <b> </b>
+                                                </b>
+                                            ))}
                                             {(item.categories?.slice(-1))?.map((category) => (
                                                 <b key={category.id}>
                                                     {category.name}
@@ -218,14 +240,14 @@ function ItemScreen() {
                                             {% for tag in book.tags.all %}
                                                 {{ tag.name }}
                                                 {% endfor %} */}
-                                            
+
 
                                             {/* {(item.categorys).map((category) => (
                                                 <b key={category.id}>
                                                     {category.name}
                                                 </b>
                                             ))} */}
-                                            
+
                                         </ListGroup.Item>
 
                                         {/* <ListGroup.Item>

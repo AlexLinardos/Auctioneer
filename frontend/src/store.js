@@ -7,19 +7,22 @@ import {
     userUpdateReducer
 } from './reducers/userReducers';
 
-import { 
-    itemListReducer, 
-    categoryListReducer, 
-    itemDetailsReducer,  
+import {
+    itemListReducer,
+    categoryListReducer,
+    itemDetailsReducer,
     itemBidPlaceReducer,
     itemDeleteReducer,
     itemCreateReducer,
     itemUpdateReducer,
+    recommendationListReducer,
 } from './reducers/itemReducers';
 
 import {
     watchlistReducer
 } from './reducers/watchlistReducers';
+
+import { visitReducer } from './reducers/otherReducers';
 
 
 const reducer = combineReducers({
@@ -38,6 +41,8 @@ const reducer = combineReducers({
     itemDelete: itemDeleteReducer,
     itemCreate: itemCreateReducer,
     itemUpdate: itemUpdateReducer,
+    recommendationList: recommendationListReducer,
+    itemVisit: visitReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

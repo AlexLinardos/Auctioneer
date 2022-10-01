@@ -144,13 +144,3 @@ def deleteUser(request, pk):
     userForDeletion.delete()
     return Response('User deleted')
 
-###############################
-# @api_view(['GET'])
-# @permission_classes([IsAdminUser])
-# def getUserRecommends(request):
-#     user = request.user
-#     print(user.profile.visits)
-#     serializer = ProfileSerializer(user.profile, many=False)
-#     response = Response(serializer.data)
-#     #response["Access-Control-Allow-Origin"] = "*"
-#     return response

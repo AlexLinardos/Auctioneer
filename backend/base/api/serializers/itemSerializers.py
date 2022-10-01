@@ -15,7 +15,6 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     
-
 class ItemSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField(read_only=True)
     bids = serializers.SerializerMethodField(read_only=True)

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { 
+import {
     ITEM_LIST_REQUEST,
     ITEM_LIST_SUCCESS,
     ITEM_LIST_FAIL,
@@ -27,6 +27,10 @@ import {
     ITEM_PLACE_BID_REQUEST,
     ITEM_PLACE_BID_SUCCESS,
     ITEM_PLACE_BID_FAIL,
+
+    RECOMMENDS_REQUEST,
+    RECOMMENDS_SUCCESS,
+    RECOMMENDS_FAIL,
 } from '../constants/itemConstants'
 
 export const listItems = (keyword = '', flag = '') => async (dispatch, getState) => {
@@ -43,9 +47,7 @@ export const listItems = (keyword = '', flag = '') => async (dispatch, getState)
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-
         var url
-        
         if (keyword == '')
         {
             url = `/api/items${keyword}/?${flag}`
@@ -59,7 +61,6 @@ export const listItems = (keyword = '', flag = '') => async (dispatch, getState)
         const { data } = await axios.get(url, config)
         
         console.log('success', url)
-
         dispatch({ 
             type: ITEM_LIST_SUCCESS,
             payload: data
@@ -69,8 +70,8 @@ export const listItems = (keyword = '', flag = '') => async (dispatch, getState)
         dispatch({ 
             type: ITEM_LIST_FAIL,
             payload: error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
+                ? error.response.data.message
+                : error.message,
         })
     }
 }
@@ -97,28 +98,28 @@ export const listItems = (keyword = '', flag = '') => async (dispatch, getState)
 // }
 
 export const listItemDetails = (id) => async (dispatch) => {
-    try{    
+    try {
         dispatch({ type: ITEM_DETAILS_REQUEST })
 
         const { data } = await axios.get(`/api/items/${id}`)
 
-        dispatch({ 
+        dispatch({
             type: ITEM_DETAILS_SUCCESS,
             payload: data
         })
 
-    }catch (error) {
-        dispatch({ 
+    } catch (error) {
+        dispatch({
             type: ITEM_DETAILS_FAIL,
             payload: error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
+                ? error.response.data.message
+                : error.message,
         })
     }
 }
 
 export const placeItemBid = (itemId, bid) => async (dispatch, getState) => {
-    try{    
+    try {
         dispatch({ type: ITEM_PLACE_BID_REQUEST })
 
         const {
@@ -128,7 +129,7 @@ export const placeItemBid = (itemId, bid) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization:  `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.token}`
             }
         }
 
@@ -138,17 +139,17 @@ export const placeItemBid = (itemId, bid) => async (dispatch, getState) => {
             config
         )
 
-        dispatch({ 
+        dispatch({
             type: ITEM_PLACE_BID_SUCCESS,
             payload: data
         })
 
-    }catch (error) {
-        dispatch({ 
+    } catch (error) {
+        dispatch({
             type: ITEM_PLACE_BID_FAIL,
             payload: error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
+                ? error.response.data.detail
+                : error.message,
         })
     }
 }
@@ -170,7 +171,7 @@ export const deleteItem = (id) => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        
+
         console.log(id)
         const { data } = await axios.delete(
             `/api/items/delete/${id}/`,
@@ -272,6 +273,28 @@ export const updateItem = (item) => async (dispatch, getState) => {
             type: ITEM_UPDATE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+
+export const recommendItems = (profile_id) => async (dispatch) => {
+    try {
+        dispatch({ type: RECOMMENDS_REQUEST })
+
+        const { data } = await axios.get(`/api/users/recommends/${profile_id}/`)
+
+        dispatch({
+            type: RECOMMENDS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: RECOMMENDS_FAIL,
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }

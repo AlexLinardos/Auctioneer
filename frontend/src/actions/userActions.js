@@ -8,6 +8,8 @@ import {
     USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAIL,
     USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_RESET,
 } from '../constants/userConstants';
+import MD5 from 'crypto-js/md5';
+import Base64 from 'crypto-js/enc-base64';
 
 import axios from 'axios';
 
@@ -23,9 +25,10 @@ export const login = (username, password) => async (dispatch) => {
             }
         }
 
+        let hash = Base64.stringify(MD5(password))
         const { data } = await axios.post(
             '/api/users/login/',
-            { 'username': username, 'password': password },
+            { 'username': username, 'password': hash },
             config
         )
 
@@ -66,10 +69,11 @@ export const register = (username, email, password, first_name, last_name, phone
             }
         }
 
+        let hash = Base64.stringify(MD5(password))
         const { data } = await axios.post(
             '/api/users/register/',
             {
-                'username': username, 'email': email, 'password': password, 'first_name': first_name, 'last_name': last_name,
+                'username': username, 'email': email, 'password': hash, 'first_name': first_name, 'last_name': last_name,
                 'phone': phone, 'country': country, 'city': city, 'address': address, 'TIN': TIN
             },
             config

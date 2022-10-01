@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useParams, useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -244,11 +244,9 @@ function ItemEditScreen() {
                                 </Form.Control>
                             </Form.Group>
 
-
-                            <Button type='submit' variant='primary'>
-                                Update
+                            <Button type='submit' variant='primary' >
+                                Sumbit
                             </Button>
-
                         </Form>
                     )}
 

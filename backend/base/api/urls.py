@@ -28,4 +28,4 @@ urlpatterns = [
 ]
 
 # run right after start-up
-MF_recommendations()
+# MF_recommendations()

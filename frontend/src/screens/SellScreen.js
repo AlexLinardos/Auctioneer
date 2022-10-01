@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Table, Button, Row, Col, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-// import Paginate from '../components/Paginate'
+import Paginate from '../components/Paginate'
 import { listItems, deleteItem, createItem, updateItem } from '../actions/itemActions'
 import { ITEM_CREATE_RESET } from '../constants/itemConstants'
 
@@ -31,6 +31,7 @@ function SellScreen() {
 
     // const { id } = useParams();
 
+    let keyword = window.location.search;
     useEffect(() => {
         console.log('useEFFECT')
         dispatch({ type: ITEM_CREATE_RESET })
@@ -42,10 +43,10 @@ function SellScreen() {
         if (successCreate) {
             navigate(`/items/${createdItem._id}/edit`)
         } else {
-            dispatch(listItems())
+            dispatch(listItems(keyword, 'flag=Sell'))
         }
 
-    }, [dispatch, userInfo, successDelete, successCreate, successUpdate, createdItem])
+    }, [dispatch, userInfo, successDelete, successCreate, successUpdate, createdItem, keyword])
 
 
     const deleteHandler = (id) => {
@@ -122,8 +123,9 @@ function SellScreen() {
                                 </thead>
 
                                 <tbody>
-                                    {items.filter(item => item.user==userInfo.id).map(item => (
+                                    {items.filter(item => item.user.id==userInfo.id).map(item => (
                                         <tr key={item._id}>
+                                            {/* <td id='img-cont'><Image src={item.image} alt={item.name} fluid rounded /></td> */}
                                             <td>{item._id}</td>
                                             <td><Link to={`/items/${item._id}`} style={{ textDecoration: 'none' }}>{item.name}</Link></td>
                                             
@@ -165,7 +167,7 @@ function SellScreen() {
                                     ))}
                                 </tbody>
                             </Table>
-                            {/* <Paginate pages={pages} page={page} isAdmin={true} /> */}
+                            <Paginate pages={pages} page={page} sellScreen={true} />
                         </div>
                     )}
         </div>

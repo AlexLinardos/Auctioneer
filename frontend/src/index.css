@@ -164,3 +164,17 @@ col {
 #seller-info{
   margin-top: 3vh;
 }
+
+#img-cont{
+  /* background-color: aqua; */
+  width: 150px;
+  /* width: fit-content; */
+  /* display: inline-block; */
+  /* margin-right: -5vh; */
+  /* width: fit-content; */
+}
+
+#form1{
+  /* background-color: aqua; */
+  display: flex;
+}

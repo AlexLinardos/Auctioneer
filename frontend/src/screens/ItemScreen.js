@@ -341,13 +341,13 @@ function ItemScreen() {
                                                             )}
 
                                                             <ListGroup.Item>
-                                                                <h5 id='latest-bids4'>Latest Bids</h5>
+                                                                <h5>Latest Bids</h5>
                                                                 
                                                                 {item.number_of_bids > 0 ? (
-                                                                <ListGroup id='latest-bids3' variant='flush'>
+                                                                <ListGroup variant='flush'>
                                                                     {(item.bids?.slice(-5).reverse())?.map((bid) => (
                                                                         <ListGroup.Item key={bid.id}>
-                                                                            <Row id='bids-row'>
+                                                                            <Row>
                                                                                 <Col>
                                                                                 <small>{bid.name}</small>
                                                                                 </Col>

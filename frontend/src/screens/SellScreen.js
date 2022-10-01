@@ -123,44 +123,44 @@ function SellScreen() {
                                 </thead>
 
                                 <tbody>
-                                    {items.filter(item => item.user.id==userInfo.id).map(item => (
+                                    {items.filter(item => item.user.id === userInfo.id).map(item => (
                                         <tr key={item._id}>
                                             {/* <td id='img-cont'><Image src={item.image} alt={item.name} fluid rounded /></td> */}
                                             <td>{item._id}</td>
                                             <td><Link to={`/items/${item._id}`} style={{ textDecoration: 'none' }}>{item.name}</Link></td>
-                                            
+
                                             <td>${item.first_bid}</td>
-                                            {item.currently ? <td>${item.currently}</td> :<td></td>}
+                                            {item.currently ? <td>${item.currently}</td> : <td></td>}
                                             <td>{item.status}</td>
 
                                             <td className='action-container'>
-                                                {item.status=='Active' ? 
-                                                <Button variant='secondary' 
-                                                    className='btn-sm'
-                                                    onClick={() => concludeHandler(item._id)}
+                                                {item.status === 'Active' ?
+                                                    <Button variant='secondary'
+                                                        className='btn-sm'
+                                                        onClick={() => concludeHandler(item._id)}
                                                     ><i className="fa-solid fa-gavel fa-lg"></i>
-                                                </Button>
-                                                :
-                                                <Button variant='secondary' 
-                                                    className='btn-sm'
-                                                    onClick={() => activateHandler(item._id)}
+                                                    </Button>
+                                                    :
+                                                    <Button variant='secondary'
+                                                        className='btn-sm'
+                                                        onClick={() => activateHandler(item._id)}
                                                     ><i className="fa-solid fa-play fa-lg"></i>
-                                                </Button>
+                                                    </Button>
                                                 }
 
                                                 <LinkContainer to={`/items/${item._id}/edit`}>
-                                                    <Button variant='light' 
-                                                    className='btn-sm'
-                                                    disabled={item.status=='Active'}
+                                                    <Button variant='light'
+                                                        className='btn-sm'
+                                                        disabled={item.status === 'Active'}
                                                     ><i className='fas fa-edit fa-lg'></i>
                                                     </Button>
                                                 </LinkContainer>
 
-                                                <Button variant='danger' 
-                                                    className='btn-sm' 
+                                                <Button variant='danger'
+                                                    className='btn-sm'
                                                     onClick={() => deleteHandler(item._id)}
-                                                    disabled={item.status=='Active'}
-                                                    ><i className='fas fa-trash fa-lg'></i>
+                                                    disabled={item.status === 'Active'}
+                                                ><i className='fas fa-trash fa-lg'></i>
                                                 </Button>
                                             </td>
                                         </tr>

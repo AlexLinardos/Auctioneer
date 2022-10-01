@@ -244,6 +244,7 @@ function ItemEditScreen() {
                                 </Form.Control>
                             </Form.Group>
 
+                            <br></br>
                             <Button type='submit' variant='primary' >
                                 Sumbit
                             </Button>

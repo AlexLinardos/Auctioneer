@@ -47,6 +47,8 @@ function HomeScreen() {
           <Paginate page={page} pages={pages} keyword={keyword}/>
           </div>
       }
+      <br></br>
+      <h1>Recommended for you</h1>
     </div>
   )
 }

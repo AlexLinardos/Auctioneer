@@ -34,7 +34,7 @@ const reducer = combineReducers({
     userDelete: userDeleteReducer,
     userUpdate: userUpdateReducer,
     itemList: itemListReducer,
-    categoryList: categoryListReducer,
+    // categoryList: categoryListReducer,
     itemDetails: itemDetailsReducer,
     itemBidPlace: itemBidPlaceReducer,
     // watchlist: watchlistReducer,

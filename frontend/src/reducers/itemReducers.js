@@ -41,7 +41,11 @@ export const itemListReducer = (state = { items: [] }, action) => {
             return { loading: true, items: [] }
 
         case ITEM_LIST_SUCCESS:
-            return { loading: false, items: action.payload }
+            return {loading:false, 
+                items: action.payload.items, 
+                page: action.payload.page, 
+                pages: action.payload.pages
+            }
 
         case ITEM_LIST_FAIL:
             return { loading: false, error: action.payload }
@@ -51,24 +55,24 @@ export const itemListReducer = (state = { items: [] }, action) => {
     }
 }
 
-export const categoryListReducer = (state = { categories: [] }, action) => {
-    switch (action.type) {
-        case CATEGORY_LIST_REQUEST:
-            return { loading: true, categories: [] }
+// export const categoryListReducer = (state ={categories:[]}, action) =>{
+//     switch(action.type){
+//         case CATEGORY_LIST_REQUEST:
+//             return {loading:true, categories: []}
 
-        case CATEGORY_LIST_SUCCESS:
-            return { loading: false, categories: action.payload }
+//         case CATEGORY_LIST_SUCCESS:
+//             return {loading:false, categories: action.payload}
 
-        case CATEGORY_LIST_FAIL:
-            return { loading: false, error: action.payload }
+//         case CATEGORY_LIST_FAIL:
+//             return {loading:false, error: action.payload}
+        
+//         default:
+//             return state
+//     }
+// }
 
-        default:
-            return state
-    }
-}
-
-export const itemDetailsReducer = (state = { item: { bids: [], categorys: [] } }, action) => {
-    switch (action.type) {
+export const itemDetailsReducer = (state ={item:{ user: {}, bids:[], categorys:[]}}, action) =>{
+    switch(action.type){
         case ITEM_DETAILS_REQUEST:
             return { loading: true, ...state }
 

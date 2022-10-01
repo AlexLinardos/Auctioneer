@@ -21,7 +21,7 @@ function Item({ item }) {
                 <Card.Text as="div">
                 {item.currently !== '0.00' ?
                     (<div className="my-2">
-                        Currently:  ${item.currently} 
+                        Current Bid:  ${item.currently} 
                     </div>)
                 :
                     (<div className="my-2">

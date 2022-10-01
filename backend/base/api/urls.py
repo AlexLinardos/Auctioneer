@@ -14,7 +14,7 @@ urlpatterns = [
     path('users/update/<str:pk>/', userViews.updateUser, name='user-update'),
 
     path('items/', itemViews.getItems, name="items"),
-    path('categories/', itemViews.getCategories, name="categories"),
+    # path('categories/', itemViews.getCategories, name="categories"),
     path('items/create/', itemViews.createItem, name="item-create"),
     path('items/upload/', itemViews.uploadImage, name="image-upload"),
     

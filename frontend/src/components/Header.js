@@ -3,7 +3,7 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
-
+import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
 
 function Header() {
@@ -29,11 +29,14 @@ function Header() {
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
+                        
                         <Nav className="flex-grow-1 justify-content-evenly">
 
                             <LinkContainer to='/Categories'>
                                 <Nav.Link>Categories</Nav.Link>
                             </LinkContainer>
+
+                            <SearchBox/>
 
                             <LinkContainer to='/sell'>
                                 <Nav.Link>Sell</Nav.Link>

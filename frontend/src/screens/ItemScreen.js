@@ -12,6 +12,8 @@ import { ITEM_PLACE_BID_RESET } from '../constants/itemConstants'
 
 import { useParams } from 'react-router-dom';
 
+import Countdown from 'react-countdown';
+
 function docReady(fn) {
     // see if DOM is already available
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -41,6 +43,51 @@ function ItemScreen() {
     } = itemBidPlace
 
     const { id } = useParams();
+
+    const calculateTimeLeft = () => {
+        var difference = Math.abs(new Date(item.ends) - new Date());
+        // console.log(difference)
+
+
+        let timeLeft = {};
+
+        if (difference > 0) {
+            timeLeft = {
+              d: Math.floor(difference / (1000 * 60 * 60 * 24)),
+              h: Math.floor((difference / (1000 * 60 * 60)) % 24),
+              m: Math.floor((difference / 1000 / 60) % 60),
+              s: Math.floor((difference / 1000) % 60)
+            };
+        }
+        
+        // console.log(timeLeft)
+        return timeLeft;
+
+    };
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    });
+
+    const timerComponents = ['Closes in '];
+
+    Object.keys(timeLeft).forEach((interval) => {
+    if (!timeLeft[interval]) {
+        return;
+    }
+
+    timerComponents.push(
+        <span>
+            {timeLeft[interval]}{interval}{" "}
+        </span>
+    );
+    });
 
     useEffect(() => {
         if (successItemBid) {
@@ -73,6 +120,8 @@ function ItemScreen() {
         }
         else if (rangeval == null)
             setAmmount(0)
+        
+        calculateTimeLeft()
 
     });
 
@@ -85,31 +134,71 @@ function ItemScreen() {
         console.log(ammount);
     }
 
+    // Random component
+    // const Completionist = () => <span>You are good to go!</span>;
+
+    // const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    //     if (completed) {
+    //       // Render a completed state
+    //       return <Completionist />;
+    //     } else {
+    //       // Render a countdown
+    //       return <span>Closes in {days}d {hours}h {minutes}m {seconds}s</span>;
+    //     }
+    //   };
+
+    
+
     // console.log(item.categories[0].name)
 
     return (
 
         <div>
+            
+             {/* <Countdown 
+                date={item.ends} 
+                renderer={renderer}
+             /> */}
+            <Row id="myrow">
+            <Col md={8}>
             <Button className='btn btn-light my-3' onClick={backHandler}>Go Back</Button>
+            </Col>
+            <Col id="ends" md={4}>
+            {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+            </Col>
+            </Row>
             {loading ? <Loader />
                 : error ? <Message variant='danger'>{error}</Message>
                     : undefined ? <Message variant='danger'>{error}</Message>
                         :
                         <div>
                             <Row>
-                                <Col md={6}>
+                                <Col md={8}>
                                     <Image src={item.image} alt={item.name} fluid />
-                                </Col>
+                                        {/* <Row id='seller'>
+                                            <Row id='seller1'>
+                                                <h4 id='seller4'>Seller Information</h4>
+                                            </Row>
+                                            <Row id='seller2'>
+                                                <Col>
+                                                <ListGroup.Item>
+                                                        <strong>{item.user.username}</strong>
 
-                                <Col md={3}>
+                                                </ListGroup.Item>
+                                                </Col>
+
+                                            </Row>
+                                        </Row> */}
                                     <ListGroup variant="flush">
                                         <ListGroup.Item>
                                             <h3>{item.name}</h3>
                                         </ListGroup.Item>
 
                                         <ListGroup.Item>
-                                            1st bid: ${item.first_bid}
+                                            Description: {item.description}
                                         </ListGroup.Item>
+
+                                        
 
                                         <ListGroup.Item>
                                             
@@ -139,17 +228,19 @@ function ItemScreen() {
                                             
                                         </ListGroup.Item>
 
-                                        <ListGroup.Item>
-                                            Description: {item.description}
+                                        {/* <ListGroup.Item>
+                                            Starting bid: ${item.first_bid}
+                                        </ListGroup.Item> */}
+
+                                        
+
+                                        {/* <ListGroup.Item>
+                                            <b>Started: {String(item.started).substring(0, 10)}</b>
                                         </ListGroup.Item>
 
                                         <ListGroup.Item>
-                                            <small>Started: {String(item.started).substring(0, 10)}</small>
-                                        </ListGroup.Item>
-
-                                        <ListGroup.Item>
-                                            <small>Ends: {String(item.ends).substring(0, 10)}</small>
-                                        </ListGroup.Item>
+                                            <b>Ends: {String(item.ends).substring(0, 10)}</b>
+                                        </ListGroup.Item> */}
 
                                         {/* <ListGroup.Item>
                                             <strong>Seller: {item.user.id}</strong>
@@ -158,25 +249,40 @@ function ItemScreen() {
                                     </ListGroup>
                                 </Col>
 
-                                <Col md={3}>
+                                {/* <Col md={3}>
+                                    
+                                </Col> */}
+
+                                <Col md={4}>
+                                    
                                     <Card>
                                         <ListGroup variant="flush">
+                                            {/* <ListGroup.Item>
+                                                <Row>
+                                                    <Col>Closes in:</Col>
+                                                    <Col>
+                                                        {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+                                                    </Col>
+                                                </Row>
+                                            </ListGroup.Item> */}
+                                            {item.currently !== '0.00' ?
                                             <ListGroup.Item>
                                                 <Row>
-                                                    <Col>Currently:</Col>
+                                                    <Col>Current Bid:</Col>
                                                     <Col>
-                                                        {item.currently ? <strong>${item.currently}</strong> : ' '}
+                                                         <strong>${item.currently}</strong>
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
-                                            <ListGroup.Item>
+                                             : ' '}
+                                            {/* <ListGroup.Item>
                                                 <Row>
                                                     <Col>Status:</Col>
                                                     <Col>
                                                         <strong>{item.status}</strong>
                                                     </Col>
                                                 </Row>
-                                            </ListGroup.Item>
+                                            </ListGroup.Item> */}
 
 
 
@@ -234,24 +340,79 @@ function ItemScreen() {
                                                                 </ListGroup.Item>
                                                             )}
 
+                                                            <ListGroup.Item>
+                                                                <h5>Latest Bids</h5>
+                                                                
+                                                                {item.number_of_bids > 0 ? (
+                                                                <ListGroup variant='flush'>
+                                                                    {(item.bids?.slice(-5).reverse())?.map((bid) => (
+                                                                        <ListGroup.Item key={bid.id}>
+                                                                            <Row>
+                                                                                <Col>
+                                                                                <small>{bid.name}</small>
+                                                                                </Col>
+                                                                                
+                                                                                <Col>
+                                                                                <small>{bid.time.substring(0, 10)}</small>
+                                                                                </Col>
+
+                                                                                <Col>
+                                                                                <small>${bid.ammount}</small>
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </ListGroup.Item>
+                                                                    ))}
+                                                                    {/* <ListGroup.Item id='numbids'>
+                                                                        <h5>{item.number_of_bids} Bids</h5>
+
+                                                                    </ListGroup.Item> */}
+                                                                </ListGroup>
+                                                                ): 
+                                                                <b>No bids placed</b>}
+                                                            </ListGroup.Item>
+
 
                                                         </div>
                                                 )) : (
                                                 <Message variant='info'>Please <Link to='/login'>login</Link> to place a bid.</Message>
                                             )}
+                                            
+                                        </ListGroup>
+                                        
+                                    </Card>
+                                    
+                                    <Card id='seller-info'>
+                                        <ListGroup>
+                                        <ListGroup.Item>
+                                            <h5 id='latest-bids4'>Seller Information</h5>
+                                            <ListGroup variant='flush'>
+                                            <ListGroup.Item>
+                                                <Row id='bids-row'>
+                                                    <Col>
+                                                    <strong>{item.user.username}</strong>
+                                                    </Col>
+                                                    
+                                                    <Col>
+                                                    <div>Country: {item.country}</div>
+                                                    <div>Location: {item.location}</div>
+                                                    </Col>
+                                                </Row>
+                                            </ListGroup.Item>
+                                            </ListGroup>
+                                        </ListGroup.Item>
                                         </ListGroup>
                                     </Card>
                                 </Col>
                             </Row>
 
-                            {
+                            {/* {
                                 item.number_of_bids > 0 ? (
                                     <Row id='latest-bids'>
                                         <Row id='latest-bids1'>
                                             <h4 id='latest-bids4'>Latest Bids</h4>
                                         </Row>
                                         <Row id='latest-bids2'>
-                                            {/* {item.bids.length === 0 && <Message variant='info'>No bids</Message>} */}
+                                            {item.bids.length === 0 && <Message variant='info'>No bids</Message>}
 
                                             <ListGroup id='latest-bids3' variant='horizontal'>
                                                 {(item.bids?.slice(-5))?.map((bid) => (
@@ -270,7 +431,7 @@ function ItemScreen() {
                                         </Row>
                                     </Row>
                                 ) : ' '
-                            }
+                            } */}
                         </div >
 
             }

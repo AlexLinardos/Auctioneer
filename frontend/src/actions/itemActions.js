@@ -29,11 +29,36 @@ import {
     ITEM_PLACE_BID_FAIL,
 } from '../constants/itemConstants'
 
-export const listItems = () => async (dispatch) => {
+export const listItems = (keyword = '', flag = '') => async (dispatch, getState) => {
     try{    
         dispatch({ type: ITEM_LIST_REQUEST })
 
-        const { data } = await axios.get('/api/items/')
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        var url
+        
+        if (keyword == '')
+        {
+            url = `/api/items${keyword}/?${flag}`
+            console.log('no keyword')
+        }
+        else
+        {
+            url = `/api/items${keyword}&${flag}`
+        }
+
+        const { data } = await axios.get(url, config)
+        
+        console.log('success', url)
 
         dispatch({ 
             type: ITEM_LIST_SUCCESS,
@@ -50,26 +75,26 @@ export const listItems = () => async (dispatch) => {
     }
 }
 
-export const listCategories = () => async (dispatch) => {
-    try{    
-        dispatch({ type: CATEGORY_LIST_REQUEST })
+// export const listCategories = () => async (dispatch) => {
+//     try{    
+//         dispatch({ type: CATEGORY_LIST_REQUEST })
 
-        const { data } = await axios.get('/api/items/')
+//         const { data } = await axios.get('/api/items/')
 
-        dispatch({ 
-            type: CATEGORY_LIST_SUCCESS,
-            payload: data
-        })
+//         dispatch({ 
+//             type: CATEGORY_LIST_SUCCESS,
+//             payload: data
+//         })
 
-    }catch (error) {
-        dispatch({ 
-            type: CATEGORY_LIST_FAIL,
-            payload: error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-        })
-    }
-}
+//     }catch (error) {
+//         dispatch({ 
+//             type: CATEGORY_LIST_FAIL,
+//             payload: error.response && error.response.data.message
+//             ? error.response.data.message
+//             : error.message,
+//         })
+//     }
+// }
 
 export const listItemDetails = (id) => async (dispatch) => {
     try{    

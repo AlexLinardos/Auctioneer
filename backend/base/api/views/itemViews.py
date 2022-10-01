@@ -1,23 +1,53 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from ...models import Item, Bid, Category
 from base.api.serializers.itemSerializers import ItemSerializer, CategorySerializer
 from base.api.serializers.userSerializers import UserSerializer
 from decimal import *
 
-@api_view(['GET'])
-def getCategories(request):
-    categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def getCategories(request):
+#     categories = Category.objects.all()
+#     serializer = CategorySerializer(categories, many=True)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def getItems(request):
-    items = Item.objects.all()
+    cur_user=request.user
+    query = request.query_params.get('keyword')
+    if query == None:
+        query = ''
+    
+    flag = request.query_params.get('flag')
+    if flag == 'Active':
+        items = Item.objects.filter(status='Active')
+        items = items.filter(name__icontains=query)
+    elif flag == 'Sell':
+        items = Item.objects.filter(user=cur_user.id)
+        items = items.filter(name__icontains=query)
+    else:
+        items = Item.objects.filter(name__icontains=query)
+
+    page = request.query_params.get('page')
+    paginator = Paginator(items, 2)
+
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+    
+    if page == None:
+        page = 1
+    
+    page = int(page)
+
     serializer = ItemSerializer(items, many=True)
-    return Response(serializer.data)
+    return Response({'items': serializer.data, 'page':page, 'pages': paginator.num_pages})
 
 @api_view(['GET'])
 def getItem(request, pk):
@@ -83,9 +113,10 @@ def updateItem(request, pk):
                 item.buy_price = data['buy_price']
             item.brand = data['brand']
 
-            item.categories.clear()
-            for category in data['categories']:
-                item.categories.add(Category.objects.get(name=category['label']))
+            if "categories" in data:
+                item.categories.clear()
+                for category in data['categories']:
+                    item.categories.add(Category.objects.get(name=category['label']))
             item.description = data['description']
             item.saved = True
 

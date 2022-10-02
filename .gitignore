@@ -3,4 +3,6 @@
 /myenv/*
 /backend/cert.pem
 /backend/key.pem
+/frontend/package-lock.json
+/frontend/package.json
 **/__pycache__/

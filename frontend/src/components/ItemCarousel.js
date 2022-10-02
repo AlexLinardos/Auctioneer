@@ -23,7 +23,7 @@ function ItemCarousel() {
                 <Carousel pause='hover' id='carousel'>
                     {items.map(item => (
                         <Carousel.Item key={item._id}>
-                            <Link to={`/item/${item._id}`}>
+                            <Link to={`/items/${item._id}`}>
                                 <Image src={item.image} alt={item.name} fluid />
                                 <Carousel.Caption className='carousel.caption'>
                                     {item.currently !== '0.00' && item.currently !==null ?

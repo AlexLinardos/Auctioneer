@@ -78,40 +78,40 @@ function SellScreen() {
         setShow(false);
         console.log(ends)
 
-        // dispatch(updateItem({
-        //     _id: itemId,
-        //     status: 'Active',
-        //     started: new Date(),
-        //     ends: new Date(ends)
-        // }))
-        // console.log('update sent')
+        dispatch(updateItem({
+            _id: itemId,
+            status: 'Active',
+            started: new Date(),
+            ends: new Date(ends)
+        }))
+        console.log('update sent')
         
 
-        if (window.confirm('Are you sure you want to activate this Auction?')) {
-            dispatch(updateItem({
-                _id: itemId,
-                status: 'Active',
-                started: new Date(),
-                ends: new Date(ends)
-            }))
-            console.log('update sent')
-        }
+        // if (window.confirm('Are you sure you want to activate this Auction?')) {
+        //     dispatch(updateItem({
+        //         _id: itemId,
+        //         status: 'Active',
+        //         started: new Date(),
+        //         ends: new Date(ends)
+        //     }))
+        //     console.log('update sent')
+        // }
     }
 
     const concludeHandler = (id) => {
         console.log(id)
 
-        dispatch(updateItem({
-            _id: id,
-            status: 'Concluded'
-        }))
+        // dispatch(updateItem({
+        //     _id: id,
+        //     status: 'Concluded'
+        // }))
 
-        // if (window.confirm('Are you sure you want to conclude this Auction?')) {
-        //     dispatch(updateItem({
-        //         _id: id,
-        //         status: 'Concluded'
-        //     }))
-        // }
+        if (window.confirm('Are you sure you want to conclude this Auction?')) {
+            dispatch(updateItem({
+                _id: id,
+                status: 'Concluded'
+            }))
+        }
     }
 
     const createItemHandler = () => {

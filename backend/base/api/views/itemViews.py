@@ -32,7 +32,7 @@ def getItems(request):
         items = Item.objects.filter(name__icontains=query)
 
     page = request.query_params.get('page')
-    paginator = Paginator(items, 2)
+    paginator = Paginator(items, 4)
 
     try:
         items = paginator.page(page)
@@ -48,6 +48,12 @@ def getItems(request):
 
     serializer = ItemSerializer(items, many=True)
     return Response({'items': serializer.data, 'page':page, 'pages': paginator.num_pages})
+
+@api_view(['GET'])
+def getHotItems(request):
+    items = Item.objects.filter(status='Active').order_by('-number_of_bids')[0:5]
+    serializer = ItemSerializer(items, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getItem(request, pk):
@@ -94,6 +100,9 @@ def updateItem(request, pk):
 
     if "status" in data:
         item.status = data['status']
+        if data['status'] == 'Active':
+            item.started = data['started']
+            item.ends = data['ends']
 
         item.save()
 

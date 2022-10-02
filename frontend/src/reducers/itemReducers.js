@@ -33,6 +33,10 @@ import {
     RECOMMENDS_REQUEST,
     RECOMMENDS_SUCCESS,
     RECOMMENDS_FAIL,
+
+    ITEM_HOT_REQUEST,
+    ITEM_HOT_SUCCESS,
+    ITEM_HOT_FAIL,
 } from '../constants/itemConstants'
 
 export const itemListReducer = (state = { items: [] }, action) => {
@@ -154,6 +158,22 @@ export const itemBidPlaceReducer = (state = {}, action) => {
 
         case ITEM_PLACE_BID_RESET:
             return {}
+
+        default:
+            return state
+    }
+}
+
+export const itemHotReducer = (state = {items:[]}, action) => {
+    switch (action.type) {
+        case ITEM_HOT_REQUEST:
+            return { loading: true, items: [] }
+
+        case ITEM_HOT_SUCCESS:
+            return { loading: false, items: action.payload }
+
+        case ITEM_HOT_FAIL:
+            return { loading: false, error: action.payload }
 
         default:
             return state

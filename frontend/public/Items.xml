@@ -3,9 +3,9 @@
 	<Item ItemID="2">
 		<Name>Steel Sword</Name>
 		<Category>Fashion</Category>
-		<Currently>$400.00</Currently>
+		<Currently>$492.00</Currently>
 		<First_Bid>$400.00</First_Bid>
-		<Number_of_Bids>$1</Number_of_Bids>
+		<Number_of_Bids>$4</Number_of_Bids>
 		<Bids>
 			<Bid>
 				<Bidder Rating="None" UserID="Todd">
@@ -14,6 +14,30 @@
 				</Bidder>
 				<Time>2022-09-30T15:15:32.956263Z</Time>
 				<Amount>$400.00</Amount>
+			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="ANTONIOS">
+					<Location>ATHENS</Location>
+					<Country>0</Country>
+				</Bidder>
+				<Time>2022-10-01T18:43:56.975893Z</Time>
+				<Amount>$428.00</Amount>
+			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="ANTONIOS">
+					<Location>ATHENS</Location>
+					<Country>0</Country>
+				</Bidder>
+				<Time>2022-10-01T18:48:35.502668Z</Time>
+				<Amount>$460.00</Amount>
+			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="ANTONIOS">
+					<Location>ATHENS</Location>
+					<Country>0</Country>
+				</Bidder>
+				<Time>2022-10-01T18:49:03.832080Z</Time>
+				<Amount>$492.00</Amount>
 			</Bid>
 		</Bids>
 		<Location Latitude="" Longitude="">None</Location>
@@ -26,9 +50,9 @@
 	<Item ItemID="3">
 		<Name>Wooden Axe</Name>
 		<Category>Fashion</Category>
-		<Currently>$675.00</Currently>
+		<Currently>$699.00</Currently>
 		<First_Bid>$300.00</First_Bid>
-		<Number_of_Bids>$6</Number_of_Bids>
+		<Number_of_Bids>$8</Number_of_Bids>
 		<Bids>
 			<Bid>
 				<Bidder Rating="None" UserID="Todd">
@@ -77,6 +101,22 @@
 				</Bidder>
 				<Time>2022-10-01T12:54:40.839976Z</Time>
 				<Amount>$675.00</Amount>
+			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="ANTONIOS">
+					<Location>ATHENS</Location>
+					<Country>0</Country>
+				</Bidder>
+				<Time>2022-10-02T11:36:06.152743Z</Time>
+				<Amount>$693.00</Amount>
+			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="ANTONIOS">
+					<Location>ATHENS</Location>
+					<Country>0</Country>
+				</Bidder>
+				<Time>2022-10-02T11:36:18.707567Z</Time>
+				<Amount>$699.00</Amount>
 			</Bid>
 		</Bids>
 		<Location Latitude="" Longitude="">None</Location>
@@ -177,8 +217,6 @@
 	<Item ItemID="10">
 		<Name>Trident</Name>
 		<Category>Fashion</Category>
-		<Category>Electronics</Category>
-		<Category>Furniture</Category>
 		<Currently>$5.00</Currently>
 		<First_Bid>$5.00</First_Bid>
 		<Number_of_Bids>$1</Number_of_Bids>
@@ -200,73 +238,72 @@
 		<Description/>
 	</Item>
 	<Item ItemID="12">
-		<Name>Mountain</Name>
-		<Category>Fashion</Category>
+		<Name>item1</Name>
+		<Currently>$11.00</Currently>
+		<First_Bid>$10.00</First_Bid>
+		<Number_of_Bids>$2</Number_of_Bids>
+		<Bids>
+			<Bid>
+				<Bidder Rating="None" UserID="bob">
+					<Location>athens</Location>
+					<Country>DZ</Country>
+				</Bidder>
+				<Time>2022-10-01T19:26:37.787901Z</Time>
+				<Amount>$10.00</Amount>
+			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="bob">
+					<Location>athens</Location>
+					<Country>DZ</Country>
+				</Bidder>
+				<Time>2022-10-01T19:26:51.320662Z</Time>
+				<Amount>$11.00</Amount>
+			</Bid>
+		</Bids>
+		<Location Latitude="" Longitude="">None</Location>
+		<Country>None</Country>
+		<Started>2022-10-02T11:36:47.025000Z</Started>
+		<Ends>2022-10-03T00:00:00Z</Ends>
+		<Seller Rating="None" UserID="antonismilios"/>
+		<Description/>
+	</Item>
+	<Item ItemID="13">
+		<Name>item2</Name>
 		<Currently>$None</Currently>
-		<First_Bid>$1.00</First_Bid>
+		<First_Bid>$2.00</First_Bid>
 		<Number_of_Bids>$0</Number_of_Bids>
 		<Bids/>
 		<Location Latitude="" Longitude="">None</Location>
 		<Country>None</Country>
-		<Started>2022-10-02T10:14:49.853222Z</Started>
-		<Ends>None</Ends>
-		<Seller Rating="None" UserID="test"/>
-		<Description>shadoowwwww</Description>
+		<Started>2022-10-02T11:33:19.281000Z</Started>
+		<Ends>2022-10-03T00:00:00Z</Ends>
+		<Seller Rating="None" UserID="antonismilios"/>
+		<Description/>
 	</Item>
 	<Item ItemID="14">
-		<Name>aaaaa</Name>
-		<Category>Fashion</Category>
+		<Name>item3</Name>
 		<Currently>$None</Currently>
-		<First_Bid>$23.00</First_Bid>
+		<First_Bid>$3.00</First_Bid>
 		<Number_of_Bids>$0</Number_of_Bids>
 		<Bids/>
 		<Location Latitude="" Longitude="">None</Location>
 		<Country>None</Country>
-		<Started>2022-10-02T10:21:08.458959Z</Started>
-		<Ends>None</Ends>
-		<Seller Rating="None" UserID="test"/>
-		<Description>aaaa</Description>
+		<Started>2022-10-02T11:33:21.257000Z</Started>
+		<Ends>2022-10-03T00:00:00Z</Ends>
+		<Seller Rating="None" UserID="antonismilios"/>
+		<Description/>
 	</Item>
 	<Item ItemID="16">
-		<Name>HI12</Name>
-		<Category>Fashion</Category>
+		<Name>qwerqwe</Name>
 		<Currently>$None</Currently>
-		<First_Bid>$8.70</First_Bid>
+		<First_Bid>$99.00</First_Bid>
 		<Number_of_Bids>$0</Number_of_Bids>
 		<Bids/>
 		<Location Latitude="" Longitude="">None</Location>
 		<Country>None</Country>
-		<Started>2022-10-02T10:39:34.499700Z</Started>
+		<Started>2022-10-02T12:23:54.068678Z</Started>
 		<Ends>None</Ends>
-		<Seller Rating="None" UserID="test"/>
-		<Description>11fdd</Description>
-	</Item>
-	<Item ItemID="17">
-		<Name>zxzXzxz</Name>
-		<Category>Furniture</Category>
-		<Currently>$None</Currently>
-		<First_Bid>$100.00</First_Bid>
-		<Number_of_Bids>$0</Number_of_Bids>
-		<Bids/>
-		<Location Latitude="" Longitude="">None</Location>
-		<Country>None</Country>
-		<Started>2022-10-02T11:18:18.897923Z</Started>
-		<Ends>None</Ends>
-		<Seller Rating="None" UserID="test"/>
-		<Description>dsfdsf</Description>
-	</Item>
-	<Item ItemID="18">
-		<Name>asdsadsadsadsadsadsa</Name>
-		<Category>Fashion</Category>
-		<Currently>$None</Currently>
-		<First_Bid>$111.00</First_Bid>
-		<Number_of_Bids>$0</Number_of_Bids>
-		<Bids/>
-		<Location Latitude="" Longitude="">None</Location>
-		<Country>None</Country>
-		<Started>2022-10-02T11:25:56.340677Z</Started>
-		<Ends>None</Ends>
-		<Seller Rating="None" UserID="test"/>
-		<Description>das</Description>
+		<Seller Rating="None" UserID="antonismilios"/>
+		<Description/>
 	</Item>
 </Items>

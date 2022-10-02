@@ -28,6 +28,21 @@ def getItems(request):
     elif flag == 'Sell':
         items = Item.objects.filter(user=cur_user.id)
         items = items.filter(name__icontains=query)
+    elif flag == 'Sold':
+        items = Item.objects.filter(user=cur_user.id)
+        items = items.filter(status='Concluded')
+        items = items.filter(name__icontains=query)
+    elif flag == 'Won':
+        items = Item.objects.filter(status='Concluded')
+        items = items.filter(bid__name = cur_user.username)
+        won = list()
+        for cur_item in items:
+            last_bid = Bid.objects.filter(item___id = cur_item._id).last()
+
+            if last_bid.name == cur_user.username:
+                won.append(cur_item._id)
+        items = items.filter(_id__in=won)
+        items = items.filter(name__icontains=query)
     else:
         items = Item.objects.filter(name__icontains=query)
 

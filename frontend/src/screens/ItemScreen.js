@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
 import Bid from '../components/Bid'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import globalStatus from '../globalStatus'
 
-import { listItemDetails, placeItemBid } from '../actions/itemActions'
+import { listItemDetails, placeItemBid, updateItem } from '../actions/itemActions'
 import { ITEM_PLACE_BID_RESET } from '../constants/itemConstants'
 import { visit } from '../actions/otherActions';
 import { getUserDetails } from '../actions/userActions';
@@ -29,6 +29,7 @@ function ItemScreen() {
     const [ammount, setAmmount] = useState(0)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const itemDetails = useSelector(state => state.itemDetails)
     const { loading, error, item } = itemDetails
@@ -133,6 +134,24 @@ function ItemScreen() {
             }
             ))
         }
+    }
+
+    const buynowHandler = (e) => {
+        setAmmount(parseFloat(item.buy_price))
+
+        e.preventDefault()
+        if (window.confirm('Are you sure you want to buy this item now for $' + item.buy_price + '? This action cannot be reverted.')) {
+            dispatch(placeItemBid(
+                id, {
+                ammount: parseFloat(item.buy_price)
+            }
+            ))
+        }
+        dispatch(updateItem({
+            _id: id,
+            status: 'Concluded'
+        }))
+        navigate('/won')
     }
 
     const backHandler = () => {
@@ -362,7 +381,7 @@ function ItemScreen() {
                                                                         className='btn-block'
                                                                         type='submit'
                                                                         disabled={loadingItemBid}
-                                                                    // onClick={buyoutHandler}
+                                                                        onClick={buynowHandler}
                                                                     >Buy Now for ${item.buy_price}</Button>
                                                                 </ListGroup.Item>
                                                             )}

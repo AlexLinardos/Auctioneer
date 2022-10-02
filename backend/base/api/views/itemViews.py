@@ -8,6 +8,8 @@ from base.api.serializers.itemSerializers import ItemSerializer, CategorySeriali
 from base.api.serializers.userSerializers import UserSerializer
 from decimal import *
 
+import logging
+
 # @api_view(['GET'])
 # def getCategories(request):
 #     categories = Category.objects.all()
@@ -17,6 +19,7 @@ from decimal import *
 @api_view(['GET'])
 def getItems(request):
     cur_user=request.user
+    logging.debug(cur_user)
     query = request.query_params.get('keyword')
     if query == None:
         query = ''
@@ -27,6 +30,7 @@ def getItems(request):
         items = items.filter(name__icontains=query)
     elif flag == 'Sell':
         items = Item.objects.filter(user=cur_user.id)
+        items = items.exclude(status='Concluded')
         items = items.filter(name__icontains=query)
     elif flag == 'Sold':
         items = Item.objects.filter(user=cur_user.id)

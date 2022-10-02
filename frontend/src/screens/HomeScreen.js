@@ -78,7 +78,7 @@ function HomeScreen() {
           : error_recs ? <Message variant='danger'>{error_recs}</Message>
             :
             <Row>
-              {recommend_list.filter(item => item.status === "Active").map(item => (
+              {recommend_list.filter(item => item.status === "Active").slice(0, 4).map(item => (
                 <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
                   <Item item={item} />
                 </Col>

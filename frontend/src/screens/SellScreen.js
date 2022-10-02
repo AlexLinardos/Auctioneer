@@ -192,7 +192,7 @@ function SellScreen() {
                                     <tr>
                                         <th>ID</th>
                                         <th>NAME</th>
-                                        <th>FIRST BID</th>
+                                        <th>STARTING BID</th>
                                         <th>CURRENT BID</th>
                                         <th>STATUS</th>
                                         {/* <th></th> */}
@@ -200,14 +200,14 @@ function SellScreen() {
                                 </thead>
 
                                 <tbody>
-                                    {items.filter(item => item.user.id==userInfo.id).map(item => (
+                                    {items.map(item => (
                                         <tr key={item._id}>
                                             {/* <td id='img-cont'><Image src={item.image} alt={item.name} fluid rounded /></td> */}
                                             <td>{item._id}</td>
                                             <td><Link to={`/items/${item._id}`} style={{ textDecoration: 'none' }}>{item.name}</Link></td>
                                             
                                             <td>${item.first_bid}</td>
-                                            {item.currently ? <td>${item.currently}</td> :<td></td>}
+                                            {item.currently ? <td>${item.currently}</td> :<td>No Bids</td>}
                                             <td>{item.status}</td>
 
                                             <td className='action-container'>
@@ -215,6 +215,7 @@ function SellScreen() {
                                                 <Button variant='secondary' 
                                                     className='btn-sm'
                                                     onClick={() => concludeHandler(item._id)}
+                                                    disabled={item.number_of_bids==0}
                                                     ><i className="fa-solid fa-gavel fa-lg"></i>
                                                 </Button>
                                                 :

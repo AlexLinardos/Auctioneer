@@ -439,8 +439,8 @@ function ItemScreen() {
                                                             </Col>
 
                                                             <Col>
-                                                                <div>Country: {item.country}</div>
-                                                                <div>Location: {item.location}</div>
+                                                                <div>Country: {item.user.userProfile.country}</div>
+                                                                <div>Location: {item.user.userProfile.city}</div>
                                                             </Col>
                                                         </Row>
                                                     </ListGroup.Item>

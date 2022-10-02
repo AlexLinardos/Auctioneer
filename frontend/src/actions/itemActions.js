@@ -45,12 +45,12 @@ export const listItems = (keyword = '', flag = '') => async (dispatch, getState)
             userLogin: { userInfo },
         } = getState()
 
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        }
+        // const config = {
+        //     headers: {
+        //         'Content-type': 'application/json',
+        //         Authorization: `Bearer ${userInfo.token}`
+        //     }
+        // }
         var url
         if (keyword == '')
         {
@@ -62,7 +62,7 @@ export const listItems = (keyword = '', flag = '') => async (dispatch, getState)
             url = `/api/items${keyword}&${flag}`
         }
 
-        const { data } = await axios.get(url, config)
+        const { data } = await axios.get(url)
         
         console.log('success', url)
         dispatch({ 

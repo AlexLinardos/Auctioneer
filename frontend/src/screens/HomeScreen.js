@@ -53,7 +53,7 @@ function HomeScreen() {
   return (
     <div>
       {!keyword.startsWith('?keyword=&') && keyword ? '' : <ItemCarousel />}
-      {!keyword.startsWith('?keyword=&') && keyword ? <h1 id='homeheader'>Search Results</h1> : <h1 id='homeheader'>Latest Items</h1>}
+      {!keyword.startsWith('?keyword=&') && keyword ? <h1 id='homeheader'>Search Results</h1> : <h1 id='homeheader'>Active Auctions</h1>}
   
       
       {loading ? <Loader />

@@ -1,17 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import globalStatus from '../globalStatus';
+import { useDispatch, useSelector } from 'react-redux'
+
+function changeStatus() {
+    globalStatus.guest = true
+}
 
 function WelcomeScreen() {
     const RowStyling = {
         border: "2px solid black",
     }
 
-    function changeStatus() {
-        globalStatus.guest = true
-    }
+    
+    const dispatch = useDispatch()
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
+
+    useEffect(() => {
+        if (!userInfo && (globalStatus.guest === false)) {
+            globalStatus.guest = false
+        }
+        
+    
+    }, [dispatch, userInfo])
 
     return (
         <div className='mt-4'>

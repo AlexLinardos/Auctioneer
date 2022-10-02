@@ -3,9 +3,9 @@
 	<Item ItemID="2">
 		<Name>Steel Sword</Name>
 		<Category>Fashion</Category>
-		<Currently>$492.00</Currently>
+		<Currently>$800.00</Currently>
 		<First_Bid>$400.00</First_Bid>
-		<Number_of_Bids>$4</Number_of_Bids>
+		<Number_of_Bids>$5</Number_of_Bids>
 		<Bids>
 			<Bid>
 				<Bidder Rating="None" UserID="Todd">
@@ -38,6 +38,14 @@
 				</Bidder>
 				<Time>2022-10-01T18:49:03.832080Z</Time>
 				<Amount>$492.00</Amount>
+			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="sara">
+					<Location>sara</Location>
+					<Country/>
+				</Bidder>
+				<Time>2022-10-02T16:41:49.122363Z</Time>
+				<Amount>$800.00</Amount>
 			</Bid>
 		</Bids>
 		<Location Latitude="" Longitude="">None</Location>
@@ -259,10 +267,18 @@
 				<Time>2022-10-01T19:26:51.320662Z</Time>
 				<Amount>$11.00</Amount>
 			</Bid>
+			<Bid>
+				<Bidder Rating="None" UserID="sara">
+					<Location>sara</Location>
+					<Country/>
+				</Bidder>
+				<Time>2022-10-02T14:43:26.887062Z</Time>
+				<Amount>$999.99</Amount>
+			</Bid>
 		</Bids>
 		<Location Latitude="" Longitude="">None</Location>
 		<Country>None</Country>
-		<Started>2022-10-02T11:36:47.025000Z</Started>
+		<Started>2022-10-02T14:00:49.603000Z</Started>
 		<Ends>2022-10-03T00:00:00Z</Ends>
 		<Seller Rating="None" UserID="antonismilios"/>
 		<Description/>
@@ -275,7 +291,7 @@
 		<Bids/>
 		<Location Latitude="" Longitude="">None</Location>
 		<Country>None</Country>
-		<Started>2022-10-02T11:33:19.281000Z</Started>
+		<Started>2022-10-02T14:30:37.424000Z</Started>
 		<Ends>2022-10-03T00:00:00Z</Ends>
 		<Seller Rating="None" UserID="antonismilios"/>
 		<Description/>
@@ -288,7 +304,7 @@
 		<Bids/>
 		<Location Latitude="" Longitude="">None</Location>
 		<Country>None</Country>
-		<Started>2022-10-02T11:33:21.257000Z</Started>
+		<Started>2022-10-02T14:30:39.946000Z</Started>
 		<Ends>2022-10-03T00:00:00Z</Ends>
 		<Seller Rating="None" UserID="antonismilios"/>
 		<Description/>

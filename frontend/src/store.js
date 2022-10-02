@@ -19,10 +19,6 @@ import {
     itemHotReducer,
 } from './reducers/itemReducers';
 
-import {
-    watchlistReducer
-} from './reducers/watchlistReducers';
-
 import { visitReducer, itemsXMLReducer } from './reducers/otherReducers';
 
 
@@ -38,7 +34,6 @@ const reducer = combineReducers({
     // categoryList: categoryListReducer,
     itemDetails: itemDetailsReducer,
     itemBidPlace: itemBidPlaceReducer,
-    // watchlist: watchlistReducer,
     itemDelete: itemDeleteReducer,
     itemCreate: itemCreateReducer,
     itemUpdate: itemUpdateReducer,

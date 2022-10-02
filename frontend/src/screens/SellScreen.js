@@ -9,6 +9,7 @@ import Paginate from '../components/Paginate'
 import { listItems, deleteItem, createItem, updateItem } from '../actions/itemActions'
 import { ITEM_CREATE_RESET } from '../constants/itemConstants'
 import { add } from 'date-fns'
+import globalStatus from '../globalStatus'
 
 function SellScreen() {
 
@@ -42,6 +43,12 @@ function SellScreen() {
 
     let keyword = window.location.search;
     useEffect(() => {
+        console.log('useEffect')
+        console.log(globalStatus.guest)
+        if (!userInfo && (globalStatus.guest === false)) {
+            console.log('hey')
+            navigate('/welcome')
+        }
         console.log('useEFFECT')
         dispatch({ type: ITEM_CREATE_RESET })
 

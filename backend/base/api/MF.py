@@ -62,7 +62,7 @@ def MF_recommendations():
     K = 2
     V = np.random.rand(N,K)
     F = np.random.rand(M,K)
-    nX, recommends = matrix_factorization(X, V, F, K, 5)
+    nX, recommends = matrix_factorization(X, V, F, K, 4)
 
     # Matching recommandation columns with item ids
     for row in recommends:

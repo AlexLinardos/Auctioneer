@@ -14,7 +14,6 @@ import HomeScreen from './screens/HomeScreen';
 import ItemEditScreen from './screens/ItemEditScreen';
 import ItemScreen from './screens/ItemScreen';
 import SellScreen from './screens/SellScreen';
-import WatchlistScreen from './screens/WatchlistScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import AdminItemsScreen from './screens/AdminItemsScreen';
@@ -36,7 +35,6 @@ function App() {
             <Route path='/sold' element={<SoldScreen />} />
             <Route path='/items/:id' element={<ItemScreen />} />
             <Route path='/items/:id/edit' element={<ItemEditScreen />} />
-            {/* <Route path='/watchlist/:id' element={<WatchlistScreen />} /> */}
             <Route path='/sell' element={<SellScreen />} />
             <Route path='/admin/userlist' element={<UserListScreen />} />
             <Route path='/admin/itemslist' element={<AdminItemsScreen />} />

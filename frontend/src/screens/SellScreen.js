@@ -43,22 +43,15 @@ function SellScreen() {
 
     let keyword = window.location.search;
     useEffect(() => {
-        console.log('useEffect')
-        console.log(globalStatus.guest)
-        if (!userInfo && (globalStatus.guest === false)) {
+        dispatch({ type: ITEM_CREATE_RESET })
+        if (successCreate) {
+            navigate(`/items/${createdItem._id}/edit`)
+        } else if (!userInfo && (globalStatus.guest === false)) {
             console.log('hey')
             navigate('/welcome')
         }
-        console.log('useEFFECT')
-        dispatch({ type: ITEM_CREATE_RESET })
-
-        // if (!userInfo.isAdmin) {
-        //     history.push('/login')
-        // }
-
-        if (successCreate) {
-            navigate(`/items/${createdItem._id}/edit`)
-        } else {
+        else {
+            
             dispatch(listItems(keyword, 'flag=Sell'))
         }
 

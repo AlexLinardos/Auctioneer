@@ -3,6 +3,8 @@ from .views import itemViews, userViews, otherViews
 from .MF import MF_recommendations
 
 urlpatterns = [
+    path('XMLexport/', otherViews.getXMLExport, name="xml-export"),
+
     path('users/', userViews.getUsers, name='users'),
     path('users/login/', userViews.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('users/register/', userViews.registerUser, name='register'),
@@ -25,7 +27,7 @@ urlpatterns = [
     path('items/<str:pk>/', itemViews.getItem, name="item"),
     path('items/<str:pk>/bids/', itemViews.placeItemBid, name="place-bid"),
 
-    path('users/profile/visit/<str:ppk>/<str:ipk>/', otherViews.markVisit, name='mark-visit')
+    path('users/profile/visit/<str:ppk>/<str:ipk>/', otherViews.markVisit, name='mark-visit'),
 ]
 
 # run right after start-up

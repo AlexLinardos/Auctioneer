@@ -1,7 +1,10 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import HttpResponse, Http404
 from rest_framework import status
 import logging
+from ..XML_export import itemsXML
+from pathlib import Path
 
 from base.api.serializers.otherSerializers import  RecommendationSerializer
 from ...models import Recommendation, Item, Profile
@@ -18,3 +21,8 @@ def markVisit(request, ppk, ipk):
     item = Item.objects.get(_id=ipk)
     profile.visits.add(item)
     return Response('Item visited')
+
+@api_view(['GET'])
+def getXMLExport(request):
+    itemsXML()
+    return Response('XML EXPORT')

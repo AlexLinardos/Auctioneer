@@ -34,3 +34,22 @@ export const visit = (profile_id, item_id) => async (dispatch, getState) => {
         })
     }
 }
+
+
+export const getItemsXML = () => async (dispatch,) => {
+    try {
+        dispatch({ type: 'XML_REQUEST' })
+
+        const { data } = await axios.get('/api/XMLexport/')
+
+        dispatch({ type: 'XML_SUCCESS' })
+
+    } catch (error) {
+        dispatch({
+            type: 'XML_FAIL',
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message,
+        })
+    }
+}

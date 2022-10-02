@@ -22,7 +22,7 @@ import {
     watchlistReducer
 } from './reducers/watchlistReducers';
 
-import { visitReducer } from './reducers/otherReducers';
+import { visitReducer, itemsXMLReducer } from './reducers/otherReducers';
 
 
 const reducer = combineReducers({
@@ -43,6 +43,7 @@ const reducer = combineReducers({
     itemUpdate: itemUpdateReducer,
     recommendationList: recommendationListReducer,
     itemVisit: visitReducer,
+    itemsXML: itemsXMLReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

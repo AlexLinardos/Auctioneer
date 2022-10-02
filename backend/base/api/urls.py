@@ -23,6 +23,7 @@ urlpatterns = [
     
     path('items/update/<str:pk>/', itemViews.updateItem, name="item-update"),
     path('items/delete/<str:pk>/', itemViews.deleteItem, name="item-delete"),
+    path('items/top/', itemViews.getHotItems, name="hot-items"),
    
     path('items/<str:pk>/', itemViews.getItem, name="item"),
     path('items/<str:pk>/bids/', itemViews.placeItemBid, name="place-bid"),

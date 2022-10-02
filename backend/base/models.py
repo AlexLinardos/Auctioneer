@@ -37,7 +37,7 @@ class Item(models.Model):
         ('Concluded', 'Concluded'),
     ])
     saved = models.BooleanField(default=False)
-    categories = models.ManyToManyField(Category, null=True, blank=True)
+    categories = models.ManyToManyField(Category, blank=True)
 
     def __str__(self):
         return str(self.name)

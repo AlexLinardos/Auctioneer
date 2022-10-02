@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
 import Bid from '../components/Bid'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import globalStatus from '../globalStatus'
 
-import { listItemDetails, placeItemBid } from '../actions/itemActions'
+import { listItemDetails, placeItemBid, updateItem } from '../actions/itemActions'
 import { ITEM_PLACE_BID_RESET } from '../constants/itemConstants'
 import { visit } from '../actions/otherActions';
 import { getUserDetails } from '../actions/userActions';
@@ -29,9 +29,12 @@ function ItemScreen() {
     const [ammount, setAmmount] = useState(0)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const itemDetails = useSelector(state => state.itemDetails)
     const { loading, error, item } = itemDetails
+
+    // console.log(item.first_bid)
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -107,7 +110,9 @@ function ItemScreen() {
 
     useEffect(() => {
         if (successItemBid) {
+            console.log('success')
             dispatch({ type: ITEM_PLACE_BID_RESET })
+            dispatch(listItemDetails(id))
         }
 
         if (item?._id && user?.userProfile?.id) {
@@ -131,13 +136,31 @@ function ItemScreen() {
         }
     }
 
+    const buynowHandler = (e) => {
+        setAmmount(parseFloat(item.buy_price))
+
+        e.preventDefault()
+        if (window.confirm('Are you sure you want to buy this item now for $' + item.buy_price + '? This action cannot be reverted.')) {
+            dispatch(placeItemBid(
+                id, {
+                ammount: parseFloat(item.buy_price)
+            }
+            ))
+        }
+        dispatch(updateItem({
+            _id: id,
+            status: 'Concluded'
+        }))
+        navigate('/won')
+    }
+
     const backHandler = () => {
         dispatch({ type: ITEM_PLACE_BID_RESET })
         window.history.go(-1)
     }
 
     docReady(function () {
-        if (item.number_of_bids === 0) {
+        if (item.number_of_bids == 0) {
             setAmmount(parseFloat(item.first_bid))
         }
         else if (rangeval == null)
@@ -184,9 +207,11 @@ function ItemScreen() {
                 <Col md={8}>
                     <Button className='btn btn-light my-3' onClick={backHandler}>Go Back</Button>
                 </Col>
+                {item.status !== 'Active' ? '' :
                 <Col id="ends" md={4}>
                     {timerComponents.length ? timerComponents : <span>Time's up!</span>}
                 </Col>
+                }
             </Row>
             {loading ? <Loader />
                 : error ? <Message variant='danger'>{error}</Message>
@@ -286,7 +311,7 @@ function ItemScreen() {
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item> */}
-                                            {item.currently !== '0.00' ?
+                                            {item.currently !== '0.00' && item.currently !==null ?
                                                 <ListGroup.Item>
                                                     <Row>
                                                         <Col>Current Bid:</Col>
@@ -308,9 +333,9 @@ function ItemScreen() {
 
 
                                             {userInfo ? (
-                                                userInfo.id === item.user ? ' ' : (
+                                                userInfo.id === item.user.id ? ' ' : (
 
-                                                    item.number_of_bids === 0 ? (
+                                                    item.number_of_bids == 0 ? (
                                                         <ListGroup.Item>
                                                             <Button id='myButton'
                                                                 className='btn-block'
@@ -350,13 +375,13 @@ function ItemScreen() {
                                                                 >Place Bid</Button>
                                                             </ListGroup.Item>
 
-                                                            {item.buy_price === 0 ? ' ' : (
+                                                            {item.buy_price == 0 ? ' ' : (
                                                                 <ListGroup.Item id="buyout">
                                                                     <Button id='myButton'
                                                                         className='btn-block'
                                                                         type='submit'
                                                                         disabled={loadingItemBid}
-                                                                    // onClick={buyoutHandler}
+                                                                        onClick={buynowHandler}
                                                                     >Buy Now for ${item.buy_price}</Button>
                                                                 </ListGroup.Item>
                                                             )}
@@ -433,7 +458,7 @@ function ItemScreen() {
                                             <h4 id='latest-bids4'>Latest Bids</h4>
                                         </Row>
                                         <Row id='latest-bids2'>
-                                            {item.bids.length === 0 && <Message variant='info'>No bids</Message>}
+                                            {item.bids.length == 0 && <Message variant='info'>No bids</Message>}
 
                                             <ListGroup id='latest-bids3' variant='horizontal'>
                                                 {(item.bids?.slice(-5))?.map((bid) => (

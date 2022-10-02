@@ -28,11 +28,26 @@ def getItems(request):
     elif flag == 'Sell':
         items = Item.objects.filter(user=cur_user.id)
         items = items.filter(name__icontains=query)
+    elif flag == 'Sold':
+        items = Item.objects.filter(user=cur_user.id)
+        items = items.filter(status='Concluded')
+        items = items.filter(name__icontains=query)
+    elif flag == 'Won':
+        items = Item.objects.filter(status='Concluded')
+        items = items.filter(bid__name = cur_user.username)
+        won = list()
+        for cur_item in items:
+            last_bid = Bid.objects.filter(item___id = cur_item._id).last()
+
+            if last_bid.name == cur_user.username:
+                won.append(cur_item._id)
+        items = items.filter(_id__in=won)
+        items = items.filter(name__icontains=query)
     else:
         items = Item.objects.filter(name__icontains=query)
 
     page = request.query_params.get('page')
-    paginator = Paginator(items, 2)
+    paginator = Paginator(items, 4)
 
     try:
         items = paginator.page(page)
@@ -48,6 +63,12 @@ def getItems(request):
 
     serializer = ItemSerializer(items, many=True)
     return Response({'items': serializer.data, 'page':page, 'pages': paginator.num_pages})
+
+@api_view(['GET'])
+def getHotItems(request):
+    items = Item.objects.filter(status='Active').order_by('-number_of_bids')[0:5]
+    serializer = ItemSerializer(items, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getItem(request, pk):
@@ -94,6 +115,9 @@ def updateItem(request, pk):
 
     if "status" in data:
         item.status = data['status']
+        if data['status'] == 'Active':
+            item.started = data['started']
+            item.ends = data['ends']
 
         item.save()
 

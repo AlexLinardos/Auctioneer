@@ -3,11 +3,11 @@ from rest_framework.response import Response
 from django.http import HttpResponse, Http404
 from rest_framework import status
 import logging
-from ..XML_export import itemsXML
+from ..XML import itemsXML, XMLupload
 from pathlib import Path
 
 from base.api.serializers.otherSerializers import  RecommendationSerializer
-from ...models import Recommendation, Item, Profile
+from ...models import Recommendation, Item, Profile, FileUpload
 
 @api_view(['GET'])
 def getProfileRecommends(request, pk):
@@ -26,3 +26,10 @@ def markVisit(request, ppk, ipk):
 def getXMLExport(request):
     itemsXML()
     return Response('XML EXPORT')
+
+@api_view(['POST'])
+def getXMLImport(request):
+    file_req = request.FILES.get('XMLfile')
+    fileupload = FileUpload.objects.create(file=file_req)
+    XMLupload(str(file_req), request.user)
+    return Response('File uploaded')

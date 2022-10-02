@@ -4,6 +4,7 @@ from .MF import MF_recommendations
 
 urlpatterns = [
     path('XMLexport/', otherViews.getXMLExport, name="xml-export"),
+    path('XMLimport/', otherViews.getXMLImport, name="xml-import"),
 
     path('users/', userViews.getUsers, name='users'),
     path('users/login/', userViews.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -30,4 +31,4 @@ urlpatterns = [
 ]
 
 # run right after start-up
-MF_recommendations()
+# MF_recommendations()

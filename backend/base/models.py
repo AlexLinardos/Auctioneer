@@ -7,7 +7,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     def __unicode__(self):
         return u"%s" % (self.name)
@@ -40,7 +40,7 @@ class Item(models.Model):
     categories = models.ManyToManyField(Category, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
         
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE, default=None)
@@ -89,3 +89,6 @@ class Recommendation(models.Model):
 
     def __str__(self) -> str:
         return str("Item " + str(self.item) + " to profile " + str(self.profile))
+
+class FileUpload(models.Model):
+    file = models.FileField(null=True)

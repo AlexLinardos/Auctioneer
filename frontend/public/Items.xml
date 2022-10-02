@@ -269,4 +269,17 @@
 		<Seller Rating="None" UserID="test"/>
 		<Description>das</Description>
 	</Item>
+	<Item ItemID="19">
+		<Name>None</Name>
+		<Currently>$None</Currently>
+		<First_Bid>$None</First_Bid>
+		<Number_of_Bids>$0</Number_of_Bids>
+		<Bids/>
+		<Location Latitude="" Longitude="">None</Location>
+		<Country>None</Country>
+		<Started>2022-10-02T15:54:30.842704Z</Started>
+		<Ends>None</Ends>
+		<Seller Rating="None" UserID="test"/>
+		<Description>None</Description>
+	</Item>
 </Items>

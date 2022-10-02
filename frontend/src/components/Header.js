@@ -4,7 +4,6 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
 import SearchBox from './SearchBox';
-import Categories from './Categories';
 import { logout } from '../actions/userActions';
 
 function Header() {
@@ -33,22 +32,24 @@ function Header() {
                         
                         <Nav className="flex-grow-1 justify-content-evenly">
 
-                            <Categories/>
-                            {/* <LinkContainer to='/Categories'>
+                            <LinkContainer to='/Categories'>
                                 <Nav.Link>Categories</Nav.Link>
-                            </LinkContainer> */}
+                            </LinkContainer>
 
                             <SearchBox/>
 
+                            {userInfo && !userInfo.isAdmin && (
                             <LinkContainer to='/sell'>
                                 <Nav.Link>Sell</Nav.Link>
                             </LinkContainer>
+                            )}
 
-                            {userInfo ? (
+                            {userInfo && !userInfo.isAdmin && (
                                 <NavDropdown title={userInfo.username} id='username'>
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profile</NavDropdown.Item>
                                     </LinkContainer>
+                                    
                                     <LinkContainer to='/won'>
                                         <NavDropdown.Item>Won Auctions</NavDropdown.Item>
                                     </LinkContainer>
@@ -59,13 +60,24 @@ function Header() {
                                     <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
 
                                 </NavDropdown>
-                            ) : (
+                            )}
+                            {userInfo && userInfo.isAdmin && (
+                                <NavDropdown title={userInfo.username} id='username'>
+                                    <LinkContainer to='/profile'>
+                                        <NavDropdown.Item>Profile</NavDropdown.Item>
+                                    </LinkContainer>
+
+                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                                </NavDropdown>
+                            )}
+                            {!userInfo && (
                                 <Nav className="mr-auto">
                                     <LinkContainer to='/login'>
                                         <Nav.Link>Login <i className='fas fa-user'></i></Nav.Link>
                                     </LinkContainer>
                                 </Nav>
                             )}
+                            
 
 
                             {

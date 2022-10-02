@@ -10,6 +10,7 @@ import { FormContainer } from '../components/FormContainer'
 import { listItemDetails, deleteItem, updateItem } from '../actions/itemActions'
 import { ITEM_UPDATE_RESET } from '../constants/itemConstants'
 import Select from 'react-select'
+import globalStatus from '../globalStatus'
 
 const options = [
     { value: 'Electronics', label: 'Electronics' },
@@ -21,6 +22,9 @@ function ItemEditScreen() {
 
     const navigate = useNavigate();
     const itemId = useParams().id
+
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
 
     const [name, setName] = useState('')
     const [first_bid, setFirst_bid] = useState(0)
@@ -43,6 +47,9 @@ function ItemEditScreen() {
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = itemDelete
 
     useEffect(() => {
+        if (!userInfo && (globalStatus.guest === false)) {
+            navigate('/welcome')
+          }
         if (successUpdate) {
             dispatch({ type: ITEM_UPDATE_RESET })
             navigate('/sell')

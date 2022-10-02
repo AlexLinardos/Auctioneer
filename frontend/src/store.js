@@ -16,6 +16,7 @@ import {
     itemCreateReducer,
     itemUpdateReducer,
     recommendationListReducer,
+    itemHotReducer,
 } from './reducers/itemReducers';
 
 import {
@@ -43,6 +44,7 @@ const reducer = combineReducers({
     itemUpdate: itemUpdateReducer,
     recommendationList: recommendationListReducer,
     itemVisit: visitReducer,
+    itemHot: itemHotReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

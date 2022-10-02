@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col, Image } from 'react-bootstrap'
+import { Table, Button, Row, Col, Image, Modal, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Loader from '../components/Loader'
@@ -8,6 +8,7 @@ import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import { listItems, deleteItem, createItem, updateItem } from '../actions/itemActions'
 import { ITEM_CREATE_RESET } from '../constants/itemConstants'
+import { add } from 'date-fns'
 
 function SellScreen() {
 
@@ -28,6 +29,14 @@ function SellScreen() {
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+
+    const [ends, setEnds] = useState();
+    const [itemId, setItemId] = useState();
 
     // const { id } = useParams();
 
@@ -57,34 +66,95 @@ function SellScreen() {
         }
     }
 
-    const activateHandler = (id) => {
+    const dateHandler = (id) => {
         console.log(id)
+
+        setItemId(id);
+        console.log(itemId)
+        setShow(true);
+    }
+
+    const activateHandler = () => {
+        setShow(false);
+        console.log(ends)
+
+        // dispatch(updateItem({
+        //     _id: itemId,
+        //     status: 'Active',
+        //     started: new Date(),
+        //     ends: new Date(ends)
+        // }))
+        // console.log('update sent')
+        
 
         if (window.confirm('Are you sure you want to activate this Auction?')) {
             dispatch(updateItem({
-                _id: id,
-                status: 'Active'
+                _id: itemId,
+                status: 'Active',
+                started: new Date(),
+                ends: new Date(ends)
             }))
+            console.log('update sent')
         }
     }
 
     const concludeHandler = (id) => {
         console.log(id)
 
-        if (window.confirm('Are you sure you want to conclude this Auction?')) {
-            dispatch(updateItem({
-                _id: id,
-                status: 'Concluded'
-            }))
-        }
+        dispatch(updateItem({
+            _id: id,
+            status: 'Concluded'
+        }))
+
+        // if (window.confirm('Are you sure you want to conclude this Auction?')) {
+        //     dispatch(updateItem({
+        //         _id: id,
+        //         status: 'Concluded'
+        //     }))
+        // }
     }
 
     const createItemHandler = () => {
         dispatch(createItem())
     }
 
+    const tomorrowFns = add(new Date(),{
+        days: 1
+      })
+
     return (
+        
         <div>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Set Auction End Date</Modal.Title>
+                    </Modal.Header>
+                        <Modal.Body>
+                            {/* <Form.Group controlId='date'> */}
+                                <Form.Label>Ends</Form.Label>
+                                    <Form.Control
+
+                                        type='date'
+                                        placeholder='Enter End Date'
+                                        value={ends}
+                                        onChange={(e) => setEnds(e.target.value)}
+                                        min = {tomorrowFns.toISOString().slice(0, 10)}
+                                        required
+                                    >
+                                    </Form.Control>
+                            {/* </Form.Group> */}
+                        </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={activateHandler} disabled={ends==null}>
+                        Start Auction
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <Row className='align-items-center'>
                 <Col>
                     <h1>My Auctions</h1>
@@ -123,44 +193,44 @@ function SellScreen() {
                                 </thead>
 
                                 <tbody>
-                                    {items.filter(item => item.user.id === userInfo.id).map(item => (
+                                    {items.filter(item => item.user.id==userInfo.id).map(item => (
                                         <tr key={item._id}>
                                             {/* <td id='img-cont'><Image src={item.image} alt={item.name} fluid rounded /></td> */}
                                             <td>{item._id}</td>
                                             <td><Link to={`/items/${item._id}`} style={{ textDecoration: 'none' }}>{item.name}</Link></td>
-
+                                            
                                             <td>${item.first_bid}</td>
-                                            {item.currently ? <td>${item.currently}</td> : <td></td>}
+                                            {item.currently ? <td>${item.currently}</td> :<td></td>}
                                             <td>{item.status}</td>
 
                                             <td className='action-container'>
-                                                {item.status === 'Active' ?
-                                                    <Button variant='secondary'
-                                                        className='btn-sm'
-                                                        onClick={() => concludeHandler(item._id)}
+                                                {item.status=='Active' ? 
+                                                <Button variant='secondary' 
+                                                    className='btn-sm'
+                                                    onClick={() => concludeHandler(item._id)}
                                                     ><i className="fa-solid fa-gavel fa-lg"></i>
-                                                    </Button>
-                                                    :
-                                                    <Button variant='secondary'
-                                                        className='btn-sm'
-                                                        onClick={() => activateHandler(item._id)}
+                                                </Button>
+                                                :
+                                                <Button variant='secondary' 
+                                                    className='btn-sm'
+                                                    onClick={() => dateHandler(item._id)}
                                                     ><i className="fa-solid fa-play fa-lg"></i>
-                                                    </Button>
+                                                </Button>
                                                 }
 
                                                 <LinkContainer to={`/items/${item._id}/edit`}>
-                                                    <Button variant='light'
-                                                        className='btn-sm'
-                                                        disabled={item.status === 'Active'}
+                                                    <Button variant='light' 
+                                                    className='btn-sm'
+                                                    disabled={item.status=='Active'}
                                                     ><i className='fas fa-edit fa-lg'></i>
                                                     </Button>
                                                 </LinkContainer>
 
-                                                <Button variant='danger'
-                                                    className='btn-sm'
+                                                <Button variant='danger' 
+                                                    className='btn-sm' 
                                                     onClick={() => deleteHandler(item._id)}
-                                                    disabled={item.status === 'Active'}
-                                                ><i className='fas fa-trash fa-lg'></i>
+                                                    disabled={item.status=='Active'}
+                                                    ><i className='fas fa-trash fa-lg'></i>
                                                 </Button>
                                             </td>
                                         </tr>
